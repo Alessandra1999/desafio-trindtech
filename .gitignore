@@ -1,0 +1,35 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Logs
+logs/
+*.log
+*.log.*
+log/
+
+# Diretório de ambiente
+.env
+
+# Arquivos de build
+dist/
+build/
+
+# IDEs/editores
+.vscode/
+.idea/
+
+# Cache do npm e yarn
+.npm/
+.yarn/
+
+# Diretórios temporários
+tmp/
+temp/
+
+# Outros arquivos de sistema
+.DS_Store
+Thumbs.db
