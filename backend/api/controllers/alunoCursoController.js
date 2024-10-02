@@ -1,5 +1,6 @@
 const AlunoCurso = require('../models/alunoCurso');
 
+// Criar nova associação
 exports.createAlunoCurso = async (req, res) => {
     try {
         // Validação simples dos dados recebidos
@@ -17,6 +18,7 @@ exports.createAlunoCurso = async (req, res) => {
     }
 };
 
+// Listar as associações
 exports.getAlunoCursos = async (req, res) => {
     try {
         const alunoCursos = await AlunoCurso.findAll();
@@ -27,8 +29,9 @@ exports.getAlunoCursos = async (req, res) => {
     }
 };
 
+// Listar as associações por id específico
 exports.getAlunoCursoById = async (req, res) => {
-    const { id_aluno, id_curso } = req.params; // Agora pegamos os dois parâmetros
+    const { id_aluno, id_curso } = req.params; 
     try {
         const alunoCurso = await AlunoCurso.findOne({ where: { id_aluno, id_curso } });
         if (!alunoCurso) {
@@ -41,8 +44,9 @@ exports.getAlunoCursoById = async (req, res) => {
     }
 };
 
+// Atualizar associações por id específico
 exports.updateAlunoCurso = async (req, res) => {
-    const { id_aluno, id_curso } = req.params; // Agora pegamos os dois parâmetros
+    const { id_aluno, id_curso } = req.params; 
     try {
         const alunoCurso = await AlunoCurso.findOne({ where: { id_aluno, id_curso } });
         if (!alunoCurso) {
@@ -50,7 +54,7 @@ exports.updateAlunoCurso = async (req, res) => {
         }
 
         // Validação dos dados para atualização
-        const { id_aluno: newIdAluno, id_curso: newIdCurso } = req.body; // Altere para refletir os novos campos
+        const { id_aluno: newIdAluno, id_curso: newIdCurso } = req.body; 
         if (newIdAluno === undefined || newIdCurso === undefined) {
             return res.status(400).json({ error: 'Os campos id_aluno e id_curso são obrigatórios para atualização.' });
         }
@@ -63,8 +67,9 @@ exports.updateAlunoCurso = async (req, res) => {
     }
 };
 
+// Deletar associações por id específico
 exports.deleteAlunoCurso = async (req, res) => {
-    const { id_aluno, id_curso } = req.params; // Agora pegamos os dois parâmetros
+    const { id_aluno, id_curso } = req.params; 
     try {
         const alunoCurso = await AlunoCurso.findOne({ where: { id_aluno, id_curso } });
         if (!alunoCurso) {

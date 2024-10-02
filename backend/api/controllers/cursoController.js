@@ -1,5 +1,6 @@
 const Curso = require('../models/curso');
 
+// Criar novo curso
 exports.createCurso = async (req, res) => {
     try {
         const curso = await Curso.create(req.body);
@@ -9,6 +10,7 @@ exports.createCurso = async (req, res) => {
     }
 };
 
+// Listar todos os cursos
 exports.getCursos = async (req, res) => {
     try {
         const cursos = await Curso.findAll();
@@ -18,6 +20,7 @@ exports.getCursos = async (req, res) => {
     }
 };
 
+// Listar curso por id especifico
 exports.getCursoById = async (req, res) => {
     try {
         const curso = await Curso.findByPk(req.params.id);
@@ -30,6 +33,7 @@ exports.getCursoById = async (req, res) => {
     }
 };
 
+// Atualizar curso por id específico
 exports.updateCurso = async (req, res) => {
     try {
         const curso = await Curso.findByPk(req.params.id);
@@ -43,6 +47,7 @@ exports.updateCurso = async (req, res) => {
     }
 };
 
+// Deletar curso por id especifico
 exports.deleteCurso = async (req, res) => {
     try {
         const curso = await Curso.findByPk(req.params.id);

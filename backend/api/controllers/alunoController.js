@@ -1,5 +1,6 @@
 const Aluno = require('../models/aluno');
 
+// Criar um novo aluno
 exports.createAluno = async (req, res) => {
     try {
         const aluno = await Aluno.create(req.body);
@@ -9,6 +10,7 @@ exports.createAluno = async (req, res) => {
     }
 };
 
+// Listar todos os alunos
 exports.getAlunos = async (req, res) => {
     try {
         const alunos = await Aluno.findAll();
@@ -18,6 +20,7 @@ exports.getAlunos = async (req, res) => {
     }
 };
 
+// Listar aluno por um id específico
 exports.getAlunoById = async (req, res) => {
     try {
         const aluno = await Aluno.findByPk(req.params.id);
@@ -30,6 +33,7 @@ exports.getAlunoById = async (req, res) => {
     }
 };
 
+// Atualizar aluno por um id específico
 exports.updateAluno = async (req, res) => {
     try {
         const aluno = await Aluno.findByPk(req.params.id);
@@ -43,6 +47,7 @@ exports.updateAluno = async (req, res) => {
     }
 };
 
+// Deletar aluno por um id específico
 exports.deleteAluno = async (req, res) => {
     try {
         const aluno = await Aluno.findByPk(req.params.id);
