@@ -5,7 +5,7 @@ exports.createAlunoCurso = async (req, res) => {
         // Validação simples dos dados recebidos
         const { id_aluno, id_curso } = req.body;
         if (!id_aluno || !id_curso) {
-            return res.status(400).json({ error: 'Os campos aluno_id e curso_id são obrigatórios.' });
+            return res.status(400).json({ error: 'Os campos id_aluno e id_curso são obrigatórios.' });
         }
 
         // Criar a associação
@@ -28,10 +28,11 @@ exports.getAlunoCursos = async (req, res) => {
 };
 
 exports.getAlunoCursoById = async (req, res) => {
+    const { id_aluno, id_curso } = req.params; // Agora pegamos os dois parâmetros
     try {
-        const alunoCurso = await AlunoCurso.findByPk(req.params.id);
+        const alunoCurso = await AlunoCurso.findOne({ where: { id_aluno, id_curso } });
         if (!alunoCurso) {
-            return res.status(404).json({ error: 'Aluno_Curso não encontrado.' });
+            return res.status(404).json({ error: 'Associação não encontrada.' });
         }
         res.json(alunoCurso);
     } catch (error) {
@@ -41,15 +42,16 @@ exports.getAlunoCursoById = async (req, res) => {
 };
 
 exports.updateAlunoCurso = async (req, res) => {
+    const { id_aluno, id_curso } = req.params; // Agora pegamos os dois parâmetros
     try {
-        const alunoCurso = await AlunoCurso.findByPk(req.params.id);
+        const alunoCurso = await AlunoCurso.findOne({ where: { id_aluno, id_curso } });
         if (!alunoCurso) {
-            return res.status(404).json({ error: 'Aluno_Curso não encontrado.' });
+            return res.status(404).json({ error: 'Associação não encontrada.' });
         }
 
         // Validação dos dados para atualização
-        const { id_aluno, id_curso } = req.body;
-        if (id_aluno === undefined || id_curso === undefined) {
+        const { id_aluno: newIdAluno, id_curso: newIdCurso } = req.body; // Altere para refletir os novos campos
+        if (newIdAluno === undefined || newIdCurso === undefined) {
             return res.status(400).json({ error: 'Os campos id_aluno e id_curso são obrigatórios para atualização.' });
         }
 
@@ -62,10 +64,11 @@ exports.updateAlunoCurso = async (req, res) => {
 };
 
 exports.deleteAlunoCurso = async (req, res) => {
+    const { id_aluno, id_curso } = req.params; // Agora pegamos os dois parâmetros
     try {
-        const alunoCurso = await AlunoCurso.findByPk(req.params.id);
+        const alunoCurso = await AlunoCurso.findOne({ where: { id_aluno, id_curso } });
         if (!alunoCurso) {
-            return res.status(404).json({ error: 'Aluno_Curso não encontrado.' });
+            return res.status(404).json({ error: 'Associação não encontrada.' });
         }
         await alunoCurso.destroy();
         res.status(204).send(); // No Content
