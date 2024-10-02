@@ -29,6 +29,10 @@ const Aluno = sequelize.define('Aluno', {
         unique: true,
         allowNull: false,
     },
+}, {
+    freezeTableName: true, // Desativa a pluralização do nome da tabela
+    timestamps: false, // Desativa a criação automática das colunas createdAt e updatedAt
+    tableName: 'alunos' // Garante que o nome da tabela será 'alunos'
 });
 
 module.exports = Aluno;
