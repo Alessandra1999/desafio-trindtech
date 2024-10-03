@@ -1,10 +1,15 @@
-import Header from "./components/header"
+import DynamicHeader from "./components/DynamicHeader"
 
 function App() {
 
   return (
     <>
-      <Header />
+      <DynamicHeader 
+        showLogo={false}
+        backIcon={() => navigate('/')}
+        studentName="Nome do Aluno"
+        onDelete={() => handleDeleteStudent()}
+      />
     </>
   )
 }
