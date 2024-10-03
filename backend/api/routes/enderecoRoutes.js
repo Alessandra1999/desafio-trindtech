@@ -9,10 +9,10 @@ const {
 
 const router = express.Router();
 
-router.post('/', createEndereco);
-router.get('/', getEnderecos);
-router.get('/:id', getEnderecoById);
-router.put('/:id', updateEndereco);
-router.delete('/:id', deleteEndereco);
+router.post('/', createEndereco); // Criar endereço
+router.get('/', getEnderecos); // Obter todos os endereços
+router.get('/:id', getEnderecoById); // Obter endereço por id específico
+router.put('/:id', updateEndereco); // Atualizar endereço por id específico
+router.delete('/:id', deleteEndereco); // Deletar endereço por id específico
 
 module.exports = router;

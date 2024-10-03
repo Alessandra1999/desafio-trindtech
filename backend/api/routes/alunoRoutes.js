@@ -9,10 +9,10 @@ const {
 
 const router = express.Router();
 
-router.post('/', createAluno);
-router.get('/', getAlunos);
-router.get('/:id', getAlunoById);
-router.put('/:id', updateAluno);
-router.delete('/:id', deleteAluno);
+router.post('/', createAluno); // Criar Aluno
+router.get('/', getAlunos); // Obter todos os alunos
+router.get('/:id', getAlunoById); //Obter aluno por id específico
+router.put('/:id', updateAluno); //Atualizar aluo por id específico
+router.delete('/:id', deleteAluno); //deletar aluno por id específico
 
 module.exports = router;
