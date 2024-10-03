@@ -6,8 +6,8 @@ const CustomHeader = styled.header`
     width: 100%;
     height: 67px;
     background-color: #EA394E;
-    display: flex; /* Alinha os itens horizontalmente */
-    align-items: center; /* Centraliza verticalmente os itens */
+    display: flex; 
+    align-items: center; 
     color: #fff
 `;
 
