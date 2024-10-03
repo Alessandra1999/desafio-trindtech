@@ -2,13 +2,12 @@ import styled from 'styled-components';
 import { FaTrash, FaChevronLeft } from 'react-icons/fa';
 
 const CustomHeader = styled.header`
-    position: absolute;
     width: 100%;
     height: 67px;
     background-color: #EA394E;
     display: flex; 
     align-items: center; 
-    color: #fff
+    color: #fff;
 `;
 
 const Logo = styled.a`
@@ -43,7 +42,7 @@ const IconButton = styled.div`
 
 function DynamicHeader({ showLogo = true, backIcon, studentName, onDelete }) {
     return (
-        <CustomHeader>
+        <CustomHeader className='sticky-top'>
             {/* Ícone de Voltar */}
             {backIcon && (
                 <IconButton onClick={backIcon}>

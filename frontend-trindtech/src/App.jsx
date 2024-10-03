@@ -1,4 +1,5 @@
 import DynamicHeader from "./components/DynamicHeader"
+import StudentForm from "./components/StudentForm"
 
 function App() {
 
@@ -10,8 +11,9 @@ function App() {
         studentName="Nome do Aluno"
         onDelete={() => handleDeleteStudent()}
       />
+      <StudentForm/>
     </>
   )
 }
 
-export default App
+export default App;
