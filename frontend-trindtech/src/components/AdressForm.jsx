@@ -11,7 +11,7 @@ const Container = styled.div`
     font-weight: 500;
 
     @media (max-width: 767px) {
-        height: 500px;
+        height: 750px;
     }
 `;
 
