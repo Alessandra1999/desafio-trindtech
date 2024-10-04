@@ -1,5 +1,6 @@
-import DynamicHeader from "./components/DynamicHeader"
-import StudentForm from "./components/StudentForm"
+import DynamicHeader from "./components/DynamicHeader";
+import StudentForm from "./components/StudentForm";
+import AdressForm from "./components/AdressForm";
 
 function App() {
 
@@ -11,7 +12,8 @@ function App() {
         studentName="Nome do Aluno"
         onDelete={() => handleDeleteStudent()}
       />
-      <StudentForm/>
+      <StudentForm />
+      <AdressForm />
     </>
   )
 }

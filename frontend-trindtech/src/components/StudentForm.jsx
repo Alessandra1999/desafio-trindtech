@@ -7,7 +7,6 @@ const CustomForm = styled.form`
 const Container = styled.div`
     max-width: 1098px;
     height: 280px;
-    border: 3px solid #000;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
 
