@@ -23,7 +23,7 @@ const Aluno = sequelize.define('Aluno', {
         unique: true,
     },
     genero_aluno: {
-        type: DataTypes.ENUM('Masculino', 'Feminino', 'Não Binário', 'Outros'),
+        type: DataTypes.ENUM('Masculino', 'Feminino', 'Não Binário', 'Outros', 'Prefiro Não Responder'),
     },
     email_aluno: {
         type: DataTypes.STRING,
