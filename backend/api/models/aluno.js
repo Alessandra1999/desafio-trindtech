@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config');
-const Endereco = require('./endereco');
 
 const Aluno = sequelize.define('Aluno', {
     id_aluno: {
@@ -29,14 +28,6 @@ const Aluno = sequelize.define('Aluno', {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
-    },
-    id_endereco: {
-        type: DataTypes.BIGINT,
-        references: {
-            model: Endereco,
-            key: 'id_endereco',
-        },
-        onDelete: 'CASCADE',
     },
 }, {
     freezeTableName: true, // Desativa a pluralização do nome da tabela

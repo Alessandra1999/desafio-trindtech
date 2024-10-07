@@ -1,11 +1,21 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config');
+const Aluno = require('./aluno');
 
 const Endereco = sequelize.define('Endereco', {
     id_endereco: {
         type: DataTypes.BIGINT,
         autoIncrement: true,
         primaryKey: true,
+    },
+    id_aluno: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+            model: Aluno,
+            key: 'id_aluno',
+        },
+        onDelete: 'CASCADE',
     },
     cep: {
         type: DataTypes.STRING(9),
