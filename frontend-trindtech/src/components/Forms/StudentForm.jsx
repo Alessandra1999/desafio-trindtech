@@ -74,7 +74,7 @@ function StudentForm() {
                 </div>
                 <div className="row">
                     <div className="form-group col-md-6">
-                        <label htmlFor="emailInput" style={{ marginTop: "26px" }}>CPF</label>
+                        <label htmlFor="emailInput" style={{ marginTop: "26px" }}>Email*</label>
                         <CustomInput type="text" className="form-control" id="emailInput" placeholder="example@email.com" />
                     </div>
                 </div>
