@@ -6,13 +6,9 @@ const CustomForm = styled.form`
 
 const Container = styled.div`
     max-width: 1098px;
-    height: 440px;
+    height: auto;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-
-    @media (max-width: 767px) {
-        height: 750px;
-    }
 `;
 
 const Title = styled.h4`

@@ -6,13 +6,9 @@ const CustomForm = styled.form`
 
 const Container = styled.div`
     max-width: 1098px;
-    height: 280px;
+    height: auto;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-
-    @media (max-width: 767px) {
-        height: 500px;
-    }
 `;
 
 const CustomInput = styled.input`
