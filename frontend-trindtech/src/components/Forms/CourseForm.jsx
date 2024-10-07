@@ -11,7 +11,7 @@ const Container = styled.div`
     height: auto;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-    margin-bottom: 168px;
+    margin-bottom: 50px;
 `;
 
 const Title = styled.h4`
