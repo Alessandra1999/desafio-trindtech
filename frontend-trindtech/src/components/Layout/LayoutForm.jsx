@@ -20,7 +20,7 @@ const CustomButton = styled.button`
     }
 `;
 
-function Layout() {
+function LayoutForm() {
     const [studentData, setStudentData] = useState({
         nome_aluno: '',
         sobrenome_aluno: '',
@@ -104,4 +104,4 @@ function Layout() {
     );
 };
 
-export default Layout;
+export default LayoutForm;

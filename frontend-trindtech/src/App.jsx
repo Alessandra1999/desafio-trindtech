@@ -1,9 +1,9 @@
-import Layout from "./components/Layout/Layout";
+import LayoutListing from "./components/Layout/LayoutListing";
 
 function App() {
 
   return (
-    <Layout />
+    <LayoutListing />
   );
 };
 
