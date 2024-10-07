@@ -33,45 +33,96 @@ const CustomSelect = styled.select`
     }
 `;
 
-function StudentForm() {
+function StudentForm({ studentData, setStudentData }) {
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setStudentData(prev => ({ ...prev, [name]: value }));
+    };
+
     return (
         <CustomForm>
             <Container className="container">
                 <div className="row">
                     <div className="form-group col-md-5">
                         <label htmlFor="nameInput">Nome*</label>
-                        <CustomInput type="text" className="form-control" id="nameInput" />
+                        <CustomInput 
+                            type="text" 
+                            className="form-control" 
+                            id="nameInput"
+                            name="nome_aluno" 
+                            value={studentData.nome_aluno}
+                            onChange={handleChange}
+                            required
+                            />
                     </div>
                     <div className="form-group col-md-7">
                         <label htmlFor="lastnameInput">Sobrenome</label>
-                        <CustomInput type="text" className="form-control" id="lastnameInput" />
+                        <CustomInput 
+                            type="text" 
+                            className="form-control" 
+                            id="lastnameInput" 
+                            name="sobrenome_aluno"
+                            value={studentData.sobrenome_aluno}
+                            onChange={handleChange}
+                            />
                     </div>
                 </div>
                 <div className="row">
                     <div className="form-group col-md-3">
                         <label htmlFor="birthdateInput" style={{ marginTop: "26px" }}>Data de Nascimento</label>
-                        <CustomInput type="text" className="form-control" id="birthdateInput" placeholder="dd/mm/aaaa" />
+                        <CustomInput 
+                            type="text" 
+                            className="form-control" 
+                            id="birthdateInput" 
+                            name="data_nascimento_aluno"
+                            placeholder="dd/mm/aaaa" 
+                            value={studentData.data_nascimento_aluno}
+                            onChange={handleChange}
+                            />
                     </div>
                     <div className="form-group col-md-3">
-                        <label htmlFor="cpf" style={{ marginTop: "26px" }}>CPF</label>
-                        <CustomInput type="text" className="form-control" id="birthdateInput" placeholder="000.000.000-00" />
+                        <label htmlFor="cpfInput" style={{ marginTop: "26px" }}>CPF</label>
+                        <CustomInput 
+                            type="text" 
+                            className="form-control" 
+                            id="cpfInput" 
+                            name="cpf_aluno"
+                            placeholder="000.000.000-00" 
+                            value={studentData.cpf_aluno}
+                            onChange={handleChange}
+                            />
                     </div>
                     <div className="form-group col-md-6">
                         <label htmlFor="genderInput" style={{ marginTop: "26px" }}>Gênero</label>
-                        <CustomSelect id="genderInput" className="form-control">
-                            <option selected>Escolher...</option>
-                            <option>Masculino</option>
-                            <option>Feminino</option>
-                            <option>Não Binário</option>
-                            <option>Outros</option>
-                            <option>Prefiro Não Responder</option>
+                        <CustomSelect 
+                            id="genderInput" 
+                            name="genero_aluno"
+                            className="form-control"
+                            value={studentData.genero_aluno}
+                            onChange={handleChange}
+                            >
+                            <option value="">Escolher...</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Não Binário">Não Binário</option>
+                            <option value="Outros">Outros</option>
+                            <option value="Prefiro Não Responder">Prefiro Não Responder</option>
                         </CustomSelect>
                     </div>
                 </div>
                 <div className="row">
                     <div className="form-group col-md-6">
                         <label htmlFor="emailInput" style={{ marginTop: "26px" }}>Email*</label>
-                        <CustomInput type="text" className="form-control" id="emailInput" placeholder="example@email.com" />
+                        <CustomInput 
+                            type="text" 
+                            className="form-control" 
+                            id="emailInput" 
+                            name="email_aluno"
+                            placeholder="example@email.com" 
+                            value={studentData.email_aluno}
+                            onChange={handleChange}
+                            />
                     </div>
                 </div>
             </Container>

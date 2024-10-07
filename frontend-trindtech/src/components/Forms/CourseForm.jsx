@@ -47,9 +47,10 @@ const CustomButton = styled.button`
     }
 `;
 
-function CourseForm() {
+function CourseForm({ courseData, setCourseData }) {
     const [courses, setCourses] = useState([{ courseName: "", conclusionDate: "" }]);
 
+    //Funções para adicionar novos campos de input 
     const handleAddCourse = () => {
         setCourses([...courses, { courseName: "", conclusionDate: "" }]);
     };
@@ -58,7 +59,14 @@ function CourseForm() {
         const newCourses = [...courses];
         newCourses[index][field] = value;
         setCourses(newCourses);
-    }
+    };
+
+    //Função para fazer a implementação juntamente com o Layout
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setCourseData((prev) => ({ ...prev, [name]: value }));
+    };
+
 
     return (
         <CustomForm>
@@ -72,8 +80,12 @@ function CourseForm() {
                                 type="text"
                                 className="form-control"
                                 id={`courseInput${index}`}
+                                name="nome_curso" 
                                 value={course.courseName}
-                                onChange={(e) => handleInputChange(index, "courseName", e.target.value)}
+                                onChange={(e) => {
+                                    handleInputChange(index, "courseName", e.target.value);
+                                    handleChange(e); 
+                                }}
                             />
                         </div>
                         <div className="form-group col-md-4 d-flex align-items-center">
@@ -84,8 +96,12 @@ function CourseForm() {
                                         type="date"
                                         className="form-control"
                                         id={`conclusionInput${index}`}
+                                        name="data_conclusao_curso" 
                                         value={course.conclusionDate}
-                                        onChange={(e) => handleInputChange(index, "conclusionDate", e.target.value)}
+                                        onChange={(e) => {
+                                            handleInputChange(index, "conclusionDate", e.target.value);
+                                            handleChange(e); 
+                                        }}
                                     />
                                     <CustomButton type="button" onClick={handleAddCourse}>
                                         <MdAddCircleOutline />

@@ -28,7 +28,13 @@ const CustomInput = styled.input`
     }
 `;
 
-function AdressForm() {
+function AdressForm({ addressData, setAddressData }) {
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setAddressData(prev => ({ ...prev, [name]: value }));
+    };
+
     return (
         <CustomForm>
             <Container className="container">
@@ -36,41 +42,101 @@ function AdressForm() {
                 <div className="row">
                     <div className="form-group col-md-6">
                         <label htmlFor="zipCodeInput">CEP*</label>
-                        <CustomInput type="text" className="form-control" id="zipCodeInput" placeholder="00000-000" />
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="zipCodeInput"
+                            name="cep"
+                            placeholder="00000-000"
+                            value={addressData.cep}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                     <div className="form-group col-md-6">
                         <label htmlFor="countryInput">País</label>
-                        <CustomInput type="text" className="form-control" id="countryInput" />
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="countryInput"
+                            name="pais"
+                            value={addressData.pais}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                 </div>
                 <div className="row">
                     <div className="form-group col-md-6">
                         <label htmlFor="streetInput" style={{ marginTop: "26px" }}>Rua</label>
-                        <CustomInput type="text" className="form-control" id="streetInput" />
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="streetInput"
+                            name="rua"
+                            value={addressData.rua}
+                            onChange={handleChange}
+                        />
                     </div>
                     <div className="form-group col-md-6">
                         <label htmlFor="district" style={{ marginTop: "26px" }}>Bairro</label>
-                        <CustomInput type="text" className="form-control" id="districtInput" />
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="districtInput"
+                            name="bairro"
+                            value={addressData.bairro}
+                            onChange={handleChange}
+                        />
                     </div>
                 </div>
                 <div className="row">
                     <div className="form-group col-md-6">
                         <label htmlFor="numberInput" style={{ marginTop: "26px" }}>Número*</label>
-                        <CustomInput type="text" className="form-control" id="numberInput" />
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="numberInput"
+                            name="numero"
+                            value={addressData.numero}
+                            onChange={handleChange}
+                            required
+                        />
                     </div>
                     <div className="form-group col-md-6">
                         <label htmlFor="complementInput" style={{ marginTop: "26px" }}>Complemento</label>
-                        <CustomInput type="text" className="form-control" id="complementInput" />
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="complementInput"
+                            name="complemento"
+                            value={addressData.complemento}
+                            onChange={handleChange}
+                        />
                     </div>
                 </div>
                 <div className="row">
                     <div className="form-group col-md-6">
                         <label htmlFor="cityInput" style={{ marginTop: "26px" }}>Cidade</label>
-                        <CustomInput type="text" className="form-control" id="cityInput" />
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="cityInput"
+                            name="cidade"
+                            value={addressData.cidade}
+                            onChange={handleChange}
+                        />
                     </div>
                     <div className="form-group col-md-6">
                         <label htmlFor="stateInput" style={{ marginTop: "26px" }}>Estado</label>
-                        <CustomInput type="text" className="form-control" id="stateInput" />
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="stateInput"
+                            name="estado"
+                            value={addressData.estado}
+                            onChange={handleChange}
+                        />
                     </div>
                 </div>
             </Container>
