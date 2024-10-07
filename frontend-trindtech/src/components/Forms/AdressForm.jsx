@@ -32,17 +32,6 @@ const CustomInput = styled.input`
     }
 `;
 
-const CustomSelect = styled.select`
-    background-color: #F2F2F2;
-
-    &:focus {
-        background-color: #F2F2F2;
-        outline: none;
-        border-color: black;
-        box-shadow: none;
-    }
-`;
-
 function AdressForm() {
     return (
         <CustomForm>

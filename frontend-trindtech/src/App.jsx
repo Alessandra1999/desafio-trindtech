@@ -1,6 +1,7 @@
 import DynamicHeader from "./components/DynamicHeader";
-import StudentForm from "./components/StudentForm";
-import AdressForm from "./components/AdressForm";
+import StudentForm from "./components/Forms/StudentForm";
+import AdressForm from "./components/Forms/AdressForm";
+import CourseForm from "./components/Forms/CourseForm";
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       />
       <StudentForm />
       <AdressForm />
+      <CourseForm />
     </>
   )
 }
