@@ -68,6 +68,7 @@ function StudentForm() {
                             <option>Feminino</option>
                             <option>Não Binário</option>
                             <option>Outros</option>
+                            <option>Prefiro Não Responder</option>
                         </CustomSelect>
                     </div>
                 </div>
