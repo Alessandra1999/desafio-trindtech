@@ -60,8 +60,13 @@ function DynamicHeader({ showLogo = true, backIcon, studentName, onDelete }) {
                     </Logo>
                 )}
                 <TextContainer>
-                    <Text>Gerenciador de alunos</Text> |
-                    {studentName && <StudentName> {studentName}</StudentName>} {/* Exibe o nome do aluno com font-weight normal */}
+                    <Text>Gerenciador de alunos</Text>
+                    {studentName && (
+                        <>
+                            <span>|</span>
+                            <StudentName>{studentName}</StudentName>
+                        </>
+                    )} {/* Exibe o nome do aluno com font-weight normal */}
                 </TextContainer>
             </div>
 

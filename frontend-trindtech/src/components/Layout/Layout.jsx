@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import DynamicHeader from '../DynamicHeader';
+import DynamicHeader from '../Header/DynamicHeader';
 import StudentForm from '../Forms/StudentForm';
 import AdressForm from '../Forms/AdressForm';
 import CourseForm from '../Forms/CourseForm';
