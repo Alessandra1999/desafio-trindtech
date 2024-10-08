@@ -4,7 +4,7 @@ import LayoutForm from "./components/Layout/LayoutForm";
 function App() {
 
   return (
-    <LayoutForm />
+    <LayoutListing />
   );
 };
 
