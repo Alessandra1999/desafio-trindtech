@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FaTrash, FaChevronLeft } from 'react-icons/fa';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const CustomHeader = styled.header`
     width: 100%;
@@ -43,11 +44,17 @@ const IconButton = styled.div`
 
 function DynamicHeader({ showLogo = true, backIcon, studentName, onDelete }) {
 
+    const navigate = useNavigate();
+
+    const handleReturn = () => {
+        navigate('/');
+    }
+
     return (
         <CustomHeader className='sticky-top'>
             {/* Ícone de Voltar */}
             {backIcon && (
-                <IconButton onClick={backIcon}>
+                <IconButton onClick={handleReturn}>
                     <FaChevronLeft size={24} />
                 </IconButton>
             )}

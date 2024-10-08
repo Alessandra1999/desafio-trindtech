@@ -5,6 +5,7 @@ import { MdPersonAdd } from "react-icons/md";
 import { getAlunos } from "../../services/apiService";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
     margin-top: 59px;
@@ -49,6 +50,7 @@ function Search() {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [results, setResults] = useState([]);
+    const navigate = useNavigate();
 
     const handleSearch = async () => {
         try {
@@ -65,6 +67,11 @@ function Search() {
             toast.error('Erro ao buscar alunos.');
         }
     };
+
+    const handleAddStudent = () => {
+        navigate('/form'); 
+    };
+
 
     return (
         <div className="d-flex justify-content-center align-items-center">
@@ -86,7 +93,7 @@ function Search() {
                         </div>
                     </div>
                     <div className="col-md-2 text-start text-md-end">
-                        <CustomButton type="button" className="btn">
+                        <CustomButton type="button" className="btn" onClick={handleAddStudent}>
                             <MdPersonAdd style={{ color: "#EA394E", marginRight: "10px", fontSize: "20px" }} />
                             Adicionar
                         </CustomButton>

@@ -117,7 +117,7 @@ function LayoutForm() {
             <DynamicHeader
                 showLogo={false}
                 backIcon={() => navigate('/')}
-                studentName="Nome do Aluno"
+                studentName=""
                 onDelete={handleDelete}
             />
             <StudentForm
