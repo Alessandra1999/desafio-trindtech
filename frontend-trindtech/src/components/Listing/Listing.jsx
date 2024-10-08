@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { FaSearch } from "react-icons/fa";
+import { RiSearchLine } from "react-icons/ri";
+import { MdPersonAdd } from "react-icons/md";
 
 const Container = styled.div`
     margin-top: 59px;
@@ -11,13 +12,31 @@ const Container = styled.div`
 `;
 
 const CustomInput = styled.input`
-    background-color: #F2F2F2;
+    background-color: #FFF;
 
     &:focus {
-        background-color: #F2F2F2;
+        background-color: #FFF;
         outline: none;
         border-color: black;
         box-shadow: none;
+    }
+`;
+
+const CustomSpan = styled.span`
+    background-color: #FFF;
+
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+const CustomButton = styled.button`
+    background-color: #FFF;
+    border-color: black;
+    font-weight: 600;
+
+    &:hover {
+        border-color: black;
     }
 `;
 
@@ -28,22 +47,23 @@ function Listing() {
             <Container>
                 <div className="row align-items-center">
                     <div className="col-md-10 d-flex">
-                        <div className="input-group" style={{ marginRight: "20px" }}>
+                        <div className="input-group">
                             <CustomInput
                                 type="text"
                                 className="form-control"
                                 placeholder="Buscar por Aluno"
                                 aria-label="Pesquisar"
                             />
-                            <span className="input-group-text">
-                                <FaSearch />
-                            </span>
+                            <CustomSpan className="input-group-text">
+                                <RiSearchLine style={{fontSize: "20px"}}/>
+                            </CustomSpan>
                         </div>
                     </div>
                     <div className="col-md-2 text-start text-md-end">
-                        <button type="button" className="btn btn-primary">
+                        <CustomButton type="button" className="btn">
+                            <MdPersonAdd style={{color: "#EA394E", marginRight: "10px", fontSize: "20px"}}/>
                             Adicionar
-                        </button>
+                        </CustomButton>
                     </div>
                 </div>
             </Container>
