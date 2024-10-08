@@ -48,10 +48,6 @@ function LayoutForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Botão Salvar clicado!');
-        console.log('Dados do aluno:', studentData);
-        console.log('Dados do curso:', courseData);
-        console.log('Dados do endereço:', addressData);
 
         try {
             const student = await createAluno(studentData); //Criar aluno
