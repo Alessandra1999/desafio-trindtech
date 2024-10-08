@@ -1,7 +1,5 @@
-import { deleteAllStudentData } from '../../services/apiService';
 import styled from 'styled-components';
 import { FaTrash, FaChevronLeft } from 'react-icons/fa';
-import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const CustomHeader = styled.header`
@@ -45,15 +43,6 @@ const IconButton = styled.div`
 
 function DynamicHeader({ showLogo = true, backIcon, studentName, onDelete }) {
 
-    const handleDelete = async () => {
-        try {
-            deleteAllStudentData();
-            toast.success('Dados deletados com sucesso!');
-        } catch (error) {
-            toast.error('Erro ao deletar os dados!');
-        }
-    }
-
     return (
         <CustomHeader className='sticky-top'>
             {/* Ícone de Voltar */}
@@ -85,7 +74,7 @@ function DynamicHeader({ showLogo = true, backIcon, studentName, onDelete }) {
 
             {/* Ícone de Lixeira */}
             {onDelete && (
-                <IconButton onClick={handleDelete} style={{ marginLeft: 'auto', marginRight: '25px' }}>
+                <IconButton onClick={onDelete} style={{ marginLeft: 'auto', marginRight: '25px' }}>
                     <FaTrash size={24} />
                 </IconButton>
             )}

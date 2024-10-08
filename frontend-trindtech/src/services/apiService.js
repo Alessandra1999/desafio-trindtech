@@ -103,9 +103,33 @@ export const deleteAlunoCurso = async (id_aluno, id_curso) => {
     await axios.delete(`${API_URL}/aluno-curso/${id_aluno}/${id_curso}`);
 };
 
-//Função para deletar todos os dados relacionados a um aluno
-export const deleteAllStudentData = async (id_aluno, id_curso) => {
-    await axios.delete(`${API_URL}/aluno-curso/${id_aluno}/${id_curso}`);
-    await axios.delete(`${API_URL}/enderecos/${id_endereco}`);
-    await axios.delete(`${API_URL}/alunos/${id_aluno}`);
-}
+
+export const deleteAllStudentData = async (id_aluno) => {
+    try {
+        const enderecos = await getEnderecos(); 
+        const alunoCursos = await getAlunoCursos(); 
+
+        for (const endereco of enderecos) {
+            if (endereco.id_aluno === id_aluno) {
+                await deleteEndereco(endereco.id_endereco);
+            }
+        }
+
+        const cursosParaDeletar = [];
+        for (const alunoCurso of alunoCursos) {
+            if (alunoCurso.id_aluno === id_aluno) {
+                await deleteAlunoCurso(alunoCurso.id_aluno, alunoCurso.id_curso);
+                cursosParaDeletar.push(alunoCurso.id_curso);
+            }
+        }
+
+        for (const id_curso of cursosParaDeletar) {
+            await deleteCurso(id_curso);
+        }
+
+        await deleteAluno(id_aluno);
+    } catch (error) {
+        console.error('Erro ao deletar dados do aluno:', error);
+        throw error;
+    }
+};
