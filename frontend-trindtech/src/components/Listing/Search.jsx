@@ -8,7 +8,6 @@ const Container = styled.div`
     height: auto;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-    border: 3px solid black;
 `;
 
 const CustomInput = styled.input`
@@ -27,20 +26,22 @@ const CustomSpan = styled.span`
 
     &:hover {
         cursor: pointer;
+        background-color: #F2F2F2;
     }
 `;
 
 const CustomButton = styled.button`
     background-color: #FFF;
-    border-color: black;
+    border-color: #E6E6E6;
     font-weight: 600;
 
     &:hover {
-        border-color: black;
+        border-color: #E6E6E6;
+        background-color: #F2F2F2;
     }
 `;
 
-function Listing() {
+function Search() {
 
     return (
         <div className="d-flex justify-content-center align-items-center">
@@ -71,4 +72,4 @@ function Listing() {
     );
 };
 
-export default Listing;
+export default Search;

@@ -1,5 +1,5 @@
 import DynamicHeader from "../Header/DynamicHeader";
-import Listing from "../Listing/Listing";
+import Search from "../Listing/Search";
 
 function LayoutListing() {
     return (
@@ -7,7 +7,7 @@ function LayoutListing() {
             <DynamicHeader
                 showLogo={true}
             />
-            <Listing />
+            <Search />
         </>
     );
 };

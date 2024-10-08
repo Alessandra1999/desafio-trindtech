@@ -102,3 +102,10 @@ export const updateAlunoCurso = async (id_aluno, id_curso, alunoCursoData) => {
 export const deleteAlunoCurso = async (id_aluno, id_curso) => {
     await axios.delete(`${API_URL}/aluno-curso/${id_aluno}/${id_curso}`);
 };
+
+//Função para deletar todos os dados relacionados a um aluno
+export const deleteAllStudentData = async (id_aluno, id_curso) => {
+    await axios.delete(`${API_URL}/aluno-curso/${id_aluno}/${id_curso}`);
+    await axios.delete(`${API_URL}/enderecos/${id_endereco}`);
+    await axios.delete(`${API_URL}/alunos/${id_aluno}`);
+}
