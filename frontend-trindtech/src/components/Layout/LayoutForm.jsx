@@ -48,10 +48,13 @@ function LayoutForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('Botão Salvar clicado!');
+        console.log('Dados do aluno:', studentData);
+        console.log('Dados do curso:', courseData);
+        console.log('Dados do endereço:', addressData);
 
         try {
             const student = await createAluno(studentData); //Criar aluno
-            const course = await createCurso(courseData); //Criar curso
 
             //Criar endereço associado ao aluno
             await createEndereco({
@@ -59,18 +62,16 @@ function LayoutForm() {
                 id_aluno: student.id_aluno,
             });
 
-            //Criar a associação entre aluno e curso
-            await createAlunoCurso(student.id_aluno, course.id_curso);
+            const course = await createCurso(courseData); //Criar curso
 
-            toast.success('Dados criados com sucesso!', {
-                position: toast.POSITION.TOP_RIGHT,
-            });
+            //Criar a associação entre aluno e curso
+            await createAlunoCurso({ id_aluno: student.id_aluno, id_curso: course.id_curso});
+
+            toast.success('Dados criados com sucesso!');
         } catch (error) {
             console.error('Erro ao criar dados: ', error);
 
-            toast.error('Erro ao criar os dados', {
-                position: toast.POSITION.TOP_RIGHT,
-            });
+            toast.error('Erro ao criar os dados');
         }
     }
 
@@ -95,7 +96,7 @@ function LayoutForm() {
                 setCourseData={setCourseData}
             />
             <div className="d-flex justify-content-center mt-3">
-                <CustomButton type="button" onClick={handleSubmit} className="btn mt-3">
+                <CustomButton type="submit" onClick={handleSubmit} className="btn mt-3">
                     Salvar
                 </CustomButton>
             </div>

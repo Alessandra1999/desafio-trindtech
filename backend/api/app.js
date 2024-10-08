@@ -4,12 +4,21 @@ const alunoRoutes = require('./routes/alunoRoutes');
 const cursoRoutes = require('./routes/cursoRoutes');
 const alunoCursoRoutes = require('./routes/alunoCursoRoutes');
 const enderecoRoutes = require('./routes/enderecoRoutes');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+// Configuração do CORS
+app.use(cors({
+    origin: 'http://localhost:5173', // Permitir apenas esse domínio
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
+}));
 
+app.use(express.json()); // Para permitir o recebimento de JSON no corpo das requisições
+
+// Definindo as rotas
 app.use('/api/alunos', alunoRoutes);
 app.use('/api/cursos', cursoRoutes);
 app.use('/api/aluno-curso', alunoCursoRoutes);

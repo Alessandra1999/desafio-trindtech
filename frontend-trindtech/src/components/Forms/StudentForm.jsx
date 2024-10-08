@@ -72,7 +72,7 @@ function StudentForm({ studentData, setStudentData }) {
                     <div className="form-group col-md-3">
                         <label htmlFor="birthdateInput" style={{ marginTop: "26px" }}>Data de Nascimento</label>
                         <CustomInput 
-                            type="text" 
+                            type="date" 
                             className="form-control" 
                             id="birthdateInput" 
                             name="data_nascimento_aluno"
@@ -88,7 +88,8 @@ function StudentForm({ studentData, setStudentData }) {
                             className="form-control" 
                             id="cpfInput" 
                             name="cpf_aluno"
-                            placeholder="000.000.000-00" 
+                            placeholder="000.000.000-00"
+                            maxLength="14" 
                             value={studentData.cpf_aluno}
                             onChange={handleChange}
                             />
