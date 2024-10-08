@@ -26,10 +26,10 @@ const CourseRow = styled.div`
 `;
 
 const CustomInput = styled.input`
-    background-color: #F2F2F2;
+    background-color: #FFF;
 
     &:focus {
-        background-color: #F2F2F2;
+        background-color: #FFF;
         outline: none;
         border-color: black;
         box-shadow: none;
