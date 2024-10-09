@@ -47,7 +47,7 @@ const CustomButton = styled.button`
     }
 `;
 
-function CourseForm({ courseData, setCourseData }) {
+function CourseForm({ studentCourseData, courseData, setCourseData }) {
     const [courses, setCourses] = useState([{ courseName: "", conclusionDate: "" }]);
 
     //Funções para adicionar novos campos de input 
@@ -72,7 +72,7 @@ function CourseForm({ courseData, setCourseData }) {
         <CustomForm>
             <Container className="container">
                 <Title>Cursos</Title>
-                {courses.map((course, index) => (
+                {courses.map((courseData, index) => (
                     <CourseRow className="row" key={index} index={index}>
                         <div className="form-group col-md-8">
                             <label htmlFor={`courseInput${index}`}>Nome do Curso</label>
@@ -80,8 +80,8 @@ function CourseForm({ courseData, setCourseData }) {
                                 type="text"
                                 className="form-control"
                                 id={`courseInput${index}`}
-                                name="nome_curso" 
-                                value={course.courseName}
+                                name="course_name" 
+                                value={courseData.courseName}
                                 onChange={(e) => {
                                     handleInputChange(index, "courseName", e.target.value);
                                     handleChange(e); 
@@ -96,8 +96,8 @@ function CourseForm({ courseData, setCourseData }) {
                                         type="date"
                                         className="form-control"
                                         id={`conclusionInput${index}`}
-                                        name="data_conclusao_curso" 
-                                        value={course.conclusionDate}
+                                        name="conclusion_daye" 
+                                        value={studentCourseData.conclusionDate}
                                         onChange={(e) => {
                                             handleInputChange(index, "conclusionDate", e.target.value);
                                             handleChange(e); 

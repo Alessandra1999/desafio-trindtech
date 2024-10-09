@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { HiOutlineSwitchVertical } from "react-icons/hi";
-import { getAlunos, getEnderecos, getCursos } from "../../services/apiService";
 
 const CustomTable = styled.table`
     margin-top: 52px;
@@ -18,8 +17,7 @@ function List ({ studentData }) {
         </thead>
         <tbody>
             <tr>
-                <td>{studentData}</td>
-                <td>{studentData.nome_aluno}</td>
+                
             </tr>
         </tbody>
     </CustomTable>

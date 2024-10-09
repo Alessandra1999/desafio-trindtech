@@ -50,8 +50,8 @@ function StudentForm({ studentData, setStudentData }) {
                             type="text" 
                             className="form-control" 
                             id="nameInput"
-                            name="nome_aluno" 
-                            value={studentData.nome_aluno}
+                            name="student_name" 
+                            value={studentData.student_name}
                             onChange={handleChange}
                             required
                             />
@@ -62,8 +62,8 @@ function StudentForm({ studentData, setStudentData }) {
                             type="text" 
                             className="form-control" 
                             id="lastnameInput" 
-                            name="sobrenome_aluno"
-                            value={studentData.sobrenome_aluno}
+                            name="student_lastname"
+                            value={studentData.student_lastname}
                             onChange={handleChange}
                             />
                     </div>
@@ -75,9 +75,9 @@ function StudentForm({ studentData, setStudentData }) {
                             type="date" 
                             className="form-control" 
                             id="birthdateInput" 
-                            name="data_nascimento_aluno"
+                            name="student_birthdate"
                             placeholder="dd/mm/aaaa" 
-                            value={studentData.data_nascimento_aluno}
+                            value={studentData.student_birthdate}
                             onChange={handleChange}
                             />
                     </div>
@@ -87,10 +87,10 @@ function StudentForm({ studentData, setStudentData }) {
                             type="text" 
                             className="form-control" 
                             id="cpfInput" 
-                            name="cpf_aluno"
+                            name="student_cpf"
                             placeholder="000.000.000-00"
                             maxLength="14" 
-                            value={studentData.cpf_aluno}
+                            value={studentData.student_cpf}
                             onChange={handleChange}
                             />
                     </div>
@@ -98,9 +98,9 @@ function StudentForm({ studentData, setStudentData }) {
                         <label htmlFor="genderInput" style={{ marginTop: "26px" }}>Gênero</label>
                         <CustomSelect 
                             id="genderInput" 
-                            name="genero_aluno"
+                            name="student_gender"
                             className="form-control"
-                            value={studentData.genero_aluno}
+                            value={studentData.student_gender}
                             onChange={handleChange}
                             >
                             <option value="">Escolher...</option>
@@ -119,9 +119,9 @@ function StudentForm({ studentData, setStudentData }) {
                             type="text" 
                             className="form-control" 
                             id="emailInput" 
-                            name="email_aluno"
+                            name="student_email"
                             placeholder="example@email.com" 
-                            value={studentData.email_aluno}
+                            value={studentData.student_email}
                             onChange={handleChange}
                             />
                     </div>

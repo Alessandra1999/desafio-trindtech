@@ -39,11 +39,11 @@ const CustomSelect = styled.select`
     }
 `;
 
-function AdressForm({ addressData, setAddressData }) {
+function AdressForm({ locationData, setLocationData }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setAddressData(prev => ({ ...prev, [name]: value }));
+        setLocationData(prev => ({ ...prev, [name]: value }));
     };
 
     return (
@@ -59,7 +59,7 @@ function AdressForm({ addressData, setAddressData }) {
                             id="zipCodeInput"
                             name="cep"
                             placeholder="00000-000"
-                            value={addressData.cep}
+                            value={locationData.cep}
                             onChange={handleChange}
                             required
                         />
@@ -70,8 +70,8 @@ function AdressForm({ addressData, setAddressData }) {
                             type="text"
                             className="form-control"
                             id="countryInput"
-                            name="pais"
-                            value={addressData.pais}
+                            name="country"
+                            value={locationData.country}
                             onChange={handleChange}
                             required
                         />
@@ -84,8 +84,8 @@ function AdressForm({ addressData, setAddressData }) {
                             type="text"
                             className="form-control"
                             id="streetInput"
-                            name="rua"
-                            value={addressData.rua}
+                            name="street"
+                            value={locationData.street}
                             onChange={handleChange}
                         />
                     </div>
@@ -95,8 +95,8 @@ function AdressForm({ addressData, setAddressData }) {
                             type="text"
                             className="form-control"
                             id="districtInput"
-                            name="bairro"
-                            value={addressData.bairro}
+                            name="district"
+                            value={locationData.district}
                             onChange={handleChange}
                         />
                     </div>
@@ -108,8 +108,8 @@ function AdressForm({ addressData, setAddressData }) {
                             type="text"
                             className="form-control"
                             id="numberInput"
-                            name="numero"
-                            value={addressData.numero}
+                            name="number"
+                            value={locationData.number}
                             onChange={handleChange}
                             required
                         />
@@ -120,8 +120,8 @@ function AdressForm({ addressData, setAddressData }) {
                             type="text"
                             className="form-control"
                             id="complementInput"
-                            name="complemento"
-                            value={addressData.complemento}
+                            name="complement"
+                            value={locationData.complement}
                             onChange={handleChange}
                         />
                     </div>
@@ -133,8 +133,8 @@ function AdressForm({ addressData, setAddressData }) {
                             type="text"
                             className="form-control"
                             id="cityInput"
-                            name="cidade"
-                            value={addressData.cidade}
+                            name="city"
+                            value={locationData.city}
                             onChange={handleChange}
                         />
                     </div>
@@ -142,9 +142,9 @@ function AdressForm({ addressData, setAddressData }) {
                         <label htmlFor="stateInput" style={{ marginTop: "26px" }}>Estado</label>
                         <CustomSelect
                             id="stateInput"
-                            name="estado"
+                            name="state"
                             className="form-control"
-                            value={addressData.estado}
+                            value={locationData.state}
                             onChange={handleChange}
                         >
                             <option value="">Escolher...</option>

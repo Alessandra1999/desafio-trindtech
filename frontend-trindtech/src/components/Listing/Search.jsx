@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { RiSearchLine } from "react-icons/ri";
 import { MdPersonAdd } from "react-icons/md";
-import { getAlunos } from "../../services/apiService";
+import { getStudents } from "../../services/apiService";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -54,12 +54,12 @@ function Search() {
 
     const handleSearch = async () => {
         try {
-            const allAlunos = await getAlunos();
-            const filteredAlunos = allAlunos.filter(aluno =>
-                aluno.nome_aluno.toLowerCase().includes(searchTerm.toLowerCase())
+            const allStudents = await getStudents();
+            const filteredStudents = allStudents.filter(student =>
+                student.student_name.toLowerCase().includes(searchTerm.toLowerCase())
             );
-            setResults(filteredAlunos);
-            if (filteredAlunos.length === 0) {
+            setResults(filteredStudents);
+            if (filteredStudents.length === 0) {
                 toast.info('Nenhum aluno encontrado.');
             }
         } catch (error) {
@@ -104,9 +104,9 @@ function Search() {
                 <div className="mt-3">
                     {results.length > 0 && (
                         <div className="list-group">
-                            {results.map(aluno => (
-                                <div key={aluno.id_aluno} className="list-group-item list-group-item-action">
-                                    {aluno.nome_aluno} {aluno.sobrenome_aluno}
+                            {results.map(student => (
+                                <div key={student.id_student} className="list-group-item list-group-item-action">
+                                    {student.student_name} {student.student_lastname}
                                 </div>
                             ))}
                         </div>
