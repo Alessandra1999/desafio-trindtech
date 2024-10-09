@@ -39,7 +39,7 @@ const CustomSelect = styled.select`
     }
 `;
 
-function AdressForm({ locationData, setLocationData }) {
+function LocationForm({ locationData, setLocationData }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -183,4 +183,4 @@ function AdressForm({ locationData, setLocationData }) {
     );
 }
 
-export default AdressForm;
+export default LocationForm;

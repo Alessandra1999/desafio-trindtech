@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import DynamicHeader from '../Header/DynamicHeader';
 import StudentForm from '../Forms/StudentForm';
-import AdressForm from '../Forms/AdressForm';
+import LocationForm from '../Forms/LocationForm';
 import CourseForm from '../Forms/CourseForm';
-import { createStudent, createCourse, createLocation, createStudentCourse } from "../../services/apiService";
+import { createStudent, createLocation, createStudentCourse } from "../../services/apiService";
 import { deleteAllStudentData } from '../../services/apiService';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -29,7 +29,7 @@ function LayoutForm() {
         student_cpf: '',
         student_gender: '',
         student_email: '',
-        student_register_date: ""
+        student_register_date: ''
     });
 
     const [locationData, setLocationData] = useState({
@@ -44,7 +44,8 @@ function LayoutForm() {
     });
 
     const [courseData, setCourseData] = useState({
-        course_name: '',
+        id_course: "",
+        course_name: ''
     });
 
     const [studentCourseData, setStudentCourseData] = useState({
@@ -56,27 +57,52 @@ function LayoutForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Registrar a data atual no formato ISO
+        const currentDate = new Date().toISOString();
+
+        // Atualizar o estado com a data de registro do aluno
+        const updatedStudentData = {
+            ...studentData,
+            student_register_date: currentDate
+        };
+
         try {
-            const student = await createStudent(studentData); //Criar aluno
+            // Criar aluno
+            console.log("Dados do aluno que estão sendo enviados: ", updatedStudentData);
+            const student = await createStudent(updatedStudentData);
             setStudentId(student.id_student);
 
-            //Criar endereço associado ao aluno
+            // Criar endereço associado ao aluno
+            console.log("Dados de localização que estão sendo enviados: ", {
+                ...locationData,
+                id_student: student.id_student
+            });
+
             await createLocation({
                 ...locationData,
                 id_student: student.id_student,
             });
 
-            const course = await createCourse(courseData); //Criar curso
+            console.log("Curso selecionado: ", courseData);
+            console.log("Dados de associação aluno-curso que estão sendo enviados: ", {
+                conclusion_date: studentCourseData.conclusion_date,
+                id_student: student.id_student,
+                id_course: courseData.id_course
+            });
 
-            //Criar a associação entre aluno e curso
-            await createStudentCourse(studentCourseData, { id_student: student.id_student, id_course: course.id_course });
+            // Criar a associação entre aluno e curso
+            await createStudentCourse({
+                conclusion_date: studentCourseData.conclusion_date,
+                id_student: student.id_student,
+                id_course: courseData.id_course
+            });
 
             toast.success('Dados criados com sucesso!');
         } catch (error) {
             console.error('Erro ao criar dados: ', error);
             toast.error('Erro ao criar os dados');
         }
-    }
+    };
 
     const handleDelete = async () => {
         if (!studentId) {
@@ -93,9 +119,9 @@ function LayoutForm() {
                 student_cpf: '',
                 student_gender: '',
                 student_email: '',
-                student_register_date: ""
+                student_register_date: ''
             });
-            setAddressData({ // Limpar os dados do endereço
+            setLocationData({ // Limpar os dados do endereço
                 cep: '',
                 country: '',
                 street: '',
@@ -105,8 +131,8 @@ function LayoutForm() {
                 city: '',
                 state: ''
             });
-            setStudentCourseData({ //Limpa a data de conclusão
-                conclusion_date: '' 
+            setStudentCourseData({ // Limpar a data de conclusão
+                conclusion_date: ''
             });
 
             setStudentId(null); // Resetar o ID do aluno
@@ -129,14 +155,14 @@ function LayoutForm() {
                 studentData={studentData}
                 setStudentData={setStudentData}
             />
-            <AdressForm
-                addressData={addressData}
-                setAddressData={setAddressData}
+            <LocationForm
+                locationData={locationData}
+                setLocationData={setLocationData}
             />
             <CourseForm
                 courseData={courseData}
+                setCourseData={setCourseData}  
                 studentCourseData={studentCourseData}
-                setCourseData={setCourseData}
                 setStudentCourseData={setStudentCourseData}
             />
             <div className="d-flex justify-content-center mt-3">

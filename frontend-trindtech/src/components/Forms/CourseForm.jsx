@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { MdAddCircleOutline } from "react-icons/md";
+import { getCourses } from "../../services/apiService";
 
 const CustomForm = styled.form`
     margin-top: 62px;
@@ -36,6 +37,17 @@ const CustomInput = styled.input`
     }
 `;
 
+const CustomSelect = styled.select`
+    background-color: #F2F2F2;
+
+    &:focus {
+        background-color: #F2F2F2;
+        outline: none;
+        border-color: black;
+        box-shadow: none;
+    }
+`;
+
 const CustomButton = styled.button`
     border: none;
     background-color: transparent;
@@ -47,10 +59,25 @@ const CustomButton = styled.button`
     }
 `;
 
-function CourseForm({ studentCourseData, courseData, setCourseData }) {
+function CourseForm({ studentCourseData, courseData, setCourseData, setStudentCourseData }) {
     const [courses, setCourses] = useState([{ courseName: "", conclusionDate: "" }]);
+    const [availableCourses, setAvailableCourses] = useState([]);
 
-    //Funções para adicionar novos campos de input 
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const courses = await getCourses();
+                setAvailableCourses(courses);
+            } catch (error) {
+                console.error('Erro ao buscar cursos:', error);
+            }
+        };
+
+        fetchCourses();
+    }, []);
+
+    // Função para adicionar novos campos de input 
     const handleAddCourse = () => {
         setCourses([...courses, { courseName: "", conclusionDate: "" }]);
     };
@@ -61,12 +88,21 @@ function CourseForm({ studentCourseData, courseData, setCourseData }) {
         setCourses(newCourses);
     };
 
-    //Função para fazer a implementação juntamente com o Layout
+    const handleCourseSelect = (index, selectedOption) => {
+        const selectedCourse = availableCourses.find(course => course.id_course === Number(selectedOption));
+        if (selectedCourse) {
+            setCourseData({
+                id_course: selectedCourse.id_course,
+                course_name: selectedCourse.course_name
+            });
+        }
+    };
+
+    // Função para fazer a implementação juntamente com o Layout
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCourseData((prev) => ({ ...prev, [name]: value }));
     };
-
 
     return (
         <CustomForm>
@@ -75,18 +111,28 @@ function CourseForm({ studentCourseData, courseData, setCourseData }) {
                 {courses.map((courseData, index) => (
                     <CourseRow className="row" key={index} index={index}>
                         <div className="form-group col-md-8">
-                            <label htmlFor={`courseInput${index}`}>Nome do Curso</label>
-                            <CustomInput
-                                type="text"
+                            <label htmlFor={`courseSelect${index}`}>Nome do Curso</label>
+                            <CustomSelect
                                 className="form-control"
-                                id={`courseInput${index}`}
-                                name="course_name" 
+                                id={`courseSelect${index}`}
+                                name="course_name"
                                 value={courseData.courseName}
                                 onChange={(e) => {
                                     handleInputChange(index, "courseName", e.target.value);
-                                    handleChange(e); 
+                                    handleCourseSelect(index, e.target.value);
                                 }}
-                            />
+                            >
+                                <option value="">Selecione um curso</option>
+                                {availableCourses.length > 0 ? (
+                                    availableCourses.map((course) => (
+                                        <option key={course.id_course} value={course.course_name}>
+                                            {course.course_name}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option value="">Nenhum curso disponível</option>
+                                )}
+                            </CustomSelect>
                         </div>
                         <div className="form-group col-md-4 d-flex align-items-center">
                             <div className="w-100">
@@ -96,11 +142,11 @@ function CourseForm({ studentCourseData, courseData, setCourseData }) {
                                         type="date"
                                         className="form-control"
                                         id={`conclusionInput${index}`}
-                                        name="conclusion_daye" 
+                                        name="conclusion_date"
                                         value={studentCourseData.conclusionDate}
                                         onChange={(e) => {
                                             handleInputChange(index, "conclusionDate", e.target.value);
-                                            handleChange(e); 
+                                            handleChange(e);
                                         }}
                                     />
                                     <CustomButton type="button" onClick={handleAddCourse}>
@@ -115,5 +161,6 @@ function CourseForm({ studentCourseData, courseData, setCourseData }) {
         </CustomForm>
     );
 }
+
 
 export default CourseForm;
