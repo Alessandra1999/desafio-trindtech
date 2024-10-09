@@ -22,7 +22,7 @@ app.use(express.json()); // Para permitir o recebimento de JSON no corpo das req
 app.use('/api/students', studentRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/student-course', studentCourseRoutes);
-app.use('/api/location', locationRoutes);
+app.use('/api/locations', locationRoutes);
 
 // Sincronização do banco de dados
 sequelize.sync()

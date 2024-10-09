@@ -4,124 +4,124 @@ import axios from 'axios';
 const API_URL = 'http://localhost:3000/api'; 
 
 // Funções para Alunos
-export const getAlunos = async () => {
-    const response = await axios.get(`${API_URL}/alunos`);
+export const getStudents = async () => {
+    const response = await axios.get(`${API_URL}/students`);
     return response.data;
 };
 
-export const createAluno = async (alunoData) => {
-    const response = await axios.post(`${API_URL}/alunos`, alunoData);
+export const createStudent = async (studentData) => {
+    const response = await axios.post(`${API_URL}/students`, studentData);
     return response.data;
 };
 
-export const getAlunoById = async (id_aluno) => {
-    const response = await axios.get(`${API_URL}/alunos/${id_aluno}`);
+export const getStudentById = async (id_student) => {
+    const response = await axios.get(`${API_URL}/students/${id_student}`);
     return response.data;
 };
 
-export const updateAluno = async (id_aluno, alunoData) => {
-    const response = await axios.put(`${API_URL}/alunos/${id_aluno}`, alunoData);
+export const updateStudent = async (id_student, studentData) => {
+    const response = await axios.put(`${API_URL}/students/${id_student}`, studentData);
     return response.data;
 };
 
-export const deleteAluno = async (id_aluno) => {
-    await axios.delete(`${API_URL}/alunos/${id_aluno}`);
+export const deleteStudent = async (id_student) => {
+    await axios.delete(`${API_URL}/students/${id_student}`);
 };
 
 // Funções para Cursos
-export const getCursos = async () => {
-    const response = await axios.get(`${API_URL}/cursos`);
+export const getCourses = async () => {
+    const response = await axios.get(`${API_URL}/courses`);
     return response.data;
 };
 
-export const createCurso = async (cursoData) => {
-    const response = await axios.post(`${API_URL}/cursos`, cursoData);
+export const createCourse = async (courseData) => {
+    const response = await axios.post(`${API_URL}/courses`, courseData);
     return response.data;
 };
 
-export const getCursoById = async (id_curso) => {
-    const response = await axios.get(`${API_URL}/cursos/${id_curso}`);
+export const getCourseById = async (id_course) => {
+    const response = await axios.get(`${API_URL}/courses/${id_course}`);
     return response.data;
 };
 
-export const updateCurso = async (id_curso, cursoData) => {
-    const response = await axios.put(`${API_URL}/cursos/${id_curso}`, cursoData);
+export const updateCourse = async (id_course, courseData) => {
+    const response = await axios.put(`${API_URL}/courses/${id_course}`, courseData);
     return response.data;
 };
 
-export const deleteCurso = async (id_curso) => {
-    await axios.delete(`${API_URL}/cursos/${id_curso}`);
+export const deleteCourse = async (id_course) => {
+    await axios.delete(`${API_URL}/courses/${id_course}`);
 };
 
 // Funções para Endereços
-export const getEnderecos = async () => {
-    const response = await axios.get(`${API_URL}/enderecos`);
+export const getLocations = async () => {
+    const response = await axios.get(`${API_URL}/location`);
     return response.data;
 };
 
-export const createEndereco = async (enderecoData) => {
-    const response = await axios.post(`${API_URL}/enderecos`, enderecoData);
+export const createLocation = async (locationData) => {
+    const response = await axios.post(`${API_URL}/locations`, locationData);
     return response.data;
 };
 
-export const getEnderecoById = async (id_endereco) => {
-    const response = await axios.get(`${API_URL}/enderecos/${id_endereco}`);
+export const getLocationById = async (id_location) => {
+    const response = await axios.get(`${API_URL}/locations/${id_location}`);
     return response.data;
 };
 
-export const updateEndereco = async (id_endereco, enderecoData) => {
-    const response = await axios.put(`${API_URL}/enderecos/${id_endereco}`, enderecoData);
+export const updateLocation = async (id_location, locationData) => {
+    const response = await axios.put(`${API_URL}/locations/${id_location}`, locationData);
     return response.data;
 };
 
-export const deleteEndereco = async (id_endereco) => {
-    await axios.delete(`${API_URL}/enderecos/${id_endereco}`);
+export const deleteLocation = async (id_location) => {
+    await axios.delete(`${API_URL}/locations/${id_location}`);
 };
 
 // Funções para Associações Aluno-Curso
-export const getAlunoCursos = async () => {
-    const response = await axios.get(`${API_URL}/aluno-curso`);
+export const getStudentCourses = async () => {
+    const response = await axios.get(`${API_URL}/student-course`);
     return response.data;
 };
 
-export const createAlunoCurso = async (alunoCursoData) => {
-    const response = await axios.post(`${API_URL}/aluno-curso`, alunoCursoData);
+export const createStudentCourse = async (studentCourseData) => {
+    const response = await axios.post(`${API_URL}/student-course`, studentCourseData);
     return response.data;
 };
 
-export const getAlunoCursoById = async (id_aluno, id_curso) => {
-    const response = await axios.get(`${API_URL}/aluno-curso/${id_aluno}/${id_curso}`);
+export const getStudentCourseById = async (id_student, id_course) => {
+    const response = await axios.get(`${API_URL}/student-course/${id_student}/${id_course}`);
     return response.data;
 };
 
-export const updateAlunoCurso = async (id_aluno, id_curso, alunoCursoData) => {
-    const response = await axios.put(`${API_URL}/aluno-curso/${id_aluno}/${id_curso}`, alunoCursoData);
+export const updateStudentCourse = async (id_student, id_course, studentCourseData) => {
+    const response = await axios.put(`${API_URL}/student-course/${id_student}/${id_course}`, studentCourseData);
     return response.data;
 };
 
-export const deleteAlunoCurso = async (id_aluno, id_curso) => {
-    await axios.delete(`${API_URL}/aluno-curso/${id_aluno}/${id_curso}`);
+export const deleteStudentCourse = async (id_student, id_course) => {
+    await axios.delete(`${API_URL}/student-course/${id_student}/${id_course}`);
 };
 
 
-export const deleteAllStudentData = async (id_aluno) => {
+export const deleteAllStudentData = async (id_student) => {
     try {
-        const enderecos = await getEnderecos(); 
-        const alunoCursos = await getAlunoCursos(); 
+        const locations = await getLocations(); 
+        const studentCourses = await getStudentCourses(); 
 
-        for (const endereco of enderecos) {
-            if (endereco.id_aluno === id_aluno) {
-                await deleteEndereco(endereco.id_endereco);
+        for (const location of locations) {
+            if (location.id_student === id_student) {
+                await deleteLocation(location.id_location);
             }
         }
 
-        for (const alunoCurso of alunoCursos) {
-            if (alunoCurso.id_aluno === id_aluno) {
-                await deleteAlunoCurso(alunoCurso.id_aluno, alunoCurso.id_curso);
+        for (const studentCourse of studentCourses) {
+            if (studentCourse.id_student === id_student) {
+                await deleteStudentCourse(studentCourse.id_student, studentCourse.id_course);
             }
         }
 
-        await deleteAluno(id_aluno);
+        await deleteStudent(id_student);
     } catch (error) {
         console.error('Erro ao deletar dados do aluno:', error);
         throw error;
