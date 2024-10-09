@@ -29,6 +29,11 @@ const Aluno = sequelize.define('Aluno', {
         unique: true,
         allowNull: false,
     },
+    data_cadastro: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        allowNull: false,
+    }
 }, {
     freezeTableName: true, // Desativa a pluralização do nome da tabela
     timestamps: false, // Desativa a criação automática das colunas createdAt e updatedAt
