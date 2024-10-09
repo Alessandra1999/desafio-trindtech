@@ -1,60 +1,60 @@
-const Aluno = require('../models/aluno');
+const Student = require('../models/student');
 
 // Criar um novo aluno
-exports.createAluno = async (req, res) => {
+exports.createStudent = async (req, res) => {
     try {
-        const aluno = await Aluno.create(req.body);
-        res.status(201).json(aluno);
+        const student = await Student.create(req.body);
+        res.status(201).json(student);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
 // Listar todos os alunos
-exports.getAlunos = async (req, res) => {
+exports.getStudents = async (req, res) => {
     try {
-        const alunos = await Aluno.findAll();
-        res.json(alunos);
+        const students = await Student.findAll();
+        res.json(students);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
 // Listar aluno por um id específico
-exports.getAlunoById = async (req, res) => {
+exports.getStudentById = async (req, res) => {
     try {
-        const aluno = await Aluno.findByPk(req.params.id);
-        if (!aluno) {
+        const student = await Student.findByPk(req.params.id);
+        if (!student) {
             return res.status(404).json({ error: 'Aluno não encontrado' });
         }
-        res.json(aluno);
+        res.json(student);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
 // Atualizar aluno por um id específico
-exports.updateAluno = async (req, res) => {
+exports.updateStudent = async (req, res) => {
     try {
-        const aluno = await Aluno.findByPk(req.params.id);
-        if (!aluno) {
+        const student = await Student.findByPk(req.params.id);
+        if (!student) {
             return res.status(404).json({ error: 'Aluno não encontrado' });
         }
-        await aluno.update(req.body);
-        res.json(aluno);
+        await student.update(req.body);
+        res.json(student);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
 // Deletar aluno por um id específico
-exports.deleteAluno = async (req, res) => {
+exports.deleteStudent = async (req, res) => {
     try {
-        const aluno = await Aluno.findByPk(req.params.id);
-        if (!aluno) {
+        const student = await Student.findByPk(req.params.id);
+        if (!student) {
             return res.status(404).json({ error: 'Aluno não encontrado' });
         }
-        await aluno.destroy();
+        await student.destroy();
         res.status(204).send();
     } catch (error) {
         res.status(500).json({ error: error.message });

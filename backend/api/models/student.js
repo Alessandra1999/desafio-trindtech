@@ -1,35 +1,35 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config');
 
-const Aluno = sequelize.define('Aluno', {
-    id_aluno: {
+const Student = sequelize.define('Student', {
+    id_student: {
         type: DataTypes.BIGINT,
         autoIncrement: true,
         primaryKey: true,
     },
-    nome_aluno: {
+    student_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    sobrenome_aluno: {
+    student_lastname: {
         type: DataTypes.STRING,
     },
-    data_nascimento_aluno: {
+    student_birthdate: {
         type: DataTypes.DATE,
     },
-    cpf_aluno: {
+    student_cpf: {
         type: DataTypes.STRING(14),
         unique: true,
     },
-    genero_aluno: {
+    student_gender: {
         type: DataTypes.ENUM('Masculino', 'Feminino', 'Não Binário', 'Outros', 'Prefiro Não Responder'),
     },
-    email_aluno: {
+    student_email: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
     },
-    data_cadastro: {
+    student_register_date: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
         allowNull: false,
@@ -37,7 +37,7 @@ const Aluno = sequelize.define('Aluno', {
 }, {
     freezeTableName: true, // Desativa a pluralização do nome da tabela
     timestamps: false, // Desativa a criação automática das colunas createdAt e updatedAt
-    tableName: 'alunos' // Garante que o nome da tabela será 'alunos'
+    tableName: 'students' // Garante que o nome da tabela será 'students'
 });
 
-module.exports = Aluno;
+module.exports = Student;

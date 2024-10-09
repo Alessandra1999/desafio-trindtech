@@ -1,17 +1,17 @@
-const AlunoCurso = require('../models/alunoCurso');
+const StudentCourse = require('../models/studentCourse');
 
 // Criar nova associação
-exports.createAlunoCurso = async (req, res) => {
+exports.createStudentCourse = async (req, res) => {
     try {
         // Validação simples dos dados recebidos
-        const { id_aluno, id_curso } = req.body;
-        if (!id_aluno || !id_curso) {
+        const { id_student, id_course } = req.body;
+        if (!id_student || !id_course) {
             return res.status(400).json({ error: 'Os campos id_aluno e id_curso são obrigatórios.' });
         }
 
         // Criar a associação
-        const alunoCurso = await AlunoCurso.create(req.body);
-        res.status(201).json(alunoCurso);
+        const studentCourse = await StudentCourse.create(req.body);
+        res.status(201).json(studentCourse);
     } catch (error) {
         console.error('Erro ao criar associação:', error.message);
         res.status(400).json({ error: error.message });
@@ -19,10 +19,10 @@ exports.createAlunoCurso = async (req, res) => {
 };
 
 // Listar as associações
-exports.getAlunoCursos = async (req, res) => {
+exports.getStudentCourses = async (req, res) => {
     try {
-        const alunoCursos = await AlunoCurso.findAll();
-        res.json(alunoCursos);
+        const studentCourses = await StudentCourse.findAll();
+        res.json(studentCourses);
     } catch (error) {
         console.error('Erro ao obter associações:', error.message);
         res.status(500).json({ error: error.message });
@@ -30,14 +30,14 @@ exports.getAlunoCursos = async (req, res) => {
 };
 
 // Listar as associações por id específico
-exports.getAlunoCursoById = async (req, res) => {
-    const { id_aluno, id_curso } = req.params; 
+exports.getStudentCourseById = async (req, res) => {
+    const { id_student, id_course } = req.params; 
     try {
-        const alunoCurso = await AlunoCurso.findOne({ where: { id_aluno, id_curso } });
-        if (!alunoCurso) {
+        const studentCourse = await StudentCourse.findOne({ where: { id_student, id_course } });
+        if (!studentCourse) {
             return res.status(404).json({ error: 'Associação não encontrada.' });
         }
-        res.json(alunoCurso);
+        res.json(studentCourse);
     } catch (error) {
         console.error('Erro ao obter associação:', error.message);
         res.status(500).json({ error: error.message });
@@ -45,22 +45,22 @@ exports.getAlunoCursoById = async (req, res) => {
 };
 
 // Atualizar associações por id específico
-exports.updateAlunoCurso = async (req, res) => {
-    const { id_aluno, id_curso } = req.params; 
+exports.updateStudentCourse = async (req, res) => {
+    const { id_student, id_course } = req.params; 
     try {
-        const alunoCurso = await AlunoCurso.findOne({ where: { id_aluno, id_curso } });
-        if (!alunoCurso) {
+        const studentCourse = await StudentCourse.findOne({ where: { id_student, id_course } });
+        if (!studentCourse) {
             return res.status(404).json({ error: 'Associação não encontrada.' });
         }
 
         // Validação dos dados para atualização
-        const { id_aluno: newIdAluno, id_curso: newIdCurso } = req.body; 
-        if (newIdAluno === undefined || newIdCurso === undefined) {
+        const { id_student: newIdStudent, id_course: newIdCourse } = req.body; 
+        if (newIdStudent === undefined || newIdCourse === undefined) {
             return res.status(400).json({ error: 'Os campos id_aluno e id_curso são obrigatórios para atualização.' });
         }
 
-        await alunoCurso.update(req.body);
-        res.json(alunoCurso);
+        await studentCourse.update(req.body);
+        res.json(studentCourse);
     } catch (error) {
         console.error('Erro ao atualizar associação:', error.message);
         res.status(400).json({ error: error.message });
@@ -68,15 +68,15 @@ exports.updateAlunoCurso = async (req, res) => {
 };
 
 // Deletar associações por id específico
-exports.deleteAlunoCurso = async (req, res) => {
-    const { id_aluno, id_curso } = req.params; 
+exports.deleteStudentCourse = async (req, res) => {
+    const { id_student, id_course } = req.params; 
     try {
-        const alunoCurso = await AlunoCurso.findOne({ where: { id_aluno, id_curso } });
-        if (!alunoCurso) {
+        const studentCourse = await AlunoCurso.findOne({ where: { id_student, id_course } });
+        if (!studentCourse) {
             return res.status(404).json({ error: 'Associação não encontrada.' });
         }
-        await alunoCurso.destroy();
-        res.status(204).send(); // No Content
+        await studentCourse.destroy();
+        res.status(204).send();
     } catch (error) {
         console.error('Erro ao deletar associação:', error.message);
         res.status(500).json({ error: error.message });

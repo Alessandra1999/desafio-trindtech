@@ -115,16 +115,10 @@ export const deleteAllStudentData = async (id_aluno) => {
             }
         }
 
-        const cursosParaDeletar = [];
         for (const alunoCurso of alunoCursos) {
             if (alunoCurso.id_aluno === id_aluno) {
                 await deleteAlunoCurso(alunoCurso.id_aluno, alunoCurso.id_curso);
-                cursosParaDeletar.push(alunoCurso.id_curso);
             }
-        }
-
-        for (const id_curso of cursosParaDeletar) {
-            await deleteCurso(id_curso);
         }
 
         await deleteAluno(id_aluno);

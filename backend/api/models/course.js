@@ -1,23 +1,20 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config');
 
-const Curso = sequelize.define('Curso', {
-    id_curso: {
+const Course = sequelize.define('Course', {
+    id_course: {
         type: DataTypes.BIGINT,
         autoIncrement: true,
         primaryKey: true,
     },
-    nome_curso: {
+    course_name: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-    data_conclusao_curso: {
-        type: DataTypes.DATE,
     },
 }, {
     freezeTableName: true, // Desativa a pluralização do nome da tabela
     timestamps: false, // Desativa a criação automática das colunas createdAt e updatedAt
-    tableName: 'cursos' // Garante que o nome da tabela será 'cursos'
+    tableName: 'courses' // Garante que o nome da tabela será 'courses'
 });
 
-module.exports = Curso;
+module.exports = Course;

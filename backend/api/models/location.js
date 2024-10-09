@@ -1,19 +1,19 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config');
-const Aluno = require('./aluno');
+const Student = require('./student');
 
-const Endereco = sequelize.define('Endereco', {
-    id_endereco: {
+const Location = sequelize.define('Location', {
+    id_location: {
         type: DataTypes.BIGINT,
         autoIncrement: true,
         primaryKey: true,
     },
-    id_aluno: {
+    id_student: {
         type: DataTypes.BIGINT,
         allowNull: false,
         references: {
-            model: Aluno,
-            key: 'id_aluno',
+            model: Student,
+            key: 'id_student',
         },
         onDelete: 'CASCADE',
     },
@@ -21,33 +21,33 @@ const Endereco = sequelize.define('Endereco', {
         type: DataTypes.STRING(9),
         allowNull: false,
     },
-    pais: {
+    country: {
         type: DataTypes.STRING(55),
         allowNull: false,
     },
-    rua: {
+    street: {
         type: DataTypes.STRING(255),
     },
-    bairro: {
+    district: {
         type: DataTypes.STRING(255),
     },
-    numero: {
+    number: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    complemento: {
+    complement: {
         type: DataTypes.STRING(100),
     },
-    cidade: {
+    city: {
         type: DataTypes.STRING(255),
     },
-    estado: {
+    state: {
         type: DataTypes.STRING(100),
     },
 }, {
     freezeTableName: true, // Desativa a pluralização do nome da tabela
     timestamps: false, // Desativa a criação automática das colunas createdAt e updatedAt
-    tableName: 'enderecos' // Garante que o nome da tabela será 'enderecos'
+    tableName: 'locations' // Garante que o nome da tabela será 'locations'
 });
 
-module.exports = Endereco;
+module.exports = Location;

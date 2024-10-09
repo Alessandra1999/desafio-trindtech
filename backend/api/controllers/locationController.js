@@ -1,10 +1,10 @@
-const Endereco = require('../models/endereco');
+const Location = require('../models/location');
 
 // Criar novo endereço
-exports.createEndereco = async (req, res) => {
+exports.createLocation = async (req, res) => {
     try {
-        const endereco = await Endereco.create(req.body);
-        res.status(201).json(endereco);
+        const location = await Location.create(req.body);
+        res.status(201).json(location);
     } catch (error) {
         console.error('Erro ao criar endereço:', error.message);
         res.status(400).json({ error: error.message });
@@ -12,10 +12,10 @@ exports.createEndereco = async (req, res) => {
 };
 
 // Listar todos os endereços
-exports.getEnderecos = async (req, res) => {
+exports.getLocations = async (req, res) => {
     try {
-        const enderecos = await Endereco.findAll();
-        res.json(enderecos);
+        const locations = await Location.findAll();
+        res.json(locations);
     } catch (error) {
         console.error('Erro ao obter endereços:', error.message);
         res.status(500).json({ error: error.message });
@@ -23,13 +23,13 @@ exports.getEnderecos = async (req, res) => {
 };
 
 // Listar endereço por id específico
-exports.getEnderecoById = async (req, res) => {
+exports.getLocationById = async (req, res) => {
     try {
-        const endereco = await Endereco.findByPk(req.params.id);
-        if (!endereco) {
+        const location = await Location.findByPk(req.params.id);
+        if (!location) {
             return res.status(404).json({ error: 'Endereço não encontrado.' });
         }
-        res.json(endereco);
+        res.json(location);
     } catch (error) {
         console.error('Erro ao obter endereço:', error.message);
         res.status(500).json({ error: error.message });
@@ -37,15 +37,15 @@ exports.getEnderecoById = async (req, res) => {
 };
 
 // Atualizar endereço por id específico
-exports.updateEndereco = async (req, res) => {
+exports.updateLocation = async (req, res) => {
     try {
-        const endereco = await Endereco.findByPk(req.params.id);
-        if (!endereco) {
+        const location = await Location.findByPk(req.params.id);
+        if (!location) {
             return res.status(404).json({ error: 'Endereço não encontrado.' });
         }
 
-        await endereco.update(req.body);
-        res.json(endereco);
+        await location.update(req.body);
+        res.json(location);
     } catch (error) {
         console.error('Erro ao atualizar endereço:', error.message);
         res.status(400).json({ error: error.message });
@@ -53,14 +53,14 @@ exports.updateEndereco = async (req, res) => {
 };
 
 // Deletar endereço por id específico
-exports.deleteEndereco = async (req, res) => {
+exports.deleteLocation = async (req, res) => {
     try {
-        const endereco = await Endereco.findByPk(req.params.id);
-        if (!endereco) {
+        const location = await Location.findByPk(req.params.id);
+        if (!location) {
             return res.status(404).json({ error: 'Endereço não encontrado.' });
         }
-        await endereco.destroy();
-        res.status(204).send(); // No Content
+        await location.destroy();
+        res.status(204).send(); 
     } catch (error) {
         console.error('Erro ao deletar endereço:', error.message);
         res.status(500).json({ error: error.message });

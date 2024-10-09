@@ -1,9 +1,9 @@
 const express = require('express');
 const sequelize = require('./config/config');
-const alunoRoutes = require('./routes/alunoRoutes');
-const cursoRoutes = require('./routes/cursoRoutes');
-const alunoCursoRoutes = require('./routes/alunoCursoRoutes');
-const enderecoRoutes = require('./routes/enderecoRoutes');
+const studentRoutes = require('./routes/studentRoutes');
+const courseRoutes = require('./routes/courseRoutes');
+const studentCourseRoutes = require('./routes/studentCourseRoutes');
+const locationRoutes = require('./routes/locationRoutes');
 const cors = require('cors');
 
 const app = express();
@@ -19,10 +19,10 @@ app.use(cors({
 app.use(express.json()); // Para permitir o recebimento de JSON no corpo das requisições
 
 // Definindo as rotas
-app.use('/api/alunos', alunoRoutes);
-app.use('/api/cursos', cursoRoutes);
-app.use('/api/aluno-curso', alunoCursoRoutes);
-app.use('/api/enderecos', enderecoRoutes);
+app.use('/api/students', studentRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/student-course', studentCourseRoutes);
+app.use('/api/location', locationRoutes);
 
 // Sincronização do banco de dados
 sequelize.sync()
