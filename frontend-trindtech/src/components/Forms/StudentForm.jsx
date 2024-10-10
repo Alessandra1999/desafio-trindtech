@@ -40,69 +40,89 @@ function StudentForm({ studentData, setStudentData }) {
         setStudentData(prev => ({ ...prev, [name]: value }));
     };
 
+    const formatCPF = (value) => {
+        // Remove todos os caracteres não numéricos
+        const cleanedValue = value.replace(/\D/g, '');
+        // Adiciona a formatação de CPF
+        if (cleanedValue.length <= 11) {
+            const formattedValue = cleanedValue
+                .replace(/(\d{3})(\d)/, '$1.$2')  // adiciona o primeiro ponto
+                .replace(/(\d{3})(\d)/, '$1.$2')  // adiciona o segundo ponto
+                .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // adiciona o traço
+            return formattedValue;
+        }
+        return value; // Retorna o valor original se exceder 11 dígitos
+    };
+
+    const handleCpfChange = (e) => {
+        const { value } = e.target;
+        const formattedCpf = formatCPF(value);
+        setStudentData(prev => ({ ...prev, student_cpf: formattedCpf }));
+    };
+
     return (
         <CustomForm>
             <Container className="container">
                 <div className="row">
                     <div className="form-group col-md-5">
                         <label htmlFor="nameInput">Nome*</label>
-                        <CustomInput 
-                            type="text" 
-                            className="form-control" 
+                        <CustomInput
+                            type="text"
+                            className="form-control"
                             id="nameInput"
-                            name="student_name" 
+                            name="student_name"
                             value={studentData.student_name}
                             onChange={handleChange}
                             required
-                            />
+                        />
                     </div>
                     <div className="form-group col-md-7">
                         <label htmlFor="lastnameInput">Sobrenome</label>
-                        <CustomInput 
-                            type="text" 
-                            className="form-control" 
-                            id="lastnameInput" 
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="lastnameInput"
                             name="student_lastname"
                             value={studentData.student_lastname}
                             onChange={handleChange}
-                            />
+                        />
                     </div>
                 </div>
                 <div className="row">
                     <div className="form-group col-md-3">
                         <label htmlFor="birthdateInput" style={{ marginTop: "26px" }}>Data de Nascimento</label>
-                        <CustomInput 
-                            type="date" 
-                            className="form-control" 
-                            id="birthdateInput" 
+                        <CustomInput
+                            type="date"
+                            className="form-control"
+                            id="birthdateInput"
                             name="student_birthdate"
-                            placeholder="dd/mm/aaaa" 
+                            placeholder="dd/mm/aaaa"
                             value={studentData.student_birthdate}
                             onChange={handleChange}
-                            />
+                        />
                     </div>
                     <div className="form-group col-md-3">
                         <label htmlFor="cpfInput" style={{ marginTop: "26px" }}>CPF</label>
-                        <CustomInput 
-                            type="text" 
-                            className="form-control" 
-                            id="cpfInput" 
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="cpfInput"
                             name="student_cpf"
                             placeholder="000.000.000-00"
-                            maxLength="14" 
+                            maxLength="14"
                             value={studentData.student_cpf}
-                            onChange={handleChange}
-                            />
+                            onChange={handleCpfChange}
+                        />
                     </div>
                     <div className="form-group col-md-6">
                         <label htmlFor="genderInput" style={{ marginTop: "26px" }}>Gênero</label>
-                        <CustomSelect 
-                            id="genderInput" 
+                        <CustomSelect
+                            id="genderInput"
                             name="student_gender"
                             className="form-control"
                             value={studentData.student_gender}
                             onChange={handleChange}
-                            >
+                        >
                             <option value="">Escolher...</option>
                             <option value="Masculino">Masculino</option>
                             <option value="Feminino">Feminino</option>
@@ -115,15 +135,15 @@ function StudentForm({ studentData, setStudentData }) {
                 <div className="row">
                     <div className="form-group col-md-6">
                         <label htmlFor="emailInput" style={{ marginTop: "26px" }}>Email*</label>
-                        <CustomInput 
-                            type="text" 
-                            className="form-control" 
-                            id="emailInput" 
+                        <CustomInput
+                            type="text"
+                            className="form-control"
+                            id="emailInput"
                             name="student_email"
-                            placeholder="example@email.com" 
+                            placeholder="example@email.com"
                             value={studentData.student_email}
                             onChange={handleChange}
-                            />
+                        />
                     </div>
                 </div>
             </Container>

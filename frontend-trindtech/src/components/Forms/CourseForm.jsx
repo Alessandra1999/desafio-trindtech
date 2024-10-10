@@ -73,7 +73,6 @@ function CourseForm({ studentCourseData, courseData, setCourseData, setStudentCo
                 console.error('Erro ao buscar cursos:', error);
             }
         };
-
         fetchCourses();
     }, []);
 
@@ -88,23 +87,12 @@ function CourseForm({ studentCourseData, courseData, setCourseData, setStudentCo
         setCourses(newCourses);
     };
 
-    const handleCourseSelect = (index, selectedCourseName) => {
-        const selectedCourse = availableCourses.find(course => course.course_name === selectedCourseName);
+    const handleCourseSelect = (index, selectedOption) => {
+        const selectedCourse = availableCourses.find(course => course.id_course === Number(selectedOption));
         if (selectedCourse) {
-            // Atualizar o courseData com o id_course e course_name
             setCourseData({
-                course_name: selectedCourse.course_name, // Atualiza o nome do curso
-                id_course: selectedCourse.id_course       // Atualiza o id do curso
-            });
-
-            // Atualizar o studentCourseData com o id_course do curso selecionado
-            setStudentCourseData(prevStudentCourseData => {
-                const updatedData = [...prevStudentCourseData];
-                updatedData[index] = {
-                    id_course: selectedCourse.id_course,
-                    conclusion_date: updatedData[index]?.conclusion_date || ""
-                };
-                return updatedData;
+                id_course: selectedCourse.id_course,
+                course_name: selectedCourse.course_name
             });
         }
     };
@@ -112,12 +100,7 @@ function CourseForm({ studentCourseData, courseData, setCourseData, setStudentCo
     // Função para fazer a implementação juntamente com o Layout
     const handleChange = (e) => {
         const { name, value } = e.target;
-        const index = Number(e.target.id.replace(/\D/g, '')); // Extrair o índice do ID
-        setStudentCourseData((prev) => {
-            const updatedData = [...prev];
-            updatedData[index].conclusion_date = value; // Atualizar a data de conclusão
-            return updatedData;
-        });
+        setStudentCourseData((prev) => ({ ...prev, [name]: value }));
     };
 
     return (
