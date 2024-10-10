@@ -44,8 +44,8 @@ function LayoutForm() {
     });
 
     const [courseData, setCourseData] = useState({
-        id_course: "",
-        course_name: ''
+        course_name: '',
+        id_course: ''
     });
 
     const [studentCourseData, setStudentCourseData] = useState({
@@ -87,14 +87,14 @@ function LayoutForm() {
             console.log("Dados de associação aluno-curso que estão sendo enviados: ", {
                 conclusion_date: studentCourseData.conclusion_date,
                 id_student: student.id_student,
-                id_course: courseData.id_course
+                id_course: studentCourseData.id_course
             });
 
             // Criar a associação entre aluno e curso
             await createStudentCourse({
                 conclusion_date: studentCourseData.conclusion_date,
                 id_student: student.id_student,
-                id_course: courseData.id_course
+                id_course: studentCourseData.id_course
             });
 
             toast.success('Dados criados com sucesso!');
