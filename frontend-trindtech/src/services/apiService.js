@@ -55,7 +55,7 @@ export const deleteCourse = async (id_course) => {
 
 // Funções para Endereços
 export const getLocations = async () => {
-    const response = await axios.get(`${API_URL}/location`);
+    const response = await axios.get(`${API_URL}/locations`);
     return response.data;
 };
 

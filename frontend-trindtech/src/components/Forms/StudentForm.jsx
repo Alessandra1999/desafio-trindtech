@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const CustomForm = styled.form`
@@ -34,6 +35,8 @@ const CustomSelect = styled.select`
 `;
 
 function StudentForm({ studentData, setStudentData }) {
+    const [emailValid, setEmailValid] = useState(true);
+    const [emailTouched, setEmailTouched] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -59,6 +62,25 @@ function StudentForm({ studentData, setStudentData }) {
         const formattedCpf = formatCPF(value);
         setStudentData(prev => ({ ...prev, student_cpf: formattedCpf }));
     };
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const handleEmailChange = (e) => {
+        const { value } = e.target;
+        setStudentData(prev => ({ ...prev, student_email: value }));
+
+        if (emailTouched) {
+            setEmailValid(validateEmail(value));
+        }
+    };
+
+    const handleEmailBlur = () => {
+        setEmailTouched(true);
+        setEmailValid(validateEmail(studentData.student_email));
+    }
 
     return (
         <CustomForm>
@@ -137,13 +159,17 @@ function StudentForm({ studentData, setStudentData }) {
                         <label htmlFor="emailInput" style={{ marginTop: "26px" }}>Email*</label>
                         <CustomInput
                             type="text"
-                            className="form-control"
                             id="emailInput"
                             name="student_email"
                             placeholder="example@email.com"
                             value={studentData.student_email}
-                            onChange={handleChange}
+                            onChange={handleEmailChange}
+                            onBlur={handleEmailBlur} // Chama a função ao perder o foco
+                            className={`form-control ${!emailValid && emailTouched ? 'is-invalid' : ''}`}
                         />
+                        <div className="invalid-feedback">
+                            Por favor, insira um e-mail válido.
+                        </div>
                     </div>
                 </div>
             </Container>

@@ -52,9 +52,20 @@ function LayoutForm() {
     });
 
     const [studentId, setStudentId] = useState(null);
+    const [emailValid, setEmailValid] = useState(true);
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateEmail(studentData.student_email)) {
+            toast.error('Por favor, insira um e-mail válido antes de enviar.'); // Mensagem de erro
+            return; // Impede o envio se o e-mail for inválido
+        }
 
         // Registrar a data atual no formato ISO
         const currentDate = new Date().toISOString();
@@ -153,6 +164,7 @@ function LayoutForm() {
             <StudentForm
                 studentData={studentData}
                 setStudentData={setStudentData}
+                setEmailValid={setEmailValid}
             />
             <LocationForm
                 locationData={locationData}
@@ -160,7 +172,7 @@ function LayoutForm() {
             />
             <CourseForm
                 courseData={courseData}
-                setCourseData={setCourseData}  
+                setCourseData={setCourseData}
                 studentCourseData={studentCourseData}
                 setStudentCourseData={setStudentCourseData}
             />
