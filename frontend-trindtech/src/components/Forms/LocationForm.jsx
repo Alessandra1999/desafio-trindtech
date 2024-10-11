@@ -44,11 +44,26 @@ function LocationForm({ locationData, setLocationData }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setLocationData((prev) => ({ ...prev, [name]: value }));
 
-        // Se o campo alterado for o CEP, faça a requisição
-        if (name === "cep" && value.length === 9) { // Verifique se o CEP está no formato correto (ex: 00000-000)
-            fetchAddress(value);
+        if (name === "cep") {
+            let formattedValue = value.replace(/\D/g, "");
+
+            if (formattedValue.length > 5) {
+                formattedValue = formattedValue.replace(/^(\d{5})(\d{0,3})$/, "$1-$2");
+            };
+
+            if (formattedValue.length > 9) {
+                formattedValue = formattedValue.slice(0, 9);
+            }
+
+            setLocationData((prev) => ({ ...prev, [name]: formattedValue }));
+
+            // Faz a requisição se o CEP estiver completo (00000-000)
+            if (formattedValue.length === 9) {
+                fetchAddress(formattedValue);
+            }
+        } else {
+            setLocationData((prev) => ({ ...prev, [name]: value }));
         }
     };
 
