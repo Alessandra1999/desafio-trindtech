@@ -71,7 +71,7 @@ exports.updateStudentCourse = async (req, res) => {
 exports.deleteStudentCourse = async (req, res) => {
     const { id_student, id_course } = req.params; 
     try {
-        const studentCourse = await AlunoCurso.findOne({ where: { id_student, id_course } });
+        const studentCourse = await StudentCourse.findOne({ where: { id_student, id_course } });
         if (!studentCourse) {
             return res.status(404).json({ error: 'Associação não encontrada.' });
         }
