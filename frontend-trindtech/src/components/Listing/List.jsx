@@ -3,9 +3,15 @@ import styled from "styled-components";
 import { HiOutlineSwitchVertical } from "react-icons/hi";
 import { getStudents, getLocationById, getCourseById, getStudentCourses } from "../../services/apiService";
 
+const Container = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
 const CustomTable = styled.table`
     margin-top: 52px;
-    border: 3opx solid black;
+    width: 1098px;
+    height: auto;
 `;
 
 function List() {
@@ -56,26 +62,28 @@ function List() {
     }
 
     return (
-        <CustomTable className="table">
-            <thead>
-                <tr>
-                    <th scope="col">Data de Cadastro <HiOutlineSwitchVertical /></th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Cursos</th>
-                </tr>
-            </thead>
-            <tbody>
-                {studentData.map((student) => (
-                    <tr key={student.id}>
-                        <th scope="row">{new Date(student.registration_date).toLocaleDateString()}</th>
-                        <td scope="col">{student.student_name}</td>
-                        <td scope="col">{student.location}</td>
-                        <td scope="col">{student.course}</td>
+        <Container>
+            <CustomTable className="table table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Data de Cadastro <HiOutlineSwitchVertical /></th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Cursos</th>
                     </tr>
-                ))}
-            </tbody>
-        </CustomTable>
+                </thead>
+                <tbody>
+                    {studentData.map((student) => (
+                        <tr key={student.id}>
+                            <th scope="row">{new Date(student.registration_date).toLocaleDateString()}</th>
+                            <td scope="col">{student.student_name}</td>
+                            <td scope="col">{student.location}</td>
+                            <td scope="col">{student.course}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </CustomTable>
+        </Container>
     );
 };
 
