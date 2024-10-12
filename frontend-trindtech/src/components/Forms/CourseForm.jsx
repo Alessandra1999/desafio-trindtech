@@ -159,7 +159,7 @@ function CourseForm({ studentCourseData, courseData, setCourseData, setStudentCo
             </Container>
         </CustomForm>
     );
-}
+};
 
 
 export default CourseForm;

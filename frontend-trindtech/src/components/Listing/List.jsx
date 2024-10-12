@@ -18,7 +18,7 @@ function List() {
             try {
                 // 1. Buscar todos os alunos
                 const students = await getStudents();
-                
+
                 // 2. Para cada aluno, buscar sua localização e curso associado
                 const studentsWithDetails = await Promise.all(students.map(async (student) => {
                     // Busca a localização do aluno
@@ -32,7 +32,7 @@ function List() {
 
                     // Busca o nome do curso associado ao aluno
                     const course = studentCourse ? await getCourseById(studentCourse.id_course) : null;
-                    
+
                     return {
                         ...student,
                         location: location.state || 'Estado não encontrado',  // Estado da localização
@@ -55,27 +55,28 @@ function List() {
         return <p>Carregando...</p>;
     }
 
-
-    <table className="table">
-        <thead>
-            <tr>
-                <th scope="col">Data de Cadastro <HiOutlineSwitchVertical /></th>
-                <th scope="col">Nome</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Cursos</th>
-            </tr>
-        </thead>
-        <tbody>
-            {studentData.map((student) => (
-                <tr key={student.id}>
-                    <th scope="row">{new Date(student.registration_date).toLocaleDateString()}</th>
-                    <td scope="col">{student.student_name}</td>
-                    <td scope="col">{student.location}</td>
-                    <td scope="col">{student.course}</td>
+    return (
+        <CustomTable className="table">
+            <thead>
+                <tr>
+                    <th scope="col">Data de Cadastro <HiOutlineSwitchVertical /></th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Cursos</th>
                 </tr>
-            ))}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {studentData.map((student) => (
+                    <tr key={student.id}>
+                        <th scope="row">{new Date(student.registration_date).toLocaleDateString()}</th>
+                        <td scope="col">{student.student_name}</td>
+                        <td scope="col">{student.location}</td>
+                        <td scope="col">{student.course}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </CustomTable>
+    );
 };
 
 export default List;
