@@ -44,6 +44,7 @@ function LayoutForm() {
     });
 
     const [courseData, setCourseData] = useState({
+        id_course: '',
         course_name: ''
     });
 

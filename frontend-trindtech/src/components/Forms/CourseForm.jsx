@@ -81,15 +81,20 @@ function CourseForm({ studentCourseData, courseData, setCourseData, setStudentCo
         setCourses([...courses, { courseName: "", conclusionDate: "" }]);
     };
 
-    const handleInputChange = (index, field, value) => {
+    const handleInputChange = (index, id_course, value) => {
         const newCourses = [...courses];
-        newCourses[index][field] = value;
+        newCourses[index][id_course] = value;
         setCourses(newCourses);
     };
 
     const handleCourseSelect = (index, selectedOption) => {
-        const selectedCourse = availableCourses.find(course => course.id_course === Number(selectedOption));
+        console.log("Selected course ID: ", selectedOption);
+        const selectedCourse = availableCourses.find(course => {
+            console.log("Comparing: ", course.id_course, " with ", Number(selectedOption));
+            return course.id_course === Number(selectedOption);
+        });
         if (selectedCourse) {
+            console.log("Selected course data: ", selectedCourse); 
             setCourseData({
                 id_course: selectedCourse.id_course,
                 course_name: selectedCourse.course_name
@@ -115,16 +120,17 @@ function CourseForm({ studentCourseData, courseData, setCourseData, setStudentCo
                                 className="form-control"
                                 id={`courseSelect${index}`}
                                 name="course_name"
-                                value={courseData.courseName}
+                                value={courseData.id_course}
                                 onChange={(e) => {
-                                    handleInputChange(index, "courseName", e.target.value);
-                                    handleCourseSelect(index, e.target.value);
+                                    console.log("onChange disparado, valor selecionado: ", e.target.value);  // Verificação
+                                    handleInputChange(index, "id_course", e.target.value);  // Mude para 'id_course'
+                                    handleCourseSelect(index, e.target.value);  // Passe o ID para o handleCourseSelect
                                 }}
                             >
                                 <option value="">Selecione um curso</option>
                                 {availableCourses.length > 0 ? (
                                     availableCourses.map((course) => (
-                                        <option key={course.id_course} value={course.course_name}>
+                                        <option key={course.id_course} value={course.id_course}>
                                             {course.course_name}
                                         </option>
                                     ))
