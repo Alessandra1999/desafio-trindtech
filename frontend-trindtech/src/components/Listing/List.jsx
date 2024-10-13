@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { HiOutlineSwitchVertical } from "react-icons/hi";
-import { getStudents, getLocations, getLocationById, getCourseById, getStudentCourses } from "../../services/apiService";
+import { getStudents, getLocations, getCourseById, getStudentCourses } from "../../services/apiService";
 
 const Container = styled.div`
     display: flex;
@@ -79,14 +79,22 @@ function List() {
                     </tr>
                 </thead>
                 <tbody>
-                    {studentData.map((student) => (
-                        <tr key={student.id_student}>
-                            <td>{new Date(student.registration_date).toLocaleDateString()}</td>
-                            <td>{student.student_name}</td>
-                            <td>{student.location}</td>
-                            <td>{student.courses}</td> 
-                        </tr>
-                    ))}
+                {studentData.map((student) => {
+                        // Obtenha a data de cadastro
+                        const registrationDate = new Date(student.student_register_date + 'T00:00:00-03:00');
+
+                        // Formate a data para o formato desejado (DD/MM/YYYY)
+                        const formattedDate = `${String(registrationDate.getDate()).padStart(2, '0')}/${String(registrationDate.getMonth() + 1).padStart(2, '0')}/${registrationDate.getFullYear()}`;
+
+                        return (
+                            <tr key={student.id_student}>
+                                <td>{formattedDate}</td>
+                                <td>{student.student_name}</td>
+                                <td>{student.location}</td>
+                                <td>{student.courses}</td> 
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </CustomTable>
         </Container>
