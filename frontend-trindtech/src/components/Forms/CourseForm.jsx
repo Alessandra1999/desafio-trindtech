@@ -90,11 +90,11 @@ function CourseForm({ studentCourseData, courseData, setCourseData, setStudentCo
     const handleCourseSelect = (index, selectedOption) => {
         console.log("Selected course ID: ", selectedOption);
         const selectedCourse = availableCourses.find(course => {
-            console.log("Comparing: ", course.id_course, " with ", Number(selectedOption));
-            return course.id_course === Number(selectedOption);
+            console.log("Comparing: ", course.id_course, " (type: ", typeof course.id_course, ") with ", Number(selectedOption), " (type: ", typeof Number(selectedOption), ")");
+            return course.id_course == Number(selectedOption);
         });
         if (selectedCourse) {
-            console.log("Selected course data: ", selectedCourse); 
+            console.log("Selected course data: ", selectedCourse);
             setCourseData({
                 id_course: selectedCourse.id_course,
                 course_name: selectedCourse.course_name
