@@ -27,7 +27,7 @@ function List() {
                 // 2. Buscar todas as localizações
                 const locations = await getLocations();
 
-                // 2. Para cada aluno, buscar sua localização e curso associado
+                // 3. Para cada aluno, buscar sua localização e curso associado
                 const studentsWithDetails = await Promise.all(students.map(async (student) => {
                     // Busca a localização do aluno
                     const location = locations.find(loc => loc.id_student == student.id_student);
