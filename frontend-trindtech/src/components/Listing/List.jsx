@@ -177,7 +177,7 @@ function List() {
                 return (
                   <tr key={student.id_student}>
                     <td>{formattedDate}</td>
-                    <td>{student.student_name}</td>
+                    <td>{student.student_name} {student.student_lastname}</td>
                     <td>{student.location}</td>
                     <td>{student.courses}</td>
                   </tr>
