@@ -13,7 +13,6 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 52px;
-  border: 3px solid black;
 `;
 
 const CustomTable = styled.table`
@@ -38,7 +37,6 @@ const ContainerNav = styled.div`
 `;
 
 const CustomNav = styled.nav`
-  border: 3px solid black;
   width: 720px;
   height: auto;
   text-align: center;
@@ -54,20 +52,6 @@ const CustomButton = styled.button`
         color:inherit;
         text-decoration: underline;
     };
-
-    &:focus {
-        outline: none !important;
-        box-shadow: none !important;
-        background: none !important;
-        color: inherit;
-    };
-
-    &:active {
-        outline: none !important;
-        box-shadow: none !important;
-        background: none !important;
-        color: inherit;
-    }
 `;
 
 function List() {
