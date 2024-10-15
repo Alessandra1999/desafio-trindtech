@@ -46,17 +46,18 @@ const CustomNav = styled.nav`
 const CustomButton = styled.button`
   border: none;
   background-color: none;
-  color: #5F6368;
+  color: #5f6368;
 
-    &:hover {
-        color:inherit;
-        text-decoration: underline;
-    };
+  &:hover {
+    color: inherit;
+    text-decoration: underline;
+  }
 `;
 
 function List() {
   const [studentData, setStudentData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sortOrder, setSortOrder] = useState("desc");
   // Estado para controle da página atual e número de alunos por página
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 10;
@@ -113,33 +114,26 @@ function List() {
     fetchData();
   }, []);
 
-  // Calcular a quantidade total de páginas
-  const totalPages = Math.ceil(studentData.length / studentsPerPage);
-
-  // Função para mudar de página
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Função para ir à página anterior
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+  // Função para alternar a ordem de classificação
+  const handleSortByDate = () => {
+    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
 
-  // Função para ir à próxima página
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  // Ordenar os alunos com base na data de cadastro e ordem de classificação
+  const sortedStudents = [...studentData].sort((a, b) => {
+    const dateA = new Date(a.student_register_date);
+    const dateB = new Date(b.student_register_date);
+    return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+  });
 
-  // Calcular os índices de início e fim para a exibição dos alunos
-  const indexOfLastStudent = currentPage * studentsPerPage; // Último aluno da página atual
-  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage; // Primeiro aluno da página atual
-  const currentStudents = studentData.slice(
+  // Paginação
+  const totalPages = Math.ceil(sortedStudents.length / studentsPerPage);
+  const indexOfLastStudent = currentPage * studentsPerPage;
+  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
+  const currentStudents = sortedStudents.slice(
     indexOfFirstStudent,
     indexOfLastStudent
-  ); // Alunos que devem ser exibidos
+  );
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -152,7 +146,7 @@ function List() {
           <CustomTable className="table">
             <thead>
               <tr>
-                <th scope="col">
+                <th scope="col" onClick={handleSortByDate}>
                   Data de Cadastro <HiOutlineSwitchVertical />
                 </th>
                 <th scope="col">Nome</th>
@@ -162,12 +156,9 @@ function List() {
             </thead>
             <tbody>
               {currentStudents.map((student) => {
-                // Obtenha a data de cadastro
                 const registrationDate = new Date(
                   student.student_register_date + "T00:00:00-03:00"
                 );
-
-                // Formate a data para o formato desejado (DD/MM/YYYY)
                 const formattedDate = `${String(
                   registrationDate.getDate()
                 ).padStart(2, "0")}/${String(
@@ -177,7 +168,9 @@ function List() {
                 return (
                   <tr key={student.id_student}>
                     <td>{formattedDate}</td>
-                    <td>{student.student_name} {student.student_lastname}</td>
+                    <td>
+                      {student.student_name} {student.student_lastname}
+                    </td>
                     <td>{student.location}</td>
                     <td>{student.courses}</td>
                   </tr>
@@ -193,15 +186,13 @@ function List() {
             <li className={`page-item ${currentPage == 1 ? "disabled" : ""}`}>
               <CustomButton
                 className="page-link btn btn-custom"
-                onClick={handlePrevious}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
                 disabled={currentPage == 1}
               >
                 <FaArrowLeft /> Anterior
               </CustomButton>
             </li>
-            {[
-              ...Array(totalPages).keys(),
-            ].map((number) => (
+            {[...Array(totalPages).keys()].map((number) => (
               <li
                 key={number + 1}
                 className={`page-item ${
@@ -209,7 +200,7 @@ function List() {
                 }`}
               >
                 <CustomButton
-                  onClick={() => paginate(number + 1)}
+                  onClick={() => setCurrentPage(number + 1)}
                   className="btn btn-custom"
                 >
                   {number + 1}
@@ -217,11 +208,13 @@ function List() {
               </li>
             ))}
             <li
-              className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+              className={`page-item ${
+                currentPage === totalPages ? "disabled" : ""
+              }`}
             >
               <CustomButton
                 className="page-link btn btn-custom"
-                onClick={handleNext}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
                 disabled={currentPage === totalPages}
               >
                 Próximo <FaArrowRight />
