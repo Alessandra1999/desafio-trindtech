@@ -54,7 +54,7 @@ const CustomButton = styled.button`
   }
 `;
 
-function List() {
+function List({ searchResults }) {
   const [studentData, setStudentData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("desc");
@@ -126,11 +126,14 @@ function List() {
     return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
   });
 
+  // Mostra os resultados da pesquisa, se houver. 
+  const studentsToDisplay = searchResults.length > 0 ? searchResults : sortedStudents;
+
   // Paginação
-  const totalPages = Math.ceil(sortedStudents.length / studentsPerPage);
+  const totalPages = Math.ceil(studentsToDisplay.length / studentsPerPage);
   const indexOfLastStudent = currentPage * studentsPerPage;
   const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
-  const currentStudents = sortedStudents.slice(
+  const currentStudents = studentsToDisplay.slice(
     indexOfFirstStudent,
     indexOfLastStudent
   );

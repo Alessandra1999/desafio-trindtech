@@ -2,119 +2,151 @@ import { useState } from "react";
 import styled from "styled-components";
 import { RiSearchLine } from "react-icons/ri";
 import { MdPersonAdd } from "react-icons/md";
-import { getStudents } from "../../services/apiService";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import {
+  getStudents,
+  getLocations,
+  getCourseById,
+  getStudentCourses,
+} from "../../services/apiService";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-    margin-top: 59px;
-    width: 1044px;
-    height: auto;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 500;
+  margin-top: 59px;
+  width: 1044px;
+  height: auto;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
 `;
 
 const CustomInput = styled.input`
-    background-color: #FFF;
+  background-color: #fff;
 
-    &:focus {
-        background-color: #FFF;
-        outline: none;
-        border-color: black;
-        box-shadow: none;
-    }
+  &:focus {
+    background-color: #fff;
+    outline: none;
+    border-color: black;
+    box-shadow: none;
+  }
 `;
 
 const CustomSpan = styled.span`
-    background-color: #FFF;
+  background-color: #fff;
 
-    &:hover {
-        cursor: pointer;
-        background-color: #F2F2F2;
-    }
+  &:hover {
+    cursor: pointer;
+    background-color: #f2f2f2;
+  }
 `;
 
 const CustomButton = styled.button`
-    background-color: #FFF;
-    border-color: #E6E6E6;
-    font-weight: 600;
+  background-color: #fff;
+  border-color: #e6e6e6;
+  font-weight: 600;
 
-    &:hover {
-        border-color: #E6E6E6;
-        background-color: #F2F2F2;
-    }
+  &:hover {
+    border-color: #e6e6e6;
+    background-color: #f2f2f2;
+  }
 `;
 
-function Search() {
+function Search({ setSearchResults }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const [results, setResults] = useState([]);
-    const navigate = useNavigate();
+  const handleSearch = async () => {
+    try {
+      const allStudents = await getStudents();
+      const locations = await getLocations(); // Buscar as localizações
+      const studentCourses = await getStudentCourses(); // Buscar os cursos dos alunos
 
-    const handleSearch = async () => {
-        try {
-            const allStudents = await getStudents();
-            const filteredStudents = allStudents.filter(student =>
-                student.student_name.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredStudents = await Promise.all(
+        allStudents
+          .filter((student) =>
+            student.student_name
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+          )
+          .map(async (student) => {
+            // Buscar o estado e os cursos para cada aluno
+            const location = locations.find(
+              (loc) => loc.id_student === student.id_student
             );
-            setResults(filteredStudents);
-            if (filteredStudents.length === 0) {
-                toast.info('Nenhum aluno encontrado.');
-            }
-        } catch (error) {
-            console.error('Erro ao buscar alunos:', error);
-            toast.error('Erro ao buscar alunos.');
-        }
-    };
+            const courses = studentCourses
+              .filter((sc) => sc.id_student === student.id_student)
+              .map(async (sc) => {
+                const course = await getCourseById(sc.id_course);
+                return course ? course.course_name : "Curso não encontrado";
+              });
 
-    const handleAddStudent = () => {
-        navigate('/form'); 
-    };
+            const courseNames = await Promise.all(courses);
 
+            return {
+              ...student,
+              location: location ? location.state : "Estado não encontrado",
+              courses:
+                courseNames.length > 0
+                  ? courseNames.join(", ")
+                  : "Nenhum curso associado",
+            };
+          })
+      );
 
-    return (
-        <div className="d-flex justify-content-center align-items-center">
-            <Container>
-                <div className="row align-items-center">
-                    <div className="col-md-10 d-flex">
-                        <div className="input-group">
-                            <CustomInput
-                                type="text"
-                                className="form-control"
-                                placeholder="Buscar por Aluno"
-                                aria-label="Pesquisar"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                            <CustomSpan className="input-group-text" onClick={handleSearch}>
-                                <RiSearchLine style={{ fontSize: "20px", cursor: "pointer" }} />
-                            </CustomSpan>
-                        </div>
-                    </div>
-                    <div className="col-md-2 text-start text-md-end">
-                        <CustomButton type="button" className="btn" onClick={handleAddStudent}>
-                            <MdPersonAdd style={{ color: "#EA394E", marginRight: "10px", fontSize: "20px" }} />
-                            Adicionar
-                        </CustomButton>
-                    </div>
-                </div>
+      setSearchResults(filteredStudents);
 
-                {/* Exibindo os resultados da busca */}
-                <div className="mt-3">
-                    {results.length > 0 && (
-                        <div className="list-group">
-                            {results.map(student => (
-                                <div key={student.id_student} className="list-group-item list-group-item-action">
-                                    {student.student_name} {student.student_lastname}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </Container>
+      if (filteredStudents.length === 0) {
+        toast.info("Nenhum aluno encontrado.");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar alunos:", error);
+      toast.error("Erro ao buscar alunos.");
+    }
+  };
+
+  const handleAddStudent = () => {
+    navigate("/form");
+  };
+
+  return (
+    <div className="d-flex justify-content-center align-items-center">
+      <Container>
+        <div className="row align-items-center">
+          <div className="col-md-10 d-flex">
+            <div className="input-group">
+              <CustomInput
+                type="text"
+                className="form-control"
+                placeholder="Buscar por Aluno"
+                aria-label="Pesquisar"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <CustomSpan className="input-group-text" onClick={handleSearch}>
+                <RiSearchLine style={{ fontSize: "20px", cursor: "pointer" }} />
+              </CustomSpan>
+            </div>
+          </div>
+          <div className="col-md-2 text-start text-md-end">
+            <CustomButton
+              type="button"
+              className="btn"
+              onClick={handleAddStudent}
+            >
+              <MdPersonAdd
+                style={{
+                  color: "#EA394E",
+                  marginRight: "10px",
+                  fontSize: "20px",
+                }}
+              />
+              Adicionar
+            </CustomButton>
+          </div>
         </div>
-    );
-};
+      </Container>
+    </div>
+  );
+}
 
 export default Search;
