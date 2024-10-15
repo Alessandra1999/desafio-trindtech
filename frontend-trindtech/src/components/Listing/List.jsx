@@ -32,6 +32,17 @@ const CustomTable = styled.table`
   }
 `;
 
+const CourseBadge = styled.span`
+  background-color: #EFF8FF; 
+  color: #1FAEFF; 
+  padding: 5px 10px; 
+  border-radius: 15px;
+  border: 2px solid #CEEAFF;
+  margin-right: 5px;
+  font-size: 14px;
+  display: inline-block;
+`;
+
 const ContainerNav = styled.div`
   margin-top: 22px;
 `;
@@ -60,7 +71,7 @@ const CustomPageNumberButton = styled.button`
   color: #5f6368;
 
   &:focus {
-    background-color: #BCE7FF;
+    background-color: #bce7ff;
     font-weight: 600;
   }
 `;
@@ -137,8 +148,9 @@ function List({ searchResults }) {
     return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
   });
 
-  // Mostra os resultados da pesquisa, se houver. 
-  const studentsToDisplay = searchResults.length > 0 ? searchResults : sortedStudents;
+  // Mostra os resultados da pesquisa, se houver.
+  const studentsToDisplay =
+    searchResults.length > 0 ? searchResults : sortedStudents;
 
   // Paginação
   const totalPages = Math.ceil(studentsToDisplay.length / studentsPerPage);
@@ -159,9 +171,25 @@ function List({ searchResults }) {
       }
     } else {
       if (currentPage <= 3) {
-        pageNumbers.push(1, 2, 3, "...", totalPages - 2, totalPages - 1, totalPages);
+        pageNumbers.push(
+          1,
+          2,
+          3,
+          "...",
+          totalPages - 2,
+          totalPages - 1,
+          totalPages
+        );
       } else if (currentPage > totalPages - 3) {
-        pageNumbers.push(1, 2, 3, "...", totalPages - 2, totalPages - 1, totalPages);
+        pageNumbers.push(
+          1,
+          2,
+          3,
+          "...",
+          totalPages - 2,
+          totalPages - 1,
+          totalPages
+        );
       } else {
         pageNumbers.push(1, 2, 3, "...");
         pageNumbers.push(currentPage - 1, currentPage, currentPage + 1);
@@ -193,6 +221,7 @@ function List({ searchResults }) {
             </thead>
             <tbody>
               {currentStudents.map((student) => {
+                console.log(student.courses);
                 const registrationDate = new Date(
                   student.student_register_date + "T00:00:00-03:00"
                 );
@@ -202,6 +231,20 @@ function List({ searchResults }) {
                   registrationDate.getMonth() + 1
                 ).padStart(2, "0")}/${registrationDate.getFullYear()}`;
 
+                const coursesArray = Array.isArray(student.courses)
+                  ? student.courses
+                  : typeof student.courses === "string"
+                  ? student.courses.split(",")
+                  : [];
+
+                const maxCoursesToShow = 3;
+                const displayedCourses = coursesArray.slice(
+                  0,
+                  maxCoursesToShow
+                );
+                const remainingCoursesCount =
+                  coursesArray.length - maxCoursesToShow;
+
                 return (
                   <tr key={student.id_student}>
                     <td>{formattedDate}</td>
@@ -209,7 +252,14 @@ function List({ searchResults }) {
                       {student.student_name} {student.student_lastname}
                     </td>
                     <td>{student.location}</td>
-                    <td>{student.courses}</td>
+                    <td>
+                    {displayedCourses.map((course, index) => (
+            <CourseBadge key={index}>{course}</CourseBadge>
+          ))}
+          {remainingCoursesCount > 0 && (
+            <CourseBadge>+{remainingCoursesCount}</CourseBadge>
+          )}
+                    </td>
                   </tr>
                 );
               })}
@@ -222,6 +272,7 @@ function List({ searchResults }) {
           <ul className="pagination justify-content-center">
             <li className={`page-item ${currentPage == 1 ? "disabled" : ""}`}>
               <CustomButton
+                style={{ marginRight: "84px" }}
                 className="btn btn-custom"
                 onClick={() => setCurrentPage((prev) => prev - 1)}
                 disabled={currentPage == 1}
@@ -230,7 +281,12 @@ function List({ searchResults }) {
               </CustomButton>
             </li>
             {renderPageNumbers().map((number, index) => (
-              <li key={index} className={`page-item ${currentPage === number ? "active" : ""}`}>
+              <li
+                key={index}
+                className={`page-item ${
+                  currentPage === number ? "active" : ""
+                }`}
+              >
                 {number === "..." ? (
                   <span className="page-link">...</span>
                 ) : (
@@ -249,6 +305,7 @@ function List({ searchResults }) {
               }`}
             >
               <CustomButton
+                style={{ marginLeft: "84px" }}
                 className="btn btn-custom"
                 onClick={() => setCurrentPage((prev) => prev + 1)}
                 disabled={currentPage === totalPages}
