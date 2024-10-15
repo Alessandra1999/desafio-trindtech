@@ -54,6 +54,17 @@ const CustomButton = styled.button`
   }
 `;
 
+const CustomPageNumberButton = styled.button`
+  border: none;
+  background-color: none;
+  color: #5f6368;
+
+  &:focus {
+    background-color: #BCE7FF;
+    font-weight: 600;
+  }
+`;
+
 function List({ searchResults }) {
   const [studentData, setStudentData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -138,6 +149,29 @@ function List({ searchResults }) {
     indexOfLastStudent
   );
 
+  // Função para renderizar a navegação entre páginas
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+
+    if (totalPages <= 6) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        pageNumbers.push(1, 2, 3, "...", totalPages - 2, totalPages - 1, totalPages);
+      } else if (currentPage > totalPages - 3) {
+        pageNumbers.push(1, 2, 3, "...", totalPages - 2, totalPages - 1, totalPages);
+      } else {
+        pageNumbers.push(1, 2, 3, "...");
+        pageNumbers.push(currentPage - 1, currentPage, currentPage + 1);
+        pageNumbers.push("...", totalPages - 2, totalPages - 1, totalPages);
+      }
+    }
+
+    return pageNumbers;
+  };
+
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -188,26 +222,25 @@ function List({ searchResults }) {
           <ul className="pagination justify-content-center">
             <li className={`page-item ${currentPage == 1 ? "disabled" : ""}`}>
               <CustomButton
-                className="page-link btn btn-custom"
+                className="btn btn-custom"
                 onClick={() => setCurrentPage((prev) => prev - 1)}
                 disabled={currentPage == 1}
               >
                 <FaArrowLeft /> Anterior
               </CustomButton>
             </li>
-            {[...Array(totalPages).keys()].map((number) => (
-              <li
-                key={number + 1}
-                className={`page-item ${
-                  currentPage === number + 1 ? "active" : ""
-                }`}
-              >
-                <CustomButton
-                  onClick={() => setCurrentPage(number + 1)}
-                  className="btn btn-custom"
-                >
-                  {number + 1}
-                </CustomButton>
+            {renderPageNumbers().map((number, index) => (
+              <li key={index} className={`page-item ${currentPage === number ? "active" : ""}`}>
+                {number === "..." ? (
+                  <span className="page-link">...</span>
+                ) : (
+                  <CustomPageNumberButton
+                    onClick={() => setCurrentPage(number)}
+                    className="btn btn-custom"
+                  >
+                    {number}
+                  </CustomPageNumberButton>
+                )}
               </li>
             ))}
             <li
@@ -216,7 +249,7 @@ function List({ searchResults }) {
               }`}
             >
               <CustomButton
-                className="page-link btn btn-custom"
+                className="btn btn-custom"
                 onClick={() => setCurrentPage((prev) => prev + 1)}
                 disabled={currentPage === totalPages}
               >
