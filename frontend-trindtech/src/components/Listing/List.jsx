@@ -40,6 +40,18 @@ const CourseBadge = styled.span`
   border: 2px solid #CEEAFF;
   margin-right: 5px;
   font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+`;
+
+const MoreCourseBadge = styled.span`
+  background-color: #F2F4F7; 
+  color: #5F6368; 
+  padding: 5px 10px; 
+  border-radius: 15px;
+  border: 2px solid #DFDFDF;
+  font-size: 14px;
+  font-weight: 500;
   display: inline-block;
 `;
 
@@ -65,7 +77,7 @@ const CustomButton = styled.button`
   }
 `;
 
-const CustomPageNumberButton = styled.button`
+const PageButton = styled.button`
   border: none;
   background-color: none;
   color: #5f6368;
@@ -257,7 +269,7 @@ function List({ searchResults }) {
             <CourseBadge key={index}>{course}</CourseBadge>
           ))}
           {remainingCoursesCount > 0 && (
-            <CourseBadge>+{remainingCoursesCount}</CourseBadge>
+            <MoreCourseBadge>+{remainingCoursesCount}</MoreCourseBadge>
           )}
                     </td>
                   </tr>
@@ -290,12 +302,12 @@ function List({ searchResults }) {
                 {number === "..." ? (
                   <span className="page-link">...</span>
                 ) : (
-                  <CustomPageNumberButton
+                  <PageButton
                     onClick={() => setCurrentPage(number)}
                     className="btn btn-custom"
                   >
                     {number}
-                  </CustomPageNumberButton>
+                  </PageButton>
                 )}
               </li>
             ))}

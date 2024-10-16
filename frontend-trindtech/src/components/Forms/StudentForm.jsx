@@ -34,6 +34,12 @@ const CustomSelect = styled.select`
     }
 `;
 
+const CustomLabel = styled.label`
+  @media (max-width: 767px) {
+    margin-top: 26px;
+  }
+`;
+
 function StudentForm({ studentData, setStudentData }) {
     const [emailValid, setEmailValid] = useState(true);
     const [emailTouched, setEmailTouched] = useState(false);
@@ -99,7 +105,7 @@ function StudentForm({ studentData, setStudentData }) {
                         />
                     </div>
                     <div className="form-group col-md-7">
-                        <label htmlFor="lastnameInput">Sobrenome</label>
+                        <CustomLabel htmlFor="lastnameInput">Sobrenome</CustomLabel>
                         <CustomInput
                             type="text"
                             className="form-control"
@@ -112,7 +118,7 @@ function StudentForm({ studentData, setStudentData }) {
                 </div>
                 <div className="row">
                     <div className="form-group col-md-3">
-                        <label htmlFor="birthdateInput" style={{ marginTop: "26px" }}>Data de Nascimento</label>
+                        <CustomLabel htmlFor="birthdateInput" style={{ marginTop: "26px" }}>Data de Nascimento</CustomLabel>
                         <CustomInput
                             type="date"
                             className="form-control"
@@ -124,7 +130,7 @@ function StudentForm({ studentData, setStudentData }) {
                         />
                     </div>
                     <div className="form-group col-md-3">
-                        <label htmlFor="cpfInput" style={{ marginTop: "26px" }}>CPF</label>
+                        <CustomLabel htmlFor="cpfInput" style={{ marginTop: "26px" }}>CPF</CustomLabel>
                         <CustomInput
                             type="text"
                             className="form-control"
@@ -137,7 +143,7 @@ function StudentForm({ studentData, setStudentData }) {
                         />
                     </div>
                     <div className="form-group col-md-6">
-                        <label htmlFor="genderInput" style={{ marginTop: "26px" }}>Gênero</label>
+                        <CustomLabel htmlFor="genderInput" style={{ marginTop: "26px" }}>Gênero</CustomLabel>
                         <CustomSelect
                             id="genderInput"
                             name="student_gender"
@@ -156,7 +162,7 @@ function StudentForm({ studentData, setStudentData }) {
                 </div>
                 <div className="row">
                     <div className="form-group col-md-6">
-                        <label htmlFor="emailInput" style={{ marginTop: "26px" }}>Email*</label>
+                        <CustomLabel htmlFor="emailInput" style={{ marginTop: "26px" }}>Email*</CustomLabel>
                         <CustomInput
                             type="text"
                             id="emailInput"

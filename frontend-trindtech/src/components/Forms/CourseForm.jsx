@@ -30,10 +30,10 @@ const CourseRow = styled.div`
 `;
 
 const CustomInput = styled.input`
-  background-color: #fff;
+  background-color: #FFF;
 
   &:focus {
-    background-color: #fff;
+    background-color: #FFF;
     outline: none;
     border-color: black;
     box-shadow: none;
@@ -41,10 +41,10 @@ const CustomInput = styled.input`
 `;
 
 const CustomSelect = styled.select`
-  background-color: #f2f2f2;
+  background-color: #FFF;
 
   &:focus {
-    background-color: #f2f2f2;
+    background-color: #F2F2F2;
     outline: none;
     border-color: black;
     box-shadow: none;
@@ -59,6 +59,12 @@ const CustomButton = styled.button`
 
   &:hover {
     cursor: pointer;
+  }
+`;
+
+const CustomLabel = styled.label`
+  @media (max-width: 767px) {
+    margin-top: 26px;
   }
 `;
 
@@ -180,9 +186,9 @@ function CourseForm({
             </div>
             <div className="form-group col-md-4 d-flex align-items-center">
               <div className="w-100">
-                <label htmlFor={`conclusionInput${index}`}>
+                <CustomLabel htmlFor={`conclusionInput${index}`}>
                   Data de Conclusão
-                </label>
+                </CustomLabel>
                 <div className="d-flex">
                   <CustomInput
                     type="date"
