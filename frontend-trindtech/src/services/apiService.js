@@ -103,7 +103,7 @@ export const deleteStudentCourse = async (id_student, id_course) => {
     await axios.delete(`${API_URL}/student-course/${id_student}/${id_course}`);
 };
 
-
+//Função que permite deletar todos os dados relacionados ao aluno
 export const deleteAllStudentData = async (id_student) => {
     try {
         const locations = await getLocations(); 
@@ -127,3 +127,45 @@ export const deleteAllStudentData = async (id_student) => {
         throw error;
     }
 };
+
+// Função que será chamada ao clicar em alguma linha da tabela, para permitir a atualização de dados
+export const fetchStudentData = async (id_student) => {
+    try {
+      const student = await getStudentById(id_student);
+
+      const locations = await getLocations();
+
+      const location = locations.find(loc => loc.id_student == student.id_student);
+
+      const studentCourses = await getStudentCourses();
+
+      const coursesWithConclusionDate = await Promise.all( 
+        studentCourses
+        .filter(sc => sc.id_student == student.id_student)
+        .map(async (sc) => {
+          const course = await getCourseById(sc.id_course);
+          console.log("Cursos associados ao aluno:", course);
+          const conclusionDate = sc.conclusion_date;
+
+          return {
+            idCourse: course.id_course,
+            courseName: course ? course.course_name : "Curso não encontrado",
+            conclusionDate: conclusionDate || "Data de conclusão não encontrada!"
+          };
+        }) 
+      );
+
+      console.log("Dados do aluno para atualizar: " + JSON.stringify(student, null, 2));
+      console.log("Dados da localização para atualizar: " + JSON.stringify(location, null, 2));
+      console.log("Dados do curso para atualizar: " + JSON.stringify(coursesWithConclusionDate, null, 2));
+
+      return {
+        student,
+        location,
+        coursesWithConclusionDate
+      };
+    } catch (error) {
+      console.error("Erro ao buscar dados completos do aluno:", error);
+      throw error;
+    }
+  };

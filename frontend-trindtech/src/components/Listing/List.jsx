@@ -7,7 +7,9 @@ import {
   getLocations,
   getCourseById,
   getStudentCourses,
+  fetchStudentData
 } from "../../services/apiService";
+import { useNavigate } from "react-router-dom"; 
 
 const Container = styled.div`
   display: flex;
@@ -92,6 +94,7 @@ function List({ searchResults }) {
   const [studentData, setStudentData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("desc");
+  const navigate = useNavigate();
   // Estado para controle da página atual e número de alunos por página
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 10;
@@ -212,6 +215,16 @@ function List({ searchResults }) {
     return pageNumbers;
   };
 
+  const handleStudentClick = async (id_student) => {
+    try {
+      const completeStudentData = await fetchStudentData(id_student);
+
+      navigate(`/update/${id_student}`, { state: completeStudentData });
+    } catch (error) {
+      console.error("Erro ao carregar dados do aluno: ", error);
+    }
+  };
+
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -258,7 +271,7 @@ function List({ searchResults }) {
                   coursesArray.length - maxCoursesToShow;
 
                 return (
-                  <tr key={student.id_student}>
+                  <tr key={student.id_student} onClick={() => handleStudentClick(student.id_student)} style={{ cursor: "pointer" }}>
                     <td>{formattedDate}</td>
                     <td>
                       {student.student_name} {student.student_lastname}
