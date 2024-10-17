@@ -95,8 +95,19 @@ export const getStudentCourseById = async (id_student, id_course) => {
 };
 
 export const updateStudentCourse = async (id_student, id_course, studentCourseData) => {
-    const response = await axios.put(`${API_URL}/student-course/${id_student}/${id_course}`, studentCourseData);
-    return response.data;
+    const data = {
+        id_student,
+        id_course,
+        ...studentCourseData // Mapeia os dados adicionais, como a data de conclusão
+      };
+    
+      try {
+        const response = await axios.put(`${API_URL}/student-course/${id_student}/${id_course}`, data);
+        return response.data;
+      } catch (error) {
+        console.error("Erro ao atualizar associação aluno-curso:", error.response?.data || error.message);
+        throw error;
+      }
 };
 
 export const deleteStudentCourse = async (id_student, id_course) => {
@@ -148,6 +159,7 @@ export const fetchStudentData = async (id_student) => {
           const conclusionDate = sc.conclusion_date;
 
           return {
+            idStudent: student.id_student,
             idCourse: course.id_course,
             courseName: course ? course.course_name : "Curso não encontrado",
             conclusionDate: conclusionDate || "Data de conclusão não encontrada!"

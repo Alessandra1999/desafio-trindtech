@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import DynamicHeader from "../Header/DynamicHeader";
 import StudentForm from "../Forms/StudentForm";
 import LocationForm from "../Forms/LocationForm";
@@ -30,7 +30,6 @@ const CustomButton = styled.button`
 `;
 
 function LayoutUpdate() {
-  const navigate = useNavigate();
   const { id_student } = useParams();
   const [studentData, setStudentData] = useState("");
   const [locationData, setLocationData] = useState("");
@@ -71,20 +70,62 @@ function LayoutUpdate() {
 
     try {
       // Atualiza os dados do aluno
-      await updateStudent(studentData);
+      await updateStudent(studentData.id_student);
+      console.log("studentData: " + JSON.stringify(studentData, null, 2));
 
       // Atualiza a localização do aluno
-      await updateLocation(locationData);
+      await updateLocation(locationData.id_location);
+      console.log("locationData: " + JSON.stringify(locationData, null, 2));
 
       // Atualiza os cursos do aluno
       await Promise.all(
         studentCourseData.map(async (sc) => {
-          await updateStudentCourse(sc); // Atualiza cada associação existente
+          const id_student = studentData.id_student;
+          const id_course = sc.idCourse;
+          console.log("Updating student-course association for:", {
+            id_student,
+            id_course,
+            courseName: sc.courseName,
+            conclusionDate: sc.conclusionDate,
+          });
+
+          if (id_student && id_course) {
+            const courseAssociationExists = studentCourseData.some(
+              (sc) => sc.idCourse == id_course && sc.id_student == id_student
+            );
+            const data = {
+              conclusion_date: sc.conclusionDate, // Outros dados necessários
+            };
+
+            if (courseAssociationExists) {
+              // Se a associação já existe, atualiza os dados
+              console.log(
+                `Atualizando a associação aluno-curso para o curso ${id_course}`
+              );
+              await updateStudentCourse(id_student, id_course, data);
+            } else {
+              // Se a associação não existe, cria uma nova
+              console.log(`Criando nova associação para o curso ${id_course}`);
+              await createStudentCourse({
+                id_student,
+                id_course,
+                conclusion_date: sc.conclusionDate,
+              });
+            }
+
+            // Atualiza o curso em si, caso necessário
+            await updateCourse(id_course);
+          } else {
+            console.error(
+              "Erro: id_student ou id_course indefinidos para a associação",
+              course
+            );
+          }
         })
       );
 
       if (Array.isArray(courseData) && courseData.length > 0) {
-        for (let i = 0; i < courseData.length; i++) {
+        for (let i = studentCourseData.length; i < courseData.length; i++) {
           const course = courseData[i];
           const conclusionDate = studentCourseData[i]?.conclusion_date || "";
 
@@ -97,7 +138,9 @@ function LayoutUpdate() {
               id_course: course.id_course, // ID do curso
             });
           } else {
-            console.error(`Missing course or conclusion date for index ${i}`);
+            console.error(
+              `Falta curso ou data de conclusão para o aluno do índice ${i}`
+            );
           }
         }
       } else {
@@ -105,7 +148,6 @@ function LayoutUpdate() {
       }
 
       toast.success("Dados atualizados com sucesso!");
-      navigate("/"); // Redireciona após a atualização
     } catch (error) {
       console.error("Erro ao atualizar os dados:", error);
       toast.error("Erro ao atualizar os dados.");

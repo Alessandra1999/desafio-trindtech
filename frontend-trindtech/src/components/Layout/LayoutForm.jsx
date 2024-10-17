@@ -134,7 +134,7 @@ function LayoutForm() {
               id_course: course.id_course, // ID do curso
             });
           } else {
-            console.error(`Missing course or conclusion date for index ${i}`);
+            console.error(`Falta curso ou data de conclusão para o aluno do índice ${i}`);
           }
         }
       } else {
