@@ -69,10 +69,12 @@ const CustomLabel = styled.label`
 `;
 
 function CourseForm({
-  studentCourseData,
   courseData,
   setCourseData,
+  studentCourseData,
   setStudentCourseData,
+  idCourse,
+  conclusionDate
 }) {
   const [courses, setCourses] = useState([
     { courseName: "", conclusionDate: "" },
@@ -128,7 +130,7 @@ function CourseForm({
           course_name: selectedCourse.course_name,
         };
 
-        console.log("Updated course data: ", updatedCourses); // Verifique o array atualizado
+        console.log("Updated course data: ", updatedCourses); // Verifica o array atualizado
         return updatedCourses;
       });
     } else {
@@ -137,7 +139,7 @@ function CourseForm({
   };
 
   // Função para atualizar a data de conclusão para um curso específico
-  const handleChange = (index, e) => {
+  const handleDateChange = (index, e) => {
     const { name, value } = e.target;
     // Verifica se o studentCourseData é um array
     setStudentCourseData((prevData) => {
@@ -162,14 +164,14 @@ function CourseForm({
                 className="form-control"
                 id={`courseSelect${index}`}
                 name="course_name"
-                value={courseData.id_course}
+                value={courseData.id_course || idCourse}
                 onChange={(e) => {
                   console.log(
                     "onChange disparado, valor selecionado: ",
                     e.target.value
                   ); // Verificação
-                  handleInputChange(index, "id_course", e.target.value); // Mude para 'id_course'
-                  handleCourseSelect(index, e.target.value); // Passe o ID para o handleCourseSelect
+                  handleInputChange(index, "id_course", e.target.value); 
+                  handleCourseSelect(index, e.target.value); // Passa o ID para o handleCourseSelect
                 }}
               >
                 <option value="">Selecione um curso</option>
@@ -195,14 +197,14 @@ function CourseForm({
                     className="form-control"
                     id={`conclusionInput${index}`}
                     name="conclusion_date"
-                    value={courses[index].conclusionDate}
+                    value={courses[index].conclusionDate || conclusionDate}
                     onChange={(e) => {
                       handleInputChange(
                         index,
                         "conclusionDate",
                         e.target.value
                       );
-                      handleChange(index, e);
+                      handleDateChange(index, e);
                     }}
                   />
                   <CustomButton type="button" onClick={handleAddCourse}>

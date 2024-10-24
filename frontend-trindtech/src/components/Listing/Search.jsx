@@ -8,7 +8,7 @@ import {
   getCourseById,
   getStudentCourses,
 } from "../../services/apiService";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
@@ -96,7 +96,8 @@ function Search({ setSearchResults }) {
       setSearchResults(filteredStudents);
 
       if (filteredStudents.length === 0) {
-        toast.info("Nenhum aluno encontrado.");
+        toast.error("Nenhum aluno encontrado.");
+        console.error("Nenhum aluno encontrado.");
       }
     } catch (error) {
       console.error("Erro ao buscar alunos:", error);
@@ -145,6 +146,7 @@ function Search({ setSearchResults }) {
           </div>
         </div>
       </Container>
+      <ToastContainer />
     </div>
   );
 }

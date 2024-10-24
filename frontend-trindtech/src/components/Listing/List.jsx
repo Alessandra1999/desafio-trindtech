@@ -215,6 +215,7 @@ function List({ searchResults }) {
     return pageNumbers;
   };
 
+  // Função para enviar os dados ao formulário para atualização
   const handleStudentClick = async (id_student) => {
     try {
       const completeStudentData = await fetchStudentData(id_student);
@@ -236,7 +237,7 @@ function List({ searchResults }) {
           <CustomTable className="table">
             <thead>
               <tr>
-                <th scope="col" onClick={handleSortByDate}>
+                <th scope="col" onClick={handleSortByDate} style={{ cursor: "pointer" }}>
                   Data de Cadastro <HiOutlineSwitchVertical />
                 </th>
                 <th scope="col">Nome</th>

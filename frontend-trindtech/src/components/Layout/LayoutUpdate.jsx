@@ -5,17 +5,19 @@ import StudentForm from "../Forms/StudentForm";
 import LocationForm from "../Forms/LocationForm";
 import CourseForm from "../Forms/CourseForm";
 import {
+  getStudentCourseById,
   updateStudent,
   updateLocation,
-  updateCourse,
   updateStudentCourse,
   createStudentCourse,
   fetchStudentData,
+  checkStudentCourseAssociation,
   deleteAllStudentData,
 } from "../../services/apiService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const CustomButton = styled.button`
   background-color: #ea394e;
@@ -33,15 +35,26 @@ function LayoutUpdate() {
   const { id_student } = useParams();
   const [studentData, setStudentData] = useState("");
   const [locationData, setLocationData] = useState("");
-  const [courseData, setCourseData] = useState([]);
-  const [studentCourseData, setStudentCourseData] = useState([]);
-  const [studentId, setStudentId] = useState(null);
+  const [updatedStudentCourseData, setUpdatedStudentCourseData] = useState([]);
+  const [courseData, setCourseData] = useState([
+    {
+      id_course: "",
+      course_name: "",
+    },
+  ]);
+
+  const [studentCourseData, setStudentCourseData] = useState([
+    {
+      conclusion_date: "",
+    },
+  ]);
   const [emailValid, setEmailValid] = useState(true);
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,8 +63,7 @@ function LayoutUpdate() {
         console.log("Dados do Aluno: ", completeData);
         setStudentData(completeData.student);
         setLocationData(completeData.location);
-        setCourseData(completeData.coursesWithConclusionDate);
-        setStudentCourseData(completeData.coursesWithConclusionDate);
+        setUpdatedStudentCourseData(completeData.coursesWithConclusionDate);
       } catch (error) {
         console.error("Erro ao buscar dados do aluno:", error);
         toast.error("Erro ao carregar os dados do aluno.");
@@ -70,19 +82,23 @@ function LayoutUpdate() {
 
     try {
       // Atualiza os dados do aluno
-      await updateStudent(studentData.id_student);
-      console.log("studentData: " + JSON.stringify(studentData, null, 2));
+      await updateStudent(studentData.id_student, studentData);
+      console.log(
+        "Atualizando studentData: " + JSON.stringify(studentData, null, 2)
+      );
 
       // Atualiza a localização do aluno
-      await updateLocation(locationData.id_location);
-      console.log("locationData: " + JSON.stringify(locationData, null, 2));
+      await updateLocation(locationData.id_location, locationData);
+      console.log(
+        "Atualizando locationData: " + JSON.stringify(locationData, null, 2)
+      );
 
-      // Atualiza os cursos do aluno
+      // Atualiza ou cria os cursos associados ao aluno
       await Promise.all(
-        studentCourseData.map(async (sc) => {
+        updatedStudentCourseData.map(async (sc) => {
           const id_student = studentData.id_student;
           const id_course = sc.idCourse;
-          console.log("Updating student-course association for:", {
+          console.log("Processando curso:", {
             id_student,
             id_course,
             courseName: sc.courseName,
@@ -90,64 +106,66 @@ function LayoutUpdate() {
           });
 
           if (id_student && id_course) {
-            const courseAssociationExists = studentCourseData.some(
-              (sc) => sc.idCourse == id_course && sc.id_student == id_student
+            const associationExists = await checkStudentCourseAssociation(
+              id_student,
+              id_course
             );
-            const data = {
-              conclusion_date: sc.conclusionDate, // Outros dados necessários
-            };
+            console.log("Associação existente: ", associationExists);
 
-            if (courseAssociationExists) {
-              // Se a associação já existe, atualiza os dados
-              console.log(
-                `Atualizando a associação aluno-curso para o curso ${id_course}`
+            if (associationExists == true) {
+              // Obtém os dados atuais para comparação
+              const currentCourseData = await getStudentCourseById(
+                id_student,
+                id_course
               );
-              await updateStudentCourse(id_student, id_course, data);
-            } else {
+
+              console.log("currentCourseData: ", currentCourseData);
+
+              const currentDate = new Date(currentCourseData.conclusion_date)
+                .toISOString()
+                .split("T")[0];
+              const newDate = new Date(sc.conclusionDate)
+                .toISOString()
+                .split("T")[0];
+
+              console.log("Data atual armazenada:", currentDate);
+              console.log("Nova data fornecida:", newDate);
+
+              // Compara os dados atuais com os novos dados
+              if (currentDate !== newDate) {
+                console.log(
+                  `Atualizando a associação aluno-curso para o curso ${id_course}`
+                );
+                await updateStudentCourse(
+                  id_student,
+                  id_course,
+                  sc.conclusionDate
+                );
+              } else {
+                console.log(
+                  `Nenhuma alteração para o curso ${id_course}, pulando atualização.`
+                );
+              }
+            } else if (associationExists == false) {
               // Se a associação não existe, cria uma nova
               console.log(`Criando nova associação para o curso ${id_course}`);
               await createStudentCourse({
-                id_student,
-                id_course,
+                id_student: studentData.id_student,
+                id_course: sc.id_course,
                 conclusion_date: sc.conclusionDate,
               });
             }
-
-            // Atualiza o curso em si, caso necessário
-            await updateCourse(id_course);
           } else {
             console.error(
               "Erro: id_student ou id_course indefinidos para a associação",
-              course
+              sc
             );
           }
         })
       );
 
-      if (Array.isArray(courseData) && courseData.length > 0) {
-        for (let i = studentCourseData.length; i < courseData.length; i++) {
-          const course = courseData[i];
-          const conclusionDate = studentCourseData[i]?.conclusion_date || "";
-
-          if (course && conclusionDate) {
-            console.log("Course data: ", JSON.stringify(course, null, 2));
-
-            await createStudentCourse({
-              conclusion_date: conclusionDate, // Data de conclusão do curso
-              id_student: studentData.id_student, // ID do aluno
-              id_course: course.id_course, // ID do curso
-            });
-          } else {
-            console.error(
-              `Falta curso ou data de conclusão para o aluno do índice ${i}`
-            );
-          }
-        }
-      } else {
-        toast.error("Nenhum curso associado ao aluno.");
-      }
-
       toast.success("Dados atualizados com sucesso!");
+      console.log(studentData, locationData, updatedStudentCourseData);
     } catch (error) {
       console.error("Erro ao atualizar os dados:", error);
       toast.error("Erro ao atualizar os dados.");
@@ -155,13 +173,13 @@ function LayoutUpdate() {
   };
 
   const handleDelete = async () => {
-    if (!studentId) {
+    if (!id_student) {
       toast.error("Nenhum aluno encontrado para deletar.");
       return;
     }
 
     try {
-      await deleteAllStudentData(studentId);
+      await deleteAllStudentData(id_student);
       setStudentData({
         // Limpar os dados do aluno
         student_name: "",
@@ -183,12 +201,11 @@ function LayoutUpdate() {
         city: "",
         state: "",
       });
-      setStudentCourseData({
+      setUpdatedStudentCourseData({
         // Limpar a data de conclusão
         conclusion_date: "",
       });
 
-      setStudentId(null); // Resetar o ID do aluno
       toast.success("Dados deletados com sucesso!");
     } catch (error) {
       console.error("Erro ao deletar dados:", error);
@@ -201,7 +218,11 @@ function LayoutUpdate() {
       <DynamicHeader
         showLogo={false}
         backIcon={() => navigate("/")}
-        studentName={studentData ? studentData.student_name : ""}
+        studentName={
+          studentData
+            ? studentData.student_name + " " + studentData.student_lastname
+            : ""
+        }
         onDelete={handleDelete}
       />
       <StudentForm
@@ -213,26 +234,26 @@ function LayoutUpdate() {
         locationData={locationData}
         setLocationData={setLocationData}
       />
-      {courseData.length > 0 ? (
-        courseData.map((courseWithConclusionDate, index) => (
-          <CourseForm
-            key={index}
-            courseData={courseWithConclusionDate}
-            setCourseData={(updatedCourse) => {
-              const newCourseData = [...courseData];
-              newCourseData[index] = updatedCourse;
-              setCourseData(newCourseData);
-            }}
-          />
-        ))
-      ) : (
-        <CourseForm
-          courseData={courseData}
-          setCourseData={setCourseData}
-          studentCourseData={studentCourseData}
-          setStudentCourseData={setStudentCourseData}
-        />
-      )}
+      {updatedStudentCourseData.length > 0
+        ? updatedStudentCourseData.map(
+            ({ idCourse, courseName, conclusionDate }) => (
+              <CourseForm
+                key={idCourse}
+                idCourse={idCourse}
+                conclusionDate={conclusionDate}
+                courseName={courseName}
+                setStudentCourseData={setStudentCourseData}
+              />
+            )
+          )
+        : updatedStudentCourseData.length === 0 && (
+            <CourseForm
+              courseData={courseData}
+              setCourseData={setCourseData}
+              studentCourseData={studentCourseData}
+              setStudentCourseData={setStudentCourseData}
+            />
+          )}
       <div className="d-flex justify-content-center mt-3">
         <CustomButton type="submit" onClick={handleSubmit} className="btn mt-3">
           Salvar
