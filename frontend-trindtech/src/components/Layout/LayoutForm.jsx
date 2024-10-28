@@ -5,10 +5,8 @@ import LocationForm from "../Forms/LocationForm";
 import CourseForm from "../Forms/CourseForm";
 import {
   createStudent,
-  createLocation,
-  createStudentCourse,
+  deleteStudent
 } from "../../services/apiService";
-import { deleteAllStudentData } from "../../services/apiService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
@@ -35,6 +33,8 @@ function LayoutForm() {
     student_email: "",
     student_register_date: "",
   });
+
+  //posso botar tudo no studentData, passando como objetos, não deixar o mesmo nome das colunas da tabela
 
   const [locationData, setLocationData] = useState({
     cep: "",
@@ -91,55 +91,18 @@ function LayoutForm() {
         "Dados do aluno que estão sendo enviados: ",
         updatedStudentData
       );
-      const student = await createStudent(updatedStudentData);
+
+      const newStudent = {
+        ...updatedStudentData,
+        courses: courseData.map((course, index) => ({
+          ...course,
+          conclusion_date: studentCourseData[index].conclusion_date,
+        })),
+        location: locationData
+      };
+
+      const student = await createStudent(newStudent);
       setStudentId(student.id_student);
-
-      // Criar endereço associado ao aluno
-      console.log("Dados de localização que estão sendo enviados: ", {
-        ...locationData,
-        id_student: student.id_student,
-      });
-
-      await createLocation({
-        ...locationData,
-        id_student: student.id_student,
-      });
-
-      console.log("Curso selecionado: ", courseData);
-      console.log(
-        "Dados de associação aluno-curso que estão sendo enviados: ",
-        {
-          conclusion_date: studentCourseData.conclusion_date,
-          id_student: student.id_student,
-          id_course: courseData.id_course,
-        }
-      );
-
-      // Verifica se há cursos associados
-      console.log(
-        "studentCourseData: " + JSON.stringify(studentCourseData, null, 2)
-      );
-      if (Array.isArray(courseData) && courseData.length > 0) {
-        for (let i = 0; i < courseData.length; i++) {
-          const course = courseData[i];
-          const conclusionDate = studentCourseData[i]?.conclusion_date;
-
-          if (course && conclusionDate) {
-            console.log("Course data: ", JSON.stringify(course, null, 2)); 
-            console.log("Conclusion date: ", conclusionDate);
-
-            await createStudentCourse({
-              conclusion_date: conclusionDate, // Data de conclusão do curso
-              id_student: student.id_student, // ID do aluno
-              id_course: course.id_course, // ID do curso
-            });
-          } else {
-            console.error(`Falta curso ou data de conclusão para o aluno do índice ${i}`);
-          }
-        }
-      } else {
-        toast.error("Nenhum curso associado ao aluno.");
-      }
 
       toast.success("Dados criados com sucesso!");
     } catch (error) {
@@ -155,7 +118,7 @@ function LayoutForm() {
     }
 
     try {
-      await deleteAllStudentData(studentId);
+      await deleteStudent(studentId);
       setStudentData({
         // Limpar os dados do aluno
         student_name: "",
@@ -177,7 +140,7 @@ function LayoutForm() {
         city: "",
         state: "",
       });
-      setStudentCourseData({
+      setStudentCourseData({ //courses: id_course, course_name, conclusion_date
         // Limpar a data de conclusão
         conclusion_date: "",
       });

@@ -62,6 +62,7 @@ function LocationForm({ locationData, setLocationData }) {
   };
 
   const fetchAddress = async (cep) => {
+    // passar pro apiService
     try {
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
       if (response.data && !response.data.erro) {
@@ -157,7 +158,10 @@ function LocationForm({ locationData, setLocationData }) {
             />
           </div>
           <div className="form-group col-md-6">
-            <CustomLabel htmlFor="complementInput" style={{ marginTop: "26px" }}>
+            <CustomLabel
+              htmlFor="complementInput"
+              style={{ marginTop: "26px" }}
+            >
               Complemento
             </CustomLabel>
             <CustomInput

@@ -48,6 +48,7 @@ function LayoutUpdate() {
       conclusion_date: "",
     },
   ]);
+  
   const [emailValid, setEmailValid] = useState(true);
 
   const validateEmail = (email) => {
