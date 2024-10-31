@@ -63,7 +63,7 @@ function DynamicHeader({ showLogo = true, backIcon, studentName, onDelete }) {
             {/* Logo e Texto */}
             <div className='d-flex align-items-center'>
                 {showLogo && (
-                    <Logo className='navbar-brand' href='#'>
+                    <Logo className='navbar-brand' href='/'>
                         <img src={LogoImg}></img>
                     </Logo>
                 )}

@@ -2,14 +2,8 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { HiOutlineSwitchVertical } from "react-icons/hi";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import {
-  getStudents,
-  getLocations,
-  getCourseById,
-  getStudentCourses,
-  fetchStudentData
-} from "../../services/apiService";
-import { useNavigate } from "react-router-dom"; 
+import { getStudents, getStudentById } from "../../services/apiService";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -35,11 +29,11 @@ const CustomTable = styled.table`
 `;
 
 const CourseBadge = styled.span`
-  background-color: #EFF8FF; 
-  color: #1FAEFF; 
-  padding: 5px 10px; 
+  background-color: #eff8ff;
+  color: #1faeff;
+  padding: 5px 10px;
   border-radius: 15px;
-  border: 2px solid #CEEAFF;
+  border: 2px solid #ceeaff;
   margin-right: 5px;
   font-size: 14px;
   font-weight: 500;
@@ -47,11 +41,11 @@ const CourseBadge = styled.span`
 `;
 
 const MoreCourseBadge = styled.span`
-  background-color: #F2F4F7; 
-  color: #5F6368; 
-  padding: 5px 10px; 
+  background-color: #f2f4f7;
+  color: #5f6368;
+  padding: 5px 10px;
   border-radius: 15px;
-  border: 2px solid #DFDFDF;
+  border: 2px solid #dfdfdf;
   font-size: 14px;
   font-weight: 500;
   display: inline-block;
@@ -102,45 +96,22 @@ function List({ searchResults }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 1. Buscar todos os alunos
-        const students = await getStudents();
-
-        // 2. Buscar todas as localizações
-        const locations = await getLocations();
-
-        // 3. Para cada aluno, buscar sua localização e curso associado
-        const studentsWithDetails = await Promise.all(
-          students.map(async (student) => {
-            // Busca a localização do aluno
-            const location = locations.find(
-              (loc) => loc.id_student == student.id_student
-            );
-
-            // Busca a associação do aluno com os cursos
-            const studentCourses = await getStudentCourses();
-
-            // Filtra os cursos associados ao aluno
-            const courses = studentCourses
-              .filter((sc) => sc.id_student == student.id_student) // Usa o id do aluno para filtrar
-              .map(async (sc) => {
-                const course = await getCourseById(sc.id_course);
-                return course ? course.course_name : "Curso não encontrado"; // Retorna o nome do curso ou uma mensagem padrão
-              });
-
-            const courseNames = await Promise.all(courses);
-
-            return {
-              ...student,
-              location: location ? location.state : "Estado não encontrado", // Estado da localização
-              courses:
-                courseNames.length > 0
-                  ? courseNames.join(", ")
-                  : "Nenhum curso associado", // Lista os cursos associados
-            };
-          })
-        );
-
-        setStudentData(studentsWithDetails);
+        // Busca inicial de alunos se `searchResults` estiver vazio
+        if (searchResults.length === 0) {
+          const students = await getStudents();
+          const completeData = students.map((student) => ({
+            id_student: student.id_student,
+            register_date: student.student_register_date,
+            firstName: student.student_name,
+            lastName: student.student_lastname,
+            state: student.Location?.state || "N/A",
+            courses: student.Courses?.map((course) => course.course_name) || [],
+          }));
+          setStudentData(completeData);
+        } else {
+          // Define `searchResults` como `studentData`
+          setStudentData(searchResults);
+        }
         setLoading(false);
       } catch (error) {
         console.error("Erro ao buscar os dados dos alunos:", error);
@@ -149,7 +120,7 @@ function List({ searchResults }) {
     };
 
     fetchData();
-  }, []);
+  }, [searchResults]);
 
   // Função para alternar a ordem de classificação
   const handleSortByDate = () => {
@@ -158,14 +129,14 @@ function List({ searchResults }) {
 
   // Ordenar os alunos com base na data de cadastro e ordem de classificação
   const sortedStudents = [...studentData].sort((a, b) => {
-    const dateA = new Date(a.student_register_date);
-    const dateB = new Date(b.student_register_date);
+    const dateA = new Date(a.register_date);
+    const dateB = new Date(b.register_date);
     return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
   });
 
   // Mostra os resultados da pesquisa, se houver.
   const studentsToDisplay =
-    searchResults.length > 0 ? searchResults : sortedStudents;
+    searchResults && searchResults.length > 0 ? searchResults : sortedStudents;
 
   // Paginação
   const totalPages = Math.ceil(studentsToDisplay.length / studentsPerPage);
@@ -218,8 +189,7 @@ function List({ searchResults }) {
   // Função para enviar os dados ao formulário para atualização
   const handleStudentClick = async (id_student) => {
     try {
-      const completeStudentData = await fetchStudentData(id_student);
-
+      const completeStudentData = await getStudentById(id_student);
       navigate(`/update/${id_student}`, { state: completeStudentData });
     } catch (error) {
       console.error("Erro ao carregar dados do aluno: ", error);
@@ -237,7 +207,11 @@ function List({ searchResults }) {
           <CustomTable className="table">
             <thead>
               <tr>
-                <th scope="col" onClick={handleSortByDate} style={{ cursor: "pointer" }}>
+                <th
+                  scope="col"
+                  onClick={handleSortByDate}
+                  style={{ cursor: "pointer" }}
+                >
                   Data de Cadastro <HiOutlineSwitchVertical />
                 </th>
                 <th scope="col">Nome</th>
@@ -247,10 +221,7 @@ function List({ searchResults }) {
             </thead>
             <tbody>
               {currentStudents.map((student) => {
-                console.log(student.courses);
-                const registrationDate = new Date(
-                  student.student_register_date + "T00:00:00-03:00"
-                );
+                const registrationDate = new Date(student.register_date);
                 const formattedDate = `${String(
                   registrationDate.getDate()
                 ).padStart(2, "0")}/${String(
@@ -259,8 +230,6 @@ function List({ searchResults }) {
 
                 const coursesArray = Array.isArray(student.courses)
                   ? student.courses
-                  : typeof student.courses === "string"
-                  ? student.courses.split(",")
                   : [];
 
                 const maxCoursesToShow = 3;
@@ -272,19 +241,25 @@ function List({ searchResults }) {
                   coursesArray.length - maxCoursesToShow;
 
                 return (
-                  <tr key={student.id_student} onClick={() => handleStudentClick(student.id_student)} style={{ cursor: "pointer" }}>
+                  <tr
+                    key={student.id_student}
+                    onClick={() => handleStudentClick(student.id_student)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <td>{formattedDate}</td>
                     <td>
-                      {student.student_name} {student.student_lastname}
+                      {student.firstName} {student.lastName}
                     </td>
-                    <td>{student.location}</td>
+                    <td>{student.state}</td>
                     <td>
-                    {displayedCourses.map((course, index) => (
-            <CourseBadge key={index}>{course}</CourseBadge>
-          ))}
-          {remainingCoursesCount > 0 && (
-            <MoreCourseBadge>+{remainingCoursesCount}</MoreCourseBadge>
-          )}
+                      {displayedCourses.map((course, index) => (
+                        <CourseBadge key={index}>{course}</CourseBadge>
+                      ))}
+                      {remainingCoursesCount > 0 && (
+                        <MoreCourseBadge>
+                          +{remainingCoursesCount}
+                        </MoreCourseBadge>
+                      )}
                     </td>
                   </tr>
                 );

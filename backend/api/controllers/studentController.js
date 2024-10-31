@@ -26,7 +26,10 @@ exports.createStudent = async (req, res) => {
 exports.getStudents = async (req, res) => {
   try {
     const students = await Student.findAll({
-      include: [{ model: Location }, { model: Course }],
+      include: [
+        { model: Location },
+        { model: Course, through: { attributes: ["conclusion_date"] } },
+      ],
     });
     res.json(students);
   } catch (error) {
@@ -53,7 +56,9 @@ exports.getStudentById = async (req, res) => {
 exports.updateStudent = async (req, res) => {
   try {
     // Buscar o aluno pelo ID
-    const student = await Student.findByPk(req.params.id);
+    const student = await Student.findByPk(req.params.id, {
+      include: [{ model: Location }, { model: Course }],
+    });
     if (!student) {
       return res.status(404).json({ error: "Aluno não encontrado" });
     }
@@ -62,37 +67,39 @@ exports.updateStudent = async (req, res) => {
     await student.update(req.body);
 
     // Atualizar a localização associada
-    if (req.body.location) {
+    if (req.body.Location) {
       let location = await Location.findOne({
         where: { student_fk: student.id_student },
       });
 
       if (location) {
-        // Se já existe uma localização associada, atualizar
-        await location.update(req.body.location);
+        // Atualizar localização existente
+        await location.update(req.body.Location);
       } else {
-        // Caso não exista, criar uma nova localização associada ao aluno
-        location = await Location.create({
-          ...req.body.location,
+        // Criar nova localização associada
+        await Location.create({
+          ...req.body.Location,
           student_fk: student.id_student,
         });
       }
     }
 
-    // Atualizar cursos associados ao aluno
-    if (req.body.courses && req.body.courses.length > 0) {
-      // Remover todos os cursos antigos do aluno
+    // 4. Atualizar cursos associados ao aluno (Many-to-Many)
+    if (req.body.Courses && req.body.Courses.length > 0) {
+      // Remover cursos antigos do aluno
       await student.setCourses([]);
 
-      // Associar os novos cursos ao aluno com as datas de conclusão
-      for (const { id_course, conclusion_date } of req.body.courses) {
+      // Associar novos cursos ao aluno
+      for (const courseData of req.body.Courses) {
+        const { id_course, StudentCourse } = courseData;
         const course = await Course.findByPk(id_course);
         if (course) {
-          await student.addCourse(course, { through: { conclusion_date } });
+          await student.addCourse(course, {
+            through: { conclusion_date: StudentCourse.conclusion_date },
+          });
         }
       }
     }
-
     // Buscar o aluno atualizado, incluindo todas as associações
     const updatedStudent = await Student.findByPk(req.params.id, {
       include: [{ model: Location }, { model: Course }],
@@ -100,6 +107,7 @@ exports.updateStudent = async (req, res) => {
 
     res.json(updatedStudent);
   } catch (error) {
+    console.error("Erro ao atualizar o aluno:", error);
     res.status(400).json({ error: error.message });
   }
 };

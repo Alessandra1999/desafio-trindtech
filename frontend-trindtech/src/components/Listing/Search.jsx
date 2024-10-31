@@ -2,12 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { RiSearchLine } from "react-icons/ri";
 import { MdPersonAdd } from "react-icons/md";
-import {
-  getStudents,
-  getLocations,
-  getCourseById,
-  getStudentCourses,
-} from "../../services/apiService";
+import { getStudents } from "../../services/apiService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -58,40 +53,32 @@ function Search({ setSearchResults }) {
   const handleSearch = async () => {
     try {
       const allStudents = await getStudents();
-      const locations = await getLocations(); // Buscar as localizações
-      const studentCourses = await getStudentCourses(); // Buscar os cursos dos alunos
 
-      const filteredStudents = await Promise.all(
-        allStudents
-          .filter((student) =>
-            student.student_name
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
-          )
-          .map(async (student) => {
-            // Buscar o estado e os cursos para cada aluno
-            const location = locations.find(
-              (loc) => loc.id_student === student.id_student
-            );
-            const courses = studentCourses
-              .filter((sc) => sc.id_student === student.id_student)
-              .map(async (sc) => {
-                const course = await getCourseById(sc.id_course);
-                return course ? course.course_name : "Curso não encontrado";
-              });
+      const filteredStudents = allStudents
+      .filter((student) => {
+        const fullName = `${student.student_name} ${student.student_lastname}`.toLowerCase();
+        return fullName.includes(searchTerm.toLowerCase());
+      })
+        .map((student) => {
+          const location = student.Location
+            ? student.Location.state
+            : "Estado não encontrado";
+          const courses =
+            student.Courses &&
+            Array.isArray(student.Courses) &&
+            student.Courses.length > 0
+              ? student.Courses.map((course) => course.course_name) // Retorna um array de nomes de cursos
+              : ["Nenhum curso associado"];
 
-            const courseNames = await Promise.all(courses);
-
-            return {
-              ...student,
-              location: location ? location.state : "Estado não encontrado",
-              courses:
-                courseNames.length > 0
-                  ? courseNames.join(", ")
-                  : "Nenhum curso associado",
-            };
-          })
-      );
+          return {
+            id_student: student.id_student, // ID
+            register_date: student.student_register_date, // Data de registro
+            firstName: student.student_name, // Nome
+            lastName: student.student_lastname, // Sobrenome
+            state: location, // Estado
+            courses: courses, // Cursos
+          };
+        });
 
       setSearchResults(filteredStudents);
 

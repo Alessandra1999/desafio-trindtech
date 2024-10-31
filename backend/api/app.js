@@ -3,7 +3,6 @@ const sequelize = require('./config/config');
 const studentRoutes = require('./routes/studentRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const studentCourseRoutes = require('./routes/studentCourseRoutes');
-const locationRoutes = require('./routes/locationRoutes');
 const cors = require('cors');
 
 const app = express();
@@ -22,7 +21,6 @@ app.use(express.json()); // Para permitir o recebimento de JSON no corpo das req
 app.use('/api/students', studentRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/student-course', studentCourseRoutes);
-app.use('/api/locations', locationRoutes);
 
 // Sincronização do banco de dados
 sequelize.sync()

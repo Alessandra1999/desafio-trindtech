@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import axios from "axios";
+import { fetchAddress } from "../../services/apiService";
 
 const CustomForm = styled.form`
   margin-top: 62px;
@@ -35,7 +35,7 @@ const CustomLabel = styled.label`
   }
 `;
 
-function LocationForm({ locationData, setLocationData }) {
+function LocationForm({ studentData, setStudentData }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -50,36 +50,20 @@ function LocationForm({ locationData, setLocationData }) {
         formattedValue = formattedValue.slice(0, 9);
       }
 
-      setLocationData((prev) => ({ ...prev, [name]: formattedValue }));
+      setStudentData((prev) => ({
+        ...prev,
+        Location: { ...prev.Location, [name]: formattedValue },
+      }));
 
       // Faz a requisição se o CEP estiver completo (00000-000)
       if (formattedValue.length === 9) {
-        fetchAddress(formattedValue);
+        fetchAddress(formattedValue, setStudentData);
       }
     } else {
-      setLocationData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const fetchAddress = async (cep) => {
-    // passar pro apiService
-    try {
-      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-      if (response.data && !response.data.erro) {
-        const { logradouro, bairro, localidade, uf } = response.data;
-
-        setLocationData((prev) => ({
-          ...prev,
-          street: logradouro,
-          district: bairro,
-          city: localidade,
-          state: uf,
-        }));
-      } else {
-        console.error("CEP não encontrado");
-      }
-    } catch (error) {
-      console.error("Erro ao buscar o endereço:", error);
+      setStudentData((prev) => ({
+        ...prev,
+        Location: { ...prev.Location, [name]: value },
+      }));
     }
   };
 
@@ -96,7 +80,7 @@ function LocationForm({ locationData, setLocationData }) {
               id="zipCodeInput"
               name="cep"
               placeholder="00000-000"
-              value={locationData.cep}
+              value={studentData.Location.cep}
               onChange={handleChange}
               required
             />
@@ -108,7 +92,7 @@ function LocationForm({ locationData, setLocationData }) {
               className="form-control"
               id="countryInput"
               name="country"
-              value={locationData.country}
+              value={studentData.Location.country}
               onChange={handleChange}
               required
             />
@@ -124,7 +108,7 @@ function LocationForm({ locationData, setLocationData }) {
               className="form-control"
               id="streetInput"
               name="street"
-              value={locationData.street}
+              value={studentData.Location.street}
               onChange={handleChange}
             />
           </div>
@@ -137,7 +121,7 @@ function LocationForm({ locationData, setLocationData }) {
               className="form-control"
               id="districtInput"
               name="district"
-              value={locationData.district}
+              value={studentData.Location.district}
               onChange={handleChange}
             />
           </div>
@@ -152,7 +136,7 @@ function LocationForm({ locationData, setLocationData }) {
               className="form-control"
               id="numberInput"
               name="number"
-              value={locationData.number}
+              value={studentData.Location.number}
               onChange={handleChange}
               required
             />
@@ -169,7 +153,7 @@ function LocationForm({ locationData, setLocationData }) {
               className="form-control"
               id="complementInput"
               name="complement"
-              value={locationData.complement}
+              value={studentData.Location.complement}
               onChange={handleChange}
             />
           </div>
@@ -184,7 +168,7 @@ function LocationForm({ locationData, setLocationData }) {
               className="form-control"
               id="cityInput"
               name="city"
-              value={locationData.city}
+              value={studentData.Location.city}
               onChange={handleChange}
             />
           </div>
@@ -197,7 +181,7 @@ function LocationForm({ locationData, setLocationData }) {
               id="stateInput"
               name="state"
               className="form-control"
-              value={locationData.state}
+              value={studentData.Location.state}
               onChange={handleChange}
             />
           </div>

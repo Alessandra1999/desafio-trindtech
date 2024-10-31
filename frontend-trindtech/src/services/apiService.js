@@ -20,11 +20,15 @@ export const getStudentById = async (id_student) => {
 };
 
 export const updateStudent = async (id_student, studentData) => {
-  const response = await axios.put(
-    `${API_URL}/students/${id_student}`,
-    studentData
-  );
-  return response.data;
+  try {
+    const response = await axios.put(
+      `${API_URL}/students/${id_student}`,
+      studentData
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const deleteStudent = async (id_student) => {
@@ -35,4 +39,31 @@ export const deleteStudent = async (id_student) => {
 export const getCourses = async () => {
   const response = await axios.get(`${API_URL}/courses`);
   return response.data;
+};
+
+// VIA CEP
+export const fetchAddress = async (cep, setStudentData) => {
+  // passar pro apiService
+  try {
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = response.data;
+
+    if (!data.erro) {
+      // Garante que o CEP é válido
+      setStudentData((prevData) => ({
+        ...prevData,
+        Location: {
+          ...prevData.Location,
+          street: data.logradouro || "",
+          district: data.bairro || "",
+          city: data.localidade || "",
+          state: data.uf || "",
+        },
+      }));
+    } else {
+      console.error("CEP não encontrado.");
+    }
+  } catch (error) {
+    console.error("Erro ao buscar endereço:", error);
+  }
 };

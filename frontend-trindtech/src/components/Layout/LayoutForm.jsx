@@ -3,10 +3,7 @@ import DynamicHeader from "../Header/DynamicHeader";
 import StudentForm from "../Forms/StudentForm";
 import LocationForm from "../Forms/LocationForm";
 import CourseForm from "../Forms/CourseForm";
-import {
-  createStudent,
-  deleteStudent
-} from "../../services/apiService";
+import { createStudent, deleteStudent } from "../../services/apiService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
@@ -32,33 +29,26 @@ function LayoutForm() {
     student_gender: "",
     student_email: "",
     student_register_date: "",
-  });
-
-  //posso botar tudo no studentData, passando como objetos, não deixar o mesmo nome das colunas da tabela
-
-  const [locationData, setLocationData] = useState({
-    cep: "",
-    country: "",
-    street: "",
-    district: "",
-    number: "",
-    complement: "",
-    city: "",
-    state: "",
-  });
-
-  const [courseData, setCourseData] = useState([
-    {
-      id_course: "",
-      course_name: "",
+    Location: {
+      cep: "",
+      country: "",
+      street: "",
+      district: "",
+      number: "",
+      complement: "",
+      city: "",
+      state: "",
     },
-  ]);
-
-  const [studentCourseData, setStudentCourseData] = useState([
-    {
-      conclusion_date: "",
-    },
-  ]);
+    Courses: [
+      {
+        id_course: "",
+        course_name: "",
+        StudentCourse: {
+          conclusion_date: "",
+        },
+      },
+    ],
+  });
 
   const [studentId, setStudentId] = useState(null);
   const [emailValid, setEmailValid] = useState(true);
@@ -86,7 +76,6 @@ function LayoutForm() {
     };
 
     try {
-      // Criar aluno
       console.log(
         "Dados do aluno que estão sendo enviados: ",
         updatedStudentData
@@ -94,11 +83,11 @@ function LayoutForm() {
 
       const newStudent = {
         ...updatedStudentData,
-        courses: courseData.map((course, index) => ({
+        courses: updatedStudentData.Courses.map((course) => ({
           ...course,
-          conclusion_date: studentCourseData[index].conclusion_date,
+          conclusion_date: course.StudentCourse.conclusion_date,
         })),
-        location: locationData
+        location: updatedStudentData.Location,
       };
 
       const student = await createStudent(newStudent);
@@ -120,7 +109,6 @@ function LayoutForm() {
     try {
       await deleteStudent(studentId);
       setStudentData({
-        // Limpar os dados do aluno
         student_name: "",
         student_lastname: "",
         student_birthdate: "",
@@ -128,21 +116,25 @@ function LayoutForm() {
         student_gender: "",
         student_email: "",
         student_register_date: "",
-      });
-      setLocationData({
-        // Limpar os dados do endereço
-        cep: "",
-        country: "",
-        street: "",
-        district: "",
-        number: "",
-        complement: "",
-        city: "",
-        state: "",
-      });
-      setStudentCourseData({ //courses: id_course, course_name, conclusion_date
-        // Limpar a data de conclusão
-        conclusion_date: "",
+        Location: {
+          cep: "",
+          country: "",
+          street: "",
+          district: "",
+          number: "",
+          complement: "",
+          city: "",
+          state: "",
+        },
+        Courses: [
+          {
+            id_course: "",
+            course_name: "",
+            StudentCourse: {
+              conclusion: "",
+            },
+          },
+        ],
       });
 
       setStudentId(null); // Resetar o ID do aluno
@@ -166,16 +158,8 @@ function LayoutForm() {
         setStudentData={setStudentData}
         setEmailValid={setEmailValid}
       />
-      <LocationForm
-        locationData={locationData}
-        setLocationData={setLocationData}
-      />
-      <CourseForm
-        courseData={courseData}
-        setCourseData={setCourseData}
-        studentCourseData={studentCourseData}
-        setStudentCourseData={setStudentCourseData}
-      />
+      <LocationForm studentData={studentData} setStudentData={setStudentData} />
+      <CourseForm studentData={studentData} setStudentData={setStudentData} />
       <div className="d-flex justify-content-center mt-3">
         <CustomButton type="submit" onClick={handleSubmit} className="btn mt-3">
           Salvar

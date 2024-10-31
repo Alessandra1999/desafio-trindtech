@@ -30,10 +30,10 @@ const CourseRow = styled.div`
 `;
 
 const CustomInput = styled.input`
-  background-color: #FFF;
+  background-color: #fff;
 
   &:focus {
-    background-color: #FFF;
+    background-color: #fff;
     outline: none;
     border-color: black;
     box-shadow: none;
@@ -41,10 +41,10 @@ const CustomInput = styled.input`
 `;
 
 const CustomSelect = styled.select`
-  background-color: #FFF;
+  background-color: #fff;
 
   &:focus {
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
     outline: none;
     border-color: black;
     box-shadow: none;
@@ -68,17 +68,7 @@ const CustomLabel = styled.label`
   }
 `;
 
-function CourseForm({
-  courseData,
-  setCourseData,
-  studentCourseData,
-  setStudentCourseData,
-  idCourse,
-  conclusionDate
-}) {
-  const [courses, setCourses] = useState([
-    { courseName: "", conclusionDate: "" },
-  ]);
+function CourseForm({ studentData, setStudentData }) {
   const [availableCourses, setAvailableCourses] = useState([]);
 
   useEffect(() => {
@@ -95,68 +85,50 @@ function CourseForm({
 
   // Função para adicionar novos campos de input
   const handleAddCourse = () => {
-    setCourses([...courses, { courseName: "", conclusionDate: "" }]);
+    setStudentData((prevData) => ({
+      ...prevData,
+      Courses: [
+        ...(prevData.Courses || []),
+        {
+          id_course: "",
+          course_name: "",
+          StudentCourse: { conclusion_date: "" },
+        },
+      ],
+    }));
   };
 
-  const handleInputChange = (index, id_course, value) => {
-    const newCourses = [...courses];
-    newCourses[index][id_course] = value;
-    setCourses(newCourses);
+  const handleInputChange = (index, field, value) => {
+    const updatedCourses = [...studentData.Courses];
+    if (field === "StudentCourse") {
+      updatedCourses[index].StudentCourse.conclusion_date =
+        value.conclusion_date || "";
+    } else {
+      updatedCourses[index][field] = value;
+    }
+    setStudentData({ ...studentData, Courses: updatedCourses });
   };
 
   const handleCourseSelect = (index, selectedOption) => {
     console.log("Selected course ID: ", selectedOption);
     const selectedCourse = availableCourses.find((course) => {
-      console.log(
-        "Comparing: ",
-        course.id_course,
-        " (type: ",
-        typeof course.id_course,
-        ") with ",
-        Number(selectedOption),
-        " (type: ",
-        typeof Number(selectedOption),
-        ")"
-      );
       return course.id_course == Number(selectedOption);
     });
 
     if (selectedCourse) {
       console.log("Selected course data: ", selectedCourse);
-      setCourseData((prevCourses) => {
-        const updatedCourses = [...prevCourses];
-        updatedCourses[index] = {
-          id_course: selectedCourse.id_course,
-          course_name: selectedCourse.course_name,
-        };
-
-        console.log("Updated course data: ", updatedCourses); // Verifica o array atualizado
-        return updatedCourses;
-      });
+      handleInputChange(index, "id_course", selectedCourse.id_course);
+      handleInputChange(index, "course_name", selectedCourse.course_name);
     } else {
-      console.error("No course found for selected ID");
+      console.error("Nenhum curso encontrado para o ID selecionado");
     }
-  };
-
-  // Função para atualizar a data de conclusão para um curso específico
-  const handleDateChange = (index, e) => {
-    const { name, value } = e.target;
-    // Verifica se o studentCourseData é um array
-    setStudentCourseData((prevData) => {
-      const newStudentCourseData = [...prevData]; // Faz uma cópia do array atual
-      newStudentCourseData[index] = {
-        ...newStudentCourseData[index],
-        [name]: value,
-      }; // Atualiza a data de conclusão do índice específico
-      return newStudentCourseData; // Retorna o novo array
-    });
   };
 
   return (
     <CustomForm>
       <Container className="container">
         <Title>Cursos</Title>
-        {courses.map((courseData, index) => (
+        {(studentData.Courses || []).map((course, index) => (
           <CourseRow className="row" key={index} index={index}>
             <div className="form-group col-md-8">
               <label htmlFor={`courseSelect${index}`}>Nome do Curso</label>
@@ -164,15 +136,8 @@ function CourseForm({
                 className="form-control"
                 id={`courseSelect${index}`}
                 name="course_name"
-                value={courseData.id_course || idCourse}
-                onChange={(e) => {
-                  console.log(
-                    "onChange disparado, valor selecionado: ",
-                    e.target.value
-                  ); // Verificação
-                  handleInputChange(index, "id_course", e.target.value); 
-                  handleCourseSelect(index, e.target.value); // Passa o ID para o handleCourseSelect
-                }}
+                value={course.id_course || ""}
+                onChange={(e) => handleCourseSelect(index, e.target.value)}
               >
                 <option value="">Selecione um curso</option>
                 {availableCourses.length > 0 ? (
@@ -197,15 +162,12 @@ function CourseForm({
                     className="form-control"
                     id={`conclusionInput${index}`}
                     name="conclusion_date"
-                    value={courses[index].conclusionDate || conclusionDate}
-                    onChange={(e) => {
-                      handleInputChange(
-                        index,
-                        "conclusionDate",
-                        e.target.value
-                      );
-                      handleDateChange(index, e);
-                    }}
+                    value={course.StudentCourse.conclusion_date || ""}
+                    onChange={(e) =>
+                      handleInputChange(index, "StudentCourse", {
+                        conclusion_date: e.target.value,
+                      })
+                    }
                   />
                   <CustomButton type="button" onClick={handleAddCourse}>
                     <MdAddCircleOutline />
