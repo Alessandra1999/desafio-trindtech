@@ -1,7 +1,7 @@
 import { useState } from "react";
-import DynamicHeader from "../Header/DynamicHeader";
-import Search from "../Listing/Search";
-import List from "../Listing/List";
+import DynamicHeader from "../../components/Header/DynamicHeader";
+import Search from "../../components/Listing/Search";
+import List from "../../components/Listing/List";
 
 function LayoutListing() {
 

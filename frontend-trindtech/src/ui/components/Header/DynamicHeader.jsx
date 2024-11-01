@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FaTrash, FaChevronLeft } from 'react-icons/fa';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import LogoImg from '../../assets/images/logo.png';
+import LogoImg from '../../../assets/images/logo.png';
 
 const CustomHeader = styled.header`
     width: 100%;

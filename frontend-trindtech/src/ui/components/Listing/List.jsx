@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { HiOutlineSwitchVertical } from "react-icons/hi";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { getStudents, getStudentById } from "../../services/apiService";
+import { getStudents, getStudentById } from "../../../services/apiService";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`

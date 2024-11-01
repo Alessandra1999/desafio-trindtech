@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { RiSearchLine } from "react-icons/ri";
 import { MdPersonAdd } from "react-icons/md";
-import { getStudents } from "../../services/apiService";
+import { getStudents } from "../../../services/apiService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";

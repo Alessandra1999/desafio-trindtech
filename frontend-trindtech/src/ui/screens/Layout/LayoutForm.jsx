@@ -1,9 +1,9 @@
 import { useState } from "react";
-import DynamicHeader from "../Header/DynamicHeader";
-import StudentForm from "../Forms/StudentForm";
-import LocationForm from "../Forms/LocationForm";
-import CourseForm from "../Forms/CourseForm";
-import { createStudent, deleteStudent } from "../../services/apiService";
+import DynamicHeader from "../../components/Header/DynamicHeader";
+import StudentForm from "../../components/Forms/StudentForm";
+import LocationForm from "../../components/Forms/LocationForm";
+import CourseForm from "../../components/Forms/CourseForm";
+import { createStudent, deleteStudent } from "../../../services/apiService";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";

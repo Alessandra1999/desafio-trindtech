@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { MdAddCircleOutline } from "react-icons/md";
-import { getCourses } from "../../services/apiService";
+import { getCourses } from "../../../services/apiService";
 
 const CustomForm = styled.form`
   margin-top: 62px;
