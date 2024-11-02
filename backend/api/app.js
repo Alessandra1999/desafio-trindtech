@@ -4,6 +4,8 @@ const studentRoutes = require('./routes/studentRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const studentCourseRoutes = require('./routes/studentCourseRoutes');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./config/swagger_output.json');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +18,8 @@ app.use(cors({
 }));
 
 app.use(express.json()); // Para permitir o recebimento de JSON no corpo das requisições
+
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile)); // Usa o Swagger UI para exibir a documentação
 
 // Definindo as rotas
 app.use('/api/students', studentRoutes);
@@ -33,5 +37,5 @@ sequelize.sync()
 
 // Inicializar o servidor
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}. Documentação disponível em http://localhost:3000/doc`);
 });

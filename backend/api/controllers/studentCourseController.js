@@ -1,5 +1,11 @@
 const StudentCourse = require('../models/studentCourse');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Associação Aluno-Curso
+ *   description: Rotas para CRUD de Associação Aluno-Curso
+ */
 // Criar nova associação
 exports.createStudentCourse = async (req, res) => {
     try {

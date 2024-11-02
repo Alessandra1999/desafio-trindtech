@@ -1,5 +1,11 @@
 const Course = require('../models/course');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Cursos
+ *   description: Rotas para CRUD de Cursos
+ */
 // Criar novo curso
 exports.createCourse = async (req, res) => {
     try {

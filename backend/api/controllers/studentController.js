@@ -2,7 +2,63 @@ const Student = require("../models/student");
 const Course = require("../models/course");
 const Location = require("../models/location");
 
-// Criar um novo aluno
+/**
+ * @swagger
+ * tags:
+ *   name: Alunos
+ *   description: Rotas para CRUD de Alunos
+ */
+
+/**
+ * @swagger
+ * /students:
+ *   post:
+ *     summary: Cria um novo aluno
+ *     tags: [Alunos]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nome do aluno
+ *                 example: João Silva
+ *               email:
+ *                 type: string
+ *                 description: Email do aluno
+ *                 example: joao.silva@email.com
+ *               location:
+ *                 type: object
+ *                 description: Endereço do aluno
+ *                 properties:
+ *                   city:
+ *                     type: string
+ *                     example: São Paulo
+ *                   state:
+ *                     type: string
+ *                     example: SP
+ *               courses:
+ *                 type: array
+ *                 description: Lista de cursos associados
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     id_course:
+ *                       type: integer
+ *                       example: 1
+ *                     conclusion_date:
+ *                       type: string
+ *                       format: date
+ *                       example: 2024-11-01
+ *     responses:
+ *       201:
+ *         description: Aluno criado com sucesso
+ *       400:
+ *         description: Erro na requisição
+ */
 exports.createStudent = async (req, res) => {
   try {
     console.log("req.body: ", req.body);
@@ -22,7 +78,24 @@ exports.createStudent = async (req, res) => {
   }
 };
 
-// Listar todos os alunos
+/**
+ * @swagger
+ * /students:
+ *   get:
+ *     summary: Lista todos os alunos
+ *     tags: [Alunos]
+ *     responses:
+ *       200:
+ *         description: Lista de alunos retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Student'
+ *       500:
+ *         description: Erro no servidor
+ */
 exports.getStudents = async (req, res) => {
   try {
     const students = await Student.findAll({
@@ -37,7 +110,31 @@ exports.getStudents = async (req, res) => {
   }
 };
 
-// Listar aluno por um id específico
+/**
+ * @swagger
+ * /students/{id}:
+ *   get:
+ *     summary: Busca um aluno pelo ID
+ *     tags: [Alunos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do aluno
+ *     responses:
+ *       200:
+ *         description: Aluno encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Student'
+ *       404:
+ *         description: Aluno não encontrado
+ *       500:
+ *         description: Erro no servidor
+ */
 exports.getStudentById = async (req, res) => {
   try {
     const student = await Student.findByPk(req.params.id, {
@@ -52,7 +149,63 @@ exports.getStudentById = async (req, res) => {
   }
 };
 
-// Atualizar aluno por um id específico
+/**
+ * @swagger
+ * /students/{id}:
+ *   put:
+ *     summary: Atualiza um aluno pelo ID
+ *     tags: [Alunos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do aluno
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nome do aluno atualizado
+ *                 example: Maria Oliveira
+ *               location:
+ *                 type: object
+ *                 description: Endereço atualizado do aluno
+ *                 properties:
+ *                   city:
+ *                     type: string
+ *                     example: Rio de Janeiro
+ *                   state:
+ *                     type: string
+ *                     example: RJ
+ *               courses:
+ *                 type: array
+ *                 description: Lista atualizada de cursos
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     id_course:
+ *                       type: integer
+ *                       example: 2
+ *                     conclusion_date:
+ *                       type: string
+ *                       format: date
+ *                       example: 2025-12-15
+ *     responses:
+ *       200:
+ *         description: Aluno atualizado com sucesso
+ *       400:
+ *         description: Erro na requisição
+ *       404:
+ *         description: Aluno não encontrado
+ *       500:
+ *         description: Erro no servidor
+ */
 exports.updateStudent = async (req, res) => {
   try {
     // Buscar o aluno pelo ID
@@ -112,7 +265,27 @@ exports.updateStudent = async (req, res) => {
   }
 };
 
-// Deletar aluno por um id específico
+/**
+ * @swagger
+ * /students/{id}:
+ *   delete:
+ *     summary: Deleta um aluno pelo ID
+ *     tags: [Alunos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do aluno
+ *     responses:
+ *       204:
+ *         description: Aluno deletado com sucesso
+ *       404:
+ *         description: Aluno não encontrado
+ *       500:
+ *         description: Erro no servidor
+ */
 exports.deleteStudent = async (req, res) => {
   try {
     const student = await Student.findByPk(req.params.id);
