@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "Desafio Trindtech",
-    "description": "API com endpoints REST para CRUD de cursos e alunos.",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "description": "API com endpoints REST para CRUD de cursos e alunos."
   },
   "host": "localhost:3000",
   "basePath": "/",

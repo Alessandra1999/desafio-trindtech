@@ -4,17 +4,10 @@ const Location = require("../models/location");
 
 /**
  * @swagger
- * tags:
- *   name: Alunos
- *   description: Rotas para CRUD de Alunos
- */
-
-/**
- * @swagger
  * /students:
  *   post:
  *     summary: Cria um novo aluno
- *     tags: [Alunos]
+ *     tags: [Students]
  *     requestBody:
  *       required: true
  *       content:
@@ -24,40 +17,30 @@ const Location = require("../models/location");
  *             properties:
  *               name:
  *                 type: string
- *                 description: Nome do aluno
- *                 example: João Silva
- *               email:
- *                 type: string
- *                 description: Email do aluno
- *                 example: joao.silva@email.com
+ *               age:
+ *                 type: number
  *               location:
  *                 type: object
- *                 description: Endereço do aluno
  *                 properties:
+ *                   address:
+ *                     type: string
  *                   city:
  *                     type: string
- *                     example: São Paulo
- *                   state:
- *                     type: string
- *                     example: SP
  *               courses:
  *                 type: array
- *                 description: Lista de cursos associados
  *                 items:
  *                   type: object
  *                   properties:
  *                     id_course:
  *                       type: integer
- *                       example: 1
  *                     conclusion_date:
  *                       type: string
  *                       format: date
- *                       example: 2024-11-01
  *     responses:
  *       201:
  *         description: Aluno criado com sucesso
  *       400:
- *         description: Erro na requisição
+ *         description: Erro ao criar o aluno
  */
 exports.createStudent = async (req, res) => {
   try {
@@ -82,11 +65,11 @@ exports.createStudent = async (req, res) => {
  * @swagger
  * /students:
  *   get:
- *     summary: Lista todos os alunos
- *     tags: [Alunos]
+ *     summary: Retorna todos os alunos
+ *     tags: [Students]
  *     responses:
  *       200:
- *         description: Lista de alunos retornada com sucesso
+ *         description: Lista de alunos
  *         content:
  *           application/json:
  *             schema:
@@ -94,7 +77,7 @@ exports.createStudent = async (req, res) => {
  *               items:
  *                 $ref: '#/components/schemas/Student'
  *       500:
- *         description: Erro no servidor
+ *         description: Erro ao buscar os alunos
  */
 exports.getStudents = async (req, res) => {
   try {
@@ -114,8 +97,8 @@ exports.getStudents = async (req, res) => {
  * @swagger
  * /students/{id}:
  *   get:
- *     summary: Busca um aluno pelo ID
- *     tags: [Alunos]
+ *     summary: Retorna um aluno pelo ID
+ *     tags: [Students]
  *     parameters:
  *       - in: path
  *         name: id
@@ -125,15 +108,11 @@ exports.getStudents = async (req, res) => {
  *         description: ID do aluno
  *     responses:
  *       200:
- *         description: Aluno encontrado
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Student'
+ *         description: Dados do aluno
  *       404:
  *         description: Aluno não encontrado
  *       500:
- *         description: Erro no servidor
+ *         description: Erro ao buscar o aluno
  */
 exports.getStudentById = async (req, res) => {
   try {
@@ -153,8 +132,8 @@ exports.getStudentById = async (req, res) => {
  * @swagger
  * /students/{id}:
  *   put:
- *     summary: Atualiza um aluno pelo ID
- *     tags: [Alunos]
+ *     summary: Atualiza os dados de um aluno
+ *     tags: [Students]
  *     parameters:
  *       - in: path
  *         name: id
@@ -167,44 +146,14 @@ exports.getStudentById = async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: Nome do aluno atualizado
- *                 example: Maria Oliveira
- *               location:
- *                 type: object
- *                 description: Endereço atualizado do aluno
- *                 properties:
- *                   city:
- *                     type: string
- *                     example: Rio de Janeiro
- *                   state:
- *                     type: string
- *                     example: RJ
- *               courses:
- *                 type: array
- *                 description: Lista atualizada de cursos
- *                 items:
- *                   type: object
- *                   properties:
- *                     id_course:
- *                       type: integer
- *                       example: 2
- *                     conclusion_date:
- *                       type: string
- *                       format: date
- *                       example: 2025-12-15
+ *             $ref: '#/components/schemas/Student'
  *     responses:
  *       200:
  *         description: Aluno atualizado com sucesso
  *       400:
- *         description: Erro na requisição
+ *         description: Erro ao atualizar o aluno
  *       404:
  *         description: Aluno não encontrado
- *       500:
- *         description: Erro no servidor
  */
 exports.updateStudent = async (req, res) => {
   try {
@@ -270,7 +219,7 @@ exports.updateStudent = async (req, res) => {
  * /students/{id}:
  *   delete:
  *     summary: Deleta um aluno pelo ID
- *     tags: [Alunos]
+ *     tags: [Students]
  *     parameters:
  *       - in: path
  *         name: id
@@ -284,7 +233,7 @@ exports.updateStudent = async (req, res) => {
  *       404:
  *         description: Aluno não encontrado
  *       500:
- *         description: Erro no servidor
+ *         description: Erro ao deletar o aluno
  */
 exports.deleteStudent = async (req, res) => {
   try {
