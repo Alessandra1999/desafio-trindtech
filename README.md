@@ -100,7 +100,7 @@ O projeto é dividido em duas pastas principais: `frontend` e `backend`.
 
 4. Configuração do ambiente
 
-- No diretório `backend/api`, crie um arquivo .env no diretório backend com as seguintes variáveis:
+- No diretório `backend/api`, crie um arquivo .env com as seguintes variáveis:
 
   ```env
   DB_USER=(seu usuário do PostgreSQL)
