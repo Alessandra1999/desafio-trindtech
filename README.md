@@ -124,6 +124,7 @@ O projeto é dividido em duas pastas principais: `frontend` e `backend`.
   ```
 
 - O backend estará disponível em http://localhost3000.
+- A documentação estará disponível em http://localhost:3000/docs.
 
 2. Rodar o Frontend
 
