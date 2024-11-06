@@ -61,6 +61,7 @@ O sistema foi desenvolvido para facilitar a administração de cursos e alunos, 
 O projeto é dividido em duas pastas principais: `frontend` e `backend`.
 
 /backend/api ├── config ├── controllers ├── models ├── routes ├── app.js ├── package.json
+
 /frontend ├── public ├── src ├── .gitignore ├── eslint.config.js ├── index.html ├── package.json ├── vite.config.js └── README.md
 
 ---
@@ -139,26 +140,27 @@ O projeto é dividido em duas pastas principais: `frontend` e `backend`.
 
 ## Uso
 
-# No Frontend:
+### No Frontend:
 
-    - **Gestão de Alunos**:
-        - Adicione, edite ou remova alunos.
-        - Visualize detalhes de cada aluno, incluindo o endereço e cursos associados.
-    - **Associação Aluno-Curso:
-        - Associe alunos a cursos através do formulário de cadastro.
-        - Atualize as associações conforme necessário.
+- **Gestão de Alunos**:
+- Adicione, edite ou remova alunos.
+- Visualize detalhes de cada aluno, incluindo o endereço e cursos associados.
 
-# No Backend:
+- **Associação Aluno-Curso**:
+- Associe alunos a cursos através do formulário de cadastro.
+- Atualize as associações conforme necessário.
 
-    - **Gestão de Cursos**:
-        - Crie, atualize ou exclua cursos (através de programas como o Postman).
-        - Veja a lista completa de cursos.
+#### No Backend:
+
+- **Gestão de Cursos**:
+- Crie, atualize ou exclua cursos (através de programas como o Postman).
+- Veja a lista completa de cursos.
 
 ---
 
 ## Rotas da API
 
-# Alunos
+### Alunos
 
 - POST /api/students: Adiciona um novo aluno com localização e associação de cursos.
 - GET /api/students: Retorna todos os alunos com localização e associação de cursos.
@@ -166,7 +168,7 @@ O projeto é dividido em duas pastas principais: `frontend` e `backend`.
 - PUT /api/students/{id}: Atualiza as informações de um aluno.
 - DELETE /api/students/{id}: Remove um aluno.
 
-# Cursos
+### Cursos
 
 - POST /api/courses: Adiciona um novo curso.
 - GET /api/courses: Retorna todos os cursos.
@@ -174,7 +176,7 @@ O projeto é dividido em duas pastas principais: `frontend` e `backend`.
 - PUT /api/courses/{id}: Atualiza as informações de um curso.
 - DELETE /api/courses/{id}: Remove um curso.
 
-# Associação Aluno-Curso
+### Associação Aluno-Curso
 
 - POST /api/student-course: Adiciona uma nova associação entre aluno e curso.
 - GET /api/student-course: Retorna todas as associações entre aluno e curso.
