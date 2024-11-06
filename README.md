@@ -186,6 +186,9 @@ O projeto é dividido em duas pastas principais: `frontend` e `backend`.
 
 ## Contato
 
-- **Email**: <a href="mailto:alessandrarocha.contato@gmail.com"><img src="https://img.icons8.com/ios-filled/50/000000/email.png" alt="Email" width="20"/></a> alessandrarocha.contato@gmail.com
-- **LinkedIn**: <a href="https://www.linkedin.com/in/alessandra-bombardi/" target="_blank"><img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" alt="LinkedIn" width="20"/></a> [Alessandra Bombardi](https://www.linkedin.com/in/alessandra-bombardi/)
+## Contato
+
+- **Email**: [![Email](https://skillicons.dev/icons?i=email)](mailto:alessandrarocha.contato@gmail.com)
+- **LinkedIn**: [![LinkedIn](https://skillicons.dev/icons?i=linkedin)](https://www.linkedin.com/in/alessandra-bombardi/)
+
 
