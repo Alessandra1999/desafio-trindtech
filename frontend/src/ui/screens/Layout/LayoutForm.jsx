@@ -4,6 +4,7 @@ import StudentForm from "../../components/Forms/StudentForm";
 import LocationForm from "../../components/Forms/LocationForm";
 import CourseForm from "../../components/Forms/CourseForm";
 import { createStudent, deleteStudent } from "../../../services/apiService";
+import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
@@ -21,6 +22,7 @@ const CustomButton = styled.button`
 `;
 
 function LayoutForm() {
+  const navigate = useNavigate();
   const [studentData, setStudentData] = useState({
     student_name: "",
     student_lastname: "",
@@ -139,6 +141,7 @@ function LayoutForm() {
 
       setStudentId(null); // Resetar o ID do aluno
       toast.success("Dados deletados com sucesso!");
+      navigate("/");
     } catch (error) {
       console.error("Erro ao deletar dados:", error);
       toast.error("Erro ao deletar os dados!");

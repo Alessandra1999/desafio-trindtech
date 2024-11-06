@@ -154,7 +154,7 @@ function CourseForm({ studentData, setStudentData }) {
             <div className="form-group col-md-4 d-flex align-items-center">
               <div className="w-100">
                 <CustomLabel htmlFor={`conclusionInput${index}`}>
-                  Data de Conclusão
+                  Data de Conclusão*
                 </CustomLabel>
                 <div className="d-flex">
                   <CustomInput

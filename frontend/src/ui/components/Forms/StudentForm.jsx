@@ -119,7 +119,7 @@ function StudentForm({ studentData, setStudentData }) {
         <div className="row">
           <div className="form-group col-md-3">
             <CustomLabel htmlFor="birthdateInput" style={{ marginTop: "26px" }}>
-              Data de Nascimento
+              Data de Nascimento*
             </CustomLabel>
             <CustomInput
               type="date"
@@ -148,7 +148,7 @@ function StudentForm({ studentData, setStudentData }) {
           </div>
           <div className="form-group col-md-6">
             <CustomLabel htmlFor="genderInput" style={{ marginTop: "26px" }}>
-              Gênero
+              Gênero*
             </CustomLabel>
             <CustomSelect
               id="genderInput"

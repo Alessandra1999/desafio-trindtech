@@ -146,6 +146,7 @@ function LayoutUpdate() {
       });
 
       toast.success("Dados deletados com sucesso!");
+      navigate("/");
     } catch (error) {
       console.error("Erro ao deletar dados:", error);
       toast.error("Erro ao deletar os dados!");
