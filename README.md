@@ -142,17 +142,17 @@ O projeto é dividido em duas pastas principais: `frontend` e `backend`.
 
 ### No Frontend:
 
-- **Gestão de Alunos**:
+**Gestão de Alunos**:
 - Adicione, edite ou remova alunos.
 - Visualize detalhes de cada aluno, incluindo o endereço e cursos associados.
 
-- **Associação Aluno-Curso**:
+**Associação Aluno-Curso**:
 - Associe alunos a cursos através do formulário de cadastro.
 - Atualize as associações conforme necessário.
 
 #### No Backend:
 
-- **Gestão de Cursos**:
+**Gestão de Cursos**:
 - Crie, atualize ou exclua cursos (através de programas como o Postman).
 - Veja a lista completa de cursos.
 
