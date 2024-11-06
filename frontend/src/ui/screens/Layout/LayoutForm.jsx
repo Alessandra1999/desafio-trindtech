@@ -3,6 +3,7 @@ import DynamicHeader from "../../components/Header/DynamicHeader";
 import StudentForm from "../../components/Forms/StudentForm";
 import LocationForm from "../../components/Forms/LocationForm";
 import CourseForm from "../../components/Forms/CourseForm";
+import InitialStudentData from "../../../utils/InitialStudentData";
 import { createStudent, deleteStudent } from "../../../services/apiService";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -23,34 +24,7 @@ const CustomButton = styled.button`
 
 function LayoutForm() {
   const navigate = useNavigate();
-  const [studentData, setStudentData] = useState({
-    student_name: "",
-    student_lastname: "",
-    student_birthdate: "",
-    student_cpf: "",
-    student_gender: "",
-    student_email: "",
-    student_register_date: "",
-    Location: {
-      cep: "",
-      country: "",
-      street: "",
-      district: "",
-      number: "",
-      complement: "",
-      city: "",
-      state: "",
-    },
-    Courses: [
-      {
-        id_course: "",
-        course_name: "",
-        StudentCourse: {
-          conclusion_date: "",
-        },
-      },
-    ],
-  });
+  const [studentData, setStudentData] = useState(InitialStudentData);
 
   const [studentId, setStudentId] = useState(null);
   const [emailValid, setEmailValid] = useState(true);
@@ -110,34 +84,7 @@ function LayoutForm() {
 
     try {
       await deleteStudent(studentId);
-      setStudentData({
-        student_name: "",
-        student_lastname: "",
-        student_birthdate: "",
-        student_cpf: "",
-        student_gender: "",
-        student_email: "",
-        student_register_date: "",
-        Location: {
-          cep: "",
-          country: "",
-          street: "",
-          district: "",
-          number: "",
-          complement: "",
-          city: "",
-          state: "",
-        },
-        Courses: [
-          {
-            id_course: "",
-            course_name: "",
-            StudentCourse: {
-              conclusion: "",
-            },
-          },
-        ],
-      });
+      setStudentData(InitialStudentData);
 
       setStudentId(null); // Resetar o ID do aluno
       toast.success("Dados deletados com sucesso!");

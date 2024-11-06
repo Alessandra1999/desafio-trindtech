@@ -4,6 +4,7 @@ import DynamicHeader from "../../components/Header/DynamicHeader";
 import StudentForm from "../../components/Forms/StudentForm";
 import LocationForm from "../../components/Forms/LocationForm";
 import CourseForm from "../../components/Forms/CourseForm";
+import InitialStudentData from "../../../utils/InitialStudentData";
 import {
   getStudentById,
   updateStudent,
@@ -27,34 +28,7 @@ const CustomButton = styled.button`
 
 function LayoutUpdate() {
   const { id_student } = useParams();
-  const [studentData, setStudentData] = useState({
-    student_name: "",
-    student_lastname: "",
-    student_birthdate: "",
-    student_cpf: "",
-    student_gender: "",
-    student_email: "",
-    student_register_date: "",
-    Location: {
-      cep: "",
-      country: "",
-      street: "",
-      district: "",
-      number: "",
-      complement: "",
-      city: "",
-      state: "",
-    },
-    Courses: [
-      {
-        id_course: "",
-        course_name: "",
-        StudentCourse: {
-          conclusion_date: "",
-        },
-      },
-    ],
-  });
+  const [studentData, setStudentData] = useState(InitialStudentData);
   const [emailValid, setEmailValid] = useState(true);
 
   const validateEmail = (email) => {
@@ -116,34 +90,7 @@ function LayoutUpdate() {
 
     try {
       await deleteStudent(id_student);
-      setStudentData({
-        student_name: "",
-        student_lastname: "",
-        student_birthdate: "",
-        student_cpf: "",
-        student_gender: "",
-        student_email: "",
-        student_register_date: "",
-        Location: {
-          cep: "",
-          country: "",
-          street: "",
-          district: "",
-          number: "",
-          complement: "",
-          city: "",
-          state: "",
-        },
-        Courses: [
-          {
-            id_course: "",
-            course_name: "",
-            StudentCourse: {
-              conclusion_date: "",
-            },
-          },
-        ],
-      });
+      setStudentData(InitialStudentData);
 
       toast.success("Dados deletados com sucesso!");
       navigate("/");
