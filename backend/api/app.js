@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 // Configuração do CORS
 app.use(cors({
-    origin: 'http://localhost:5173', // Permitir apenas esse domínio
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Permitir apenas esse domínio
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
 }));
@@ -27,15 +27,17 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/student-course', studentCourseRoutes);
 
 // Sincronização do banco de dados
-sequelize.sync()
-    .then(() => {
-        console.log('Banco de dados sincronizado com sucesso.');
-    })
-    .catch((error) => {
-        console.error('Erro ao sincronizar o banco de dados:', error);
-    });
+if (process.env.NODE_ENV === 'development') {
+    sequelize.sync()
+        .then(() => {
+            console.log('Banco de dados sincronizado com sucesso.');
+        })
+        .catch((error) => {
+            console.error('Erro ao sincronizar o banco de dados:', error);
+        });
+}
 
 // Inicializar o servidor
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}. Documentação disponível em http://localhost:3000/docs`);
+    console.log(`Servidor rodando na porta ${PORT}. Documentação disponível em http://localhost:3000/docs ou https://desafio-trindtech.vercel.app/docs`);
 });
