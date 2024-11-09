@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Define a URL base
-const API_URL = "https://desafio-trindtech.vercel.app/api";
+const API_URL = "/api";
 
 // Funções para Alunos
 export const getStudents = async () => {
