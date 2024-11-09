@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 // Configuração do CORS
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Permitir apenas esse domínio
+    origin: 'https://desafio-trindtech.vercel.app', // Permitir apenas esse domínio
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'] // Cabeçalhos permitidos
 }));
