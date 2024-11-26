@@ -156,7 +156,7 @@ O projeto é dividido em duas pastas principais: `frontend` e `backend`.
 - Associe alunos a cursos através do formulário de cadastro.
 - Atualize as associações conforme necessário.
 
-#### No Backend:
+### No Backend:
 
 **Gestão de Cursos**:
 - Crie, atualize ou exclua cursos (através de programas como o Postman).
