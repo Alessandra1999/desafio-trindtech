@@ -4,6 +4,11 @@ O desafio consistia em fazer uma plataforma que permitisse a gestão de alunos e
 
 ---
 
+- O resultado está disponível através do link https://desafio-trindtech-frontend.vercel.app/
+- A documentação está disponível através do link https://desafio-trindtech-backend-production.up.railway.app/docs/
+
+---
+
 ## Índice
 
 1. [Descrição do Projeto](#descrição-do-projeto)
