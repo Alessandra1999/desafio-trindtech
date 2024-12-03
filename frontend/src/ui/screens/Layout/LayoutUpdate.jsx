@@ -75,7 +75,10 @@ function LayoutUpdate() {
       console.log("studentData: ", studentData);
       await updateStudent(id_student, studentData);
 
-      toast.success("Dados atualizados com sucesso!");
+      toast.success("Dados atualizados com sucesso!", {
+        autoClose: 2000,
+        onClose: () => navigate("/"), // Executa o navigate após o toast fechar
+      });
     } catch (error) {
       console.error("Erro ao criar dados: ", error);
       toast.error("Erro ao criar os dados");
@@ -92,8 +95,10 @@ function LayoutUpdate() {
       await deleteStudent(id_student);
       setStudentData(InitialStudentData);
 
-      toast.success("Dados deletados com sucesso!");
-      navigate("/");
+      toast.success("Dados deletados com sucesso!", {
+        autoClose: 2000,
+        onClose: () => navigate("/"), // Executa o navigate após o toast fechar
+      });
     } catch (error) {
       console.error("Erro ao deletar dados:", error);
       toast.error("Erro ao deletar os dados!");

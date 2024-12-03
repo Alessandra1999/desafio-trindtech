@@ -69,7 +69,10 @@ function LayoutForm() {
       const student = await createStudent(newStudent);
       setStudentId(student.id_student);
 
-      toast.success("Dados criados com sucesso!");
+      toast.success("Dados criados com sucesso!", {
+        autoClose: 2000,
+        onClose: () => navigate("/"), // Executa o navigate após o toast fechar
+      });
     } catch (error) {
       console.error("Erro ao criar dados: ", error);
       toast.error("Erro ao criar os dados");
@@ -87,8 +90,10 @@ function LayoutForm() {
       setStudentData(InitialStudentData);
 
       setStudentId(null); // Resetar o ID do aluno
-      toast.success("Dados deletados com sucesso!");
-      navigate("/");
+      toast.success("Dados deletados com sucesso!", {
+        autoClose: 2000,
+        onClose: () => navigate("/"), // Executa o navigate após o toast fechar
+      });
     } catch (error) {
       console.error("Erro ao deletar dados:", error);
       toast.error("Erro ao deletar os dados!");
