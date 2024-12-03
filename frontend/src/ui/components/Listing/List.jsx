@@ -4,6 +4,7 @@ import { HiOutlineSwitchVertical } from "react-icons/hi";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { getStudents, getStudentById } from "../../../services/apiService";
 import { useNavigate } from "react-router-dom";
+import LoadingGif from "../../../assets/gifs/loading-gif-red.gif";
 
 const Container = styled.div`
   display: flex;
@@ -197,7 +198,11 @@ function List({ searchResults }) {
   };
 
   if (loading) {
-    return <p>Carregando...</p>;
+    return (
+      <div style={{ textAlign: "center", marginTop: "40px"}}>
+        <img src={LoadingGif} alt="Carregando..." />
+      </div>
+    )
   }
 
   return (
