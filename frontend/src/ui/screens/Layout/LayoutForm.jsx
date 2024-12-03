@@ -4,7 +4,7 @@ import StudentForm from "../../components/Forms/StudentForm";
 import LocationForm from "../../components/Forms/LocationForm";
 import CourseForm from "../../components/Forms/CourseForm";
 import InitialStudentData from "../../../utils/InitialStudentData";
-import { createStudent, deleteStudent } from "../../../services/apiService";
+import { createStudent } from "../../../services/apiService";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -79,34 +79,12 @@ function LayoutForm() {
     }
   };
 
-  const handleDelete = async () => {
-    if (!studentId) {
-      toast.error("Nenhum aluno encontrado para deletar.");
-      return;
-    }
-
-    try {
-      await deleteStudent(studentId);
-      setStudentData(InitialStudentData);
-
-      setStudentId(null); // Resetar o ID do aluno
-      toast.success("Dados deletados com sucesso!", {
-        autoClose: 2000,
-        onClose: () => navigate("/"), // Executa o navigate após o toast fechar
-      });
-    } catch (error) {
-      console.error("Erro ao deletar dados:", error);
-      toast.error("Erro ao deletar os dados!");
-    }
-  };
-
   return (
     <div>
       <DynamicHeader
         showLogo={false}
         backIcon={() => navigate("/")}
         studentName=""
-        onDelete={handleDelete}
       />
       <StudentForm
         studentData={studentData}
