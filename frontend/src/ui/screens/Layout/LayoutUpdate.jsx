@@ -60,7 +60,6 @@ function LayoutUpdate() {
         });
 
         setStudentData(completeData);
-        console.log("Dados do aluno carregados:", completeData);
       } catch (error) {
         console.error("Erro ao buscar dados do aluno:", error);
         toast.error("Erro ao carregar os dados do aluno.");
@@ -78,10 +77,9 @@ function LayoutUpdate() {
     }
 
     try {
-      console.log("studentData: ", studentData);
       await updateStudent(id_student, studentData);
 
-      toast.success("Dados atualizados com sucesso!", {
+      toast.success("Dados atualizados com sucesso! Retornando para a página inicial.", {
         autoClose: 2000,
         onClose: () => navigate("/"), // Executa o navigate após o toast fechar
       });
@@ -101,7 +99,7 @@ function LayoutUpdate() {
       await deleteStudent(id_student);
       setStudentData(InitialStudentData);
 
-      toast.success("Dados deletados com sucesso!", {
+      toast.success("Dados deletados com sucesso! Retornando para a página inicial.", {
         autoClose: 2000,
         onClose: () => navigate("/"), // Executa o navigate após o toast fechar
       });

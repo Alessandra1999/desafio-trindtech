@@ -52,11 +52,6 @@ function LayoutForm() {
     };
 
     try {
-      console.log(
-        "Dados do aluno que estão sendo enviados: ",
-        updatedStudentData
-      );
-
       const newStudent = {
         ...updatedStudentData,
         courses: updatedStudentData.Courses.map((course) => ({
@@ -69,7 +64,7 @@ function LayoutForm() {
       const student = await createStudent(newStudent);
       setStudentId(student.id_student);
 
-      toast.success("Dados criados com sucesso!", {
+      toast.success("Dados criados com sucesso! Retornando para a página inicial.", {
         autoClose: 2000,
         onClose: () => navigate("/"), // Executa o navigate após o toast fechar
       });

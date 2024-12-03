@@ -260,6 +260,7 @@ function List({ searchResults }) {
                 <th scope="col">Nome</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Cursos</th>
+                <th scope="col">Ações</th>
               </tr>
             </thead>
             <tbody>
